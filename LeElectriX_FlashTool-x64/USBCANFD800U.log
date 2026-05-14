@@ -7,3 +7,6 @@
 [2026-04-20 11:57:02.409] ================= Logging =================
 [2026-04-20 11:57:02.409] [ERR] USBDeviceMgr::OpenDev nDevIndex:0 Device Path Empty
 [2026-04-20 11:57:02.409] [ERR] Device::OpenDevice USBDeviceMgr Open device[0] failed!
+[2026-05-14 10:20:10.308] ================= Logging =================
+[2026-05-14 10:20:10.309] [ERR] USBDeviceMgr::OpenDev nDevIndex:0 Device Path Empty
+[2026-05-14 10:20:10.309] [ERR] Device::OpenDevice USBDeviceMgr Open device[0] failed!
