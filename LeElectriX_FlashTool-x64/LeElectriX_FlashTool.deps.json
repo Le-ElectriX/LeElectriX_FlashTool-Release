@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "LeElectriX_FlashTool/1.0.0": {
+      "LeElectriX_FlashTool/1.2.5.0": {
         "dependencies": {
           "CommunityToolkit.Mvvm": "8.4.0",
           "EasyDbc": "1.0.9",
@@ -885,15 +885,15 @@
         },
         "runtime": {
           "LeElectriX_FlashTool.Core.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
+            "assemblyVersion": "1.2.5.0",
+            "fileVersion": "1.2.5.0"
           }
         }
       }
     }
   },
   "libraries": {
-    "LeElectriX_FlashTool/1.0.0": {
+    "LeElectriX_FlashTool/1.2.5.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
