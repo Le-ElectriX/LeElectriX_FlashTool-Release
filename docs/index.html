@@ -1,0 +1,1317 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="LeElectriX FlashTool 中文客户使用手册 v0.2">
+  <title>LeElectriX FlashTool 客户使用手册 v0.2</title>
+  <style>
+    :root {
+      --navy: #173247;
+      --blue: #1478b9;
+      --blue-dark: #0f5f94;
+      --blue-soft: #eaf4fb;
+      --ink: #17202a;
+      --muted: #5e6b78;
+      --line: #d8e1e8;
+      --surface: #ffffff;
+      --surface-alt: #f5f8fa;
+      --warning-bg: #fff6d8;
+      --warning-border: #d58b00;
+      --note-bg: #edf7fc;
+      --note-border: #1680bd;
+      --shadow: 0 10px 28px rgba(23, 50, 71, .09);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--surface-alt);
+      font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+      font-size: 16px;
+      line-height: 1.78;
+    }
+    a { color: var(--blue-dark); text-underline-offset: 3px; }
+    a:hover { color: #084a74; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 24px;
+      color: #fff;
+      background: rgba(23, 50, 71, .96);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .16);
+    }
+    .topbar strong { color: #fff; letter-spacing: .02em; }
+    .topbar .version { color: #bfe7ff; font-size: 14px; }
+    .topbar .spacer { flex: 1; }
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font: inherit;
+      cursor: pointer;
+    }
+    .top-action {
+      color: #fff;
+      background: rgba(255,255,255,.12);
+    }
+    .top-action:hover { background: rgba(255,255,255,.2); }
+    .menu-button { display: none; }
+    .hero {
+      padding: 72px 30px 66px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 24%, rgba(72, 182, 241, .34), transparent 28%),
+        linear-gradient(135deg, #102b3d 0%, #175f8d 62%, #1b83bd 100%);
+    }
+    .hero-inner {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: center;
+    }
+    .kicker {
+      margin: 0 0 10px;
+      color: #aee1ff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .14em;
+    }
+    .hero h1 {
+      margin: 0;
+      color: #fff;
+      border: 0;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.16;
+    }
+    .hero .subtitle {
+      margin: 18px 0 30px;
+      max-width: 760px;
+      color: #e2f4ff;
+      font-size: clamp(18px, 2vw, 23px);
+    }
+    .hero strong { color: inherit; }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+      color: #d8f1ff;
+      font-size: 14px;
+    }
+    .logo-card {
+      width: 190px;
+      min-height: 118px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 18px;
+      background: rgba(255,255,255,.94);
+      box-shadow: var(--shadow);
+    }
+    .logo-card img { width: 100%; height: auto; }
+    .manual-shell {
+      width: min(1260px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 284px minmax(0, 1fr);
+      align-items: start;
+    }
+    .sidebar {
+      position: sticky;
+      top: 58px;
+      height: calc(100vh - 58px);
+      padding: 28px 18px 30px;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+      background: #f8fafc;
+    }
+    .sidebar h2 {
+      margin: 0 0 14px;
+      color: var(--navy);
+      font-size: 17px;
+    }
+    .toc-search {
+      width: 100%;
+      margin-bottom: 16px;
+      padding: 9px 11px;
+      border: 1px solid #cbd8e1;
+      border-radius: 8px;
+      background: #fff;
+      font: inherit;
+      font-size: 14px;
+    }
+    .toc-link {
+      display: block;
+      margin: 2px 0;
+      padding: 7px 9px;
+      border-radius: 7px;
+      color: #334454;
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .toc-link[hidden] {
+      display: none;
+    }
+    .toc-link.level-1 { margin-top: 7px; font-weight: 700; }
+    .toc-link.level-2 { padding-left: 18px; color: #596a78; }
+    .toc-link:hover, .toc-link.active {
+      color: var(--blue-dark);
+      background: #e3f1fa;
+    }
+    main {
+      min-width: 0;
+      padding: 44px clamp(24px, 5vw, 72px) 80px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    main > :first-child { margin-top: 0; }
+    main h1, main h2, main h3 {
+      position: relative;
+      scroll-margin-top: 78px;
+      color: var(--navy);
+      line-height: 1.35;
+    }
+    main h1 {
+      margin: 60px 0 24px;
+      padding-bottom: 11px;
+      border-bottom: 2px solid #cfe1ed;
+      font-size: 30px;
+    }
+    main h2 {
+      margin: 38px 0 16px;
+      font-size: 23px;
+    }
+    main h3 {
+      margin: 28px 0 12px;
+      color: var(--blue-dark);
+      font-size: 19px;
+    }
+    .heading-link {
+      margin-left: 8px;
+      opacity: 0;
+      color: #8ab6d0;
+      text-decoration: none;
+      font-size: .75em;
+      font-weight: 400;
+    }
+    h1:hover .heading-link, h2:hover .heading-link, h3:hover .heading-link {
+      opacity: 1;
+    }
+    p { margin: 0 0 15px; }
+    ul, ol { margin: 8px 0 20px; padding-left: 1.65em; }
+    li { margin: 7px 0; padding-left: .25em; }
+    strong { color: #102f44; }
+    code {
+      padding: .13em .38em;
+      border: 1px solid #d9e2e8;
+      border-radius: 5px;
+      color: #194d70;
+      background: #f3f6f8;
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: .92em;
+      overflow-wrap: anywhere;
+    }
+    hr {
+      height: 1px;
+      margin: 42px 0;
+      border: 0;
+      background: var(--line);
+    }
+    .callout {
+      margin: 20px 0;
+      padding: 16px 18px;
+      border-left: 5px solid var(--note-border);
+      border-radius: 6px;
+      background: var(--note-bg);
+    }
+    .callout.warning {
+      border-left-color: var(--warning-border);
+      background: var(--warning-bg);
+    }
+    .table-wrap {
+      margin: 18px 0 26px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(23, 50, 71, .05);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    th, td {
+      padding: 11px 13px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: #173b55;
+      background: #e7f1f7;
+      font-weight: 700;
+    }
+    tr:last-child td { border-bottom: 0; }
+    th:last-child, td:last-child { border-right: 0; }
+    tbody tr:nth-child(even) { background: #fafcfd; }
+    figure {
+      margin: 24px auto 30px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 7px 22px rgba(23, 50, 71, .08);
+      text-align: center;
+    }
+    figure a { display: block; }
+    figure img {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      max-height: 720px;
+      margin: auto;
+      object-fit: contain;
+    }
+    figcaption {
+      padding: 10px 6px 2px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      margin: 3px 0;
+      padding: 7px 11px;
+      border-radius: 7px;
+      color: #fff;
+      background: var(--blue);
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+    .download-link:hover { color: #fff; background: var(--blue-dark); }
+    .page-footer {
+      padding: 28px;
+      color: #d7e6ee;
+      background: var(--navy);
+      text-align: center;
+      font-size: 13px;
+    }
+    @media (max-width: 960px) {
+      .topbar { gap: 9px; padding: 0 12px; }
+      .topbar strong {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 14px;
+      }
+      .topbar .version { flex: 0 0 auto; font-size: 12px; }
+      .menu-button { display: inline-flex; flex: 0 0 auto; white-space: nowrap; }
+      .print-button { display: none; }
+      .hero { padding-top: 48px; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .logo-card { display: none; }
+      .manual-shell { display: block; }
+      .sidebar {
+        position: fixed;
+        z-index: 25;
+        top: 58px;
+        left: 0;
+        width: min(330px, 88vw);
+        transform: translateX(-105%);
+        transition: transform .2s ease;
+        box-shadow: 12px 0 24px rgba(0,0,0,.16);
+      }
+      .sidebar.open { transform: translateX(0); }
+      main { padding: 34px 20px 60px; }
+      main h1 { font-size: 26px; }
+      main h2 { font-size: 21px; }
+    }
+    @media print {
+      @page { size: A4; margin: 15mm 16mm 17mm; }
+      body { background: #fff; font-size: 10.5pt; line-height: 1.55; }
+      .topbar, .sidebar, .page-footer { display: none !important; }
+      .hero { padding: 24mm 0 18mm; color: #000; background: #fff; }
+      .hero-inner { display: block; }
+      .hero h1 { color: #173247; font-size: 30pt; }
+      .hero .subtitle, .meta, .kicker { color: #3c5668; }
+      .logo-card { margin-top: 20mm; box-shadow: none; }
+      .manual-shell { display: block; width: auto; }
+      main { padding: 0; box-shadow: none; }
+      main h1 { break-before: page; margin-top: 0; font-size: 20pt; }
+      main h2 { break-after: avoid; font-size: 15pt; }
+      main h3 { break-after: avoid; font-size: 12pt; }
+      figure, .table-wrap, .callout { break-inside: avoid; box-shadow: none; }
+      a { color: inherit; text-decoration: none; }
+      .heading-link { display: none; }
+    }
+  </style>
+</head>
+<body id="top">
+  <header class="topbar">
+    <button class="top-action menu-button" id="menuButton" type="button"
+            aria-controls="sidebar" aria-expanded="false">目录</button>
+    <strong>LeElectriX FlashTool 使用手册</strong>
+    <span class="version">手册 v0.2</span>
+    <span class="spacer"></span>
+    <button class="top-action print-button" type="button"
+            onclick="window.print()">打印 / 导出 PDF</button>
+  </header>
+
+  <section class="hero" aria-labelledby="manual-title">
+    <div class="hero-inner">
+      <div>
+        <p class="kicker">客户操作指南</p>
+        <h1 id="manual-title">LeElectriX FlashTool</h1>
+        <p class="subtitle">安装、连接、刷写、参数与报文工具使用手册</p>
+        <div class="meta">
+          <span><strong>手册版本：</strong>v0.2</span>
+          <span><strong>适用对象：</strong>客户侧安装、调试和售后人员</span>
+          <span><strong>修订日期：</strong>2026-08-27</span>
+          <span><strong>语言：</strong>简体中文</span>
+        </div>
+      </div>
+      <div class="logo-card">
+        <img src="materials/references/LEE_Logo_001_CN.png"
+             alt="LeElectriX 产品标识">
+      </div>
+    </div>
+  </section>
+
+  <div class="manual-shell">
+    <nav class="sidebar" id="sidebar" aria-label="手册目录">
+      <h2>手册目录</h2>
+      <input class="toc-search" id="tocSearch" type="search"
+             placeholder="搜索章节" aria-label="搜索章节">
+      <div id="tocLinks">
+        <a class="toc-link level-2" href="#重要安全说明">重要安全说明</a>
+<a class="toc-link level-2" href="#快速操作流程">快速操作流程</a>
+<a class="toc-link level-1" href="#1-获取程序">1. 获取程序</a>
+<a class="toc-link level-2" href="#1-1-下载地址">1.1 下载地址</a>
+<a class="toc-link level-2" href="#1-2-选择发布包">1.2 选择发布包</a>
+<a class="toc-link level-1" href="#2-环境依赖">2. 环境依赖</a>
+<a class="toc-link level-2" href="#2-1-系统要求">2.1 系统要求</a>
+<a class="toc-link level-2" href="#2-2-安装-NET-8-SDK">2.2 安装 .NET 8 SDK</a>
+<a class="toc-link level-2" href="#2-3-安装-CAN-适配器驱动">2.3 安装 CAN 适配器驱动</a>
+<a class="toc-link level-2" href="#2-4-ZLG-驱动库无法加载时安装-VC-环境">2.4 ZLG 驱动库无法加载时安装 VC++ 环境</a>
+<a class="toc-link level-1" href="#3-安装和启动程序">3. 安装和启动程序</a>
+<a class="toc-link level-2" href="#3-1-使用安装包">3.1 使用安装包</a>
+<a class="toc-link level-2" href="#3-2-使用-ZIP-便携包">3.2 使用 ZIP 便携包</a>
+<a class="toc-link level-1" href="#4-加载-License-许可证">4. 加载 License（许可证）</a>
+<a class="toc-link level-1" href="#5-扫描并连接-CAN-通道">5. 扫描并连接 CAN 通道</a>
+<a class="toc-link level-2" href="#5-1-连接前检查">5.1 连接前检查</a>
+<a class="toc-link level-2" href="#5-2-扫描设备并连接">5.2 扫描设备并连接</a>
+<a class="toc-link level-2" href="#5-3-自动扫描波特率">5.3 自动扫描波特率</a>
+<a class="toc-link level-1" href="#6-使用刷写模块">6. 使用刷写模块</a>
+<a class="toc-link level-2" href="#6-1-刷写前检查">6.1 刷写前检查</a>
+<a class="toc-link level-2" href="#6-2-加载-HEX-文件">6.2 加载 HEX 文件</a>
+<a class="toc-link level-2" href="#6-3-开始刷写">6.3 开始刷写</a>
+<a class="toc-link level-2" href="#6-4-无法进入-Bootloader-会话">6.4 无法进入 Bootloader 会话</a>
+<a class="toc-link level-1" href="#7-使用-MCU-默认参数模块">7. 使用 MCU 默认参数模块</a>
+<a class="toc-link level-2" href="#7-1-自动握手-读取和刷新参数">7.1 自动握手、读取和刷新参数</a>
+<a class="toc-link level-2" href="#7-2-保存参数和代码文件">7.2 保存参数和代码文件</a>
+<a class="toc-link level-2" href="#7-3-控制操作">7.3 控制操作</a>
+<a class="toc-link level-1" href="#8-使用-MCU-标定模块">8. 使用 MCU 标定模块</a>
+<a class="toc-link level-2" href="#8-1-导入参数定义文件">8.1 导入参数定义文件</a>
+<a class="toc-link level-2" href="#8-2-打开标定页面">8.2 打开标定页面</a>
+<a class="toc-link level-2" href="#8-3-搜索和刷新">8.3 搜索和刷新</a>
+<a class="toc-link level-2" href="#8-4-写入单个参数">8.4 写入单个参数</a>
+<a class="toc-link level-2" href="#8-5-保存当前参数">8.5 保存当前参数</a>
+<a class="toc-link level-2" href="#8-6-批量下载参数到-MCU">8.6 批量下载参数到 MCU</a>
+<a class="toc-link level-2" href="#8-7-电机参数标定流程">8.7 电机参数标定流程</a>
+<a class="toc-link level-1" href="#9-TRACE-报文查看与导出">9. TRACE 报文查看与导出</a>
+<a class="toc-link level-2" href="#9-1-打开-TRACE">9.1 打开 TRACE</a>
+<a class="toc-link level-2" href="#9-2-查看报文">9.2 查看报文</a>
+<a class="toc-link level-2" href="#9-3-导入-DBC">9.3 导入 DBC</a>
+<a class="toc-link level-2" href="#9-4-导出记录">9.4 导出记录</a>
+<a class="toc-link level-1" href="#10-报文记录格式转换">10. 报文记录格式转换</a>
+<a class="toc-link level-2" href="#10-1-将-PCAN-TRC-转换为-Vector-ASC">10.1 将 PCAN TRC 转换为 Vector ASC</a>
+<a class="toc-link level-2" href="#10-2-将-Vector-ASC-转换为-PCAN-TRC">10.2 将 Vector ASC 转换为 PCAN TRC</a>
+<a class="toc-link level-1" href="#11-使用-DBC-Converter">11. 使用 DBC Converter</a>
+<a class="toc-link level-2" href="#11-1-导入和移除源文件">11.1 导入和移除源文件</a>
+<a class="toc-link level-2" href="#11-2-导出-Excel">11.2 导出 Excel</a>
+<a class="toc-link level-2" href="#11-3-导出-DBC">11.3 导出 DBC</a>
+<a class="toc-link level-1" href="#12-查看运行日志">12. 查看运行日志</a>
+<a class="toc-link level-2" href="#12-1-打开日志目录">12.1 打开日志目录</a>
+<a class="toc-link level-2" href="#12-2-提交问题时收集的信息">12.2 提交问题时收集的信息</a>
+<a class="toc-link level-1" href="#13-常见问题">13. 常见问题</a>
+<a class="toc-link level-2" href="#13-1-程序无法启动">13.1 程序无法启动</a>
+<a class="toc-link level-2" href="#13-2-扫描不到-CAN-适配器">13.2 扫描不到 CAN 适配器</a>
+<a class="toc-link level-2" href="#13-3-CAN-无法连接">13.3 CAN 无法连接</a>
+<a class="toc-link level-2" href="#13-4-波特率扫描失败">13.4 波特率扫描失败</a>
+<a class="toc-link level-2" href="#13-5-License-许可证-加载失败">13.5 License（许可证）加载失败</a>
+<a class="toc-link level-2" href="#13-6-HEX-文件加载或刷写失败">13.6 HEX 文件加载或刷写失败</a>
+<a class="toc-link level-2" href="#13-7-参数定义文件没有加载">13.7 参数定义文件没有加载</a>
+<a class="toc-link level-2" href="#13-8-参数读取-写入或下载失败">13.8 参数读取、写入或下载失败</a>
+      </div>
+    </nav>
+    <main>
+      <h2 id="重要安全说明">重要安全说明<a class="heading-link" href="#重要安全说明" aria-label="复制本节链接">#</a></h2>
+<aside class="callout warning"><strong>警告：</strong> 固件刷写、控制器复位、自学习以及电机转矩/转速控制可能使设备停止、重启或产生机械运动。操作前必须确认控制器处于安全台架环境，转轴和负载区域无人，急停可用，供电和 CAN 连接稳定。仅允许经过授权并熟悉设备安全规范的人员执行。</aside>
+<aside class="callout note"><strong>注意：</strong> 本手册中的界面截图来自未连接设备或空数据状态。截图用于说明按钮位置，不代表已经对客户设备执行写入、刷写或运动控制。</aside>
+<h2 id="快速操作流程">快速操作流程<a class="heading-link" href="#快速操作流程" aria-label="复制本节链接">#</a></h2>
+<ol>
+<li>下载并安装 .NET 8 SDK x64 以及 CAN 适配器驱动。</li>
+<li>安装并启动 LeElectriX FlashTool。</li>
+<li>加载有效 License。</li>
+<li>扫描 CAN 设备，选择通道和波特率并连接。</li>
+<li>根据任务进入刷写、MCU 默认参数、MCU 标定、TRACE 或常用工具页面。</li>
+<li>出现异常时记录发生时间，并从设置页打开日志目录收集日志。</li>
+</ol>
+<hr>
+<h1 id="1-获取程序">1. 获取程序<a class="heading-link" href="#1-获取程序" aria-label="复制本节链接">#</a></h1>
+<h2 id="1-1-下载地址">1.1 下载地址<a class="heading-link" href="#1-1-下载地址" aria-label="复制本节链接">#</a></h2>
+<p>请通过以下入口获取当前最新版：</p>
+<p><a href="https://github.com/Le-ElectriX/LeElectriX_FlashTool-Release/releases/latest" target="_blank" rel="noopener">LeElectriX FlashTool 最新版发布页</a></p>
+<h2 id="1-2-选择发布包">1.2 选择发布包<a class="heading-link" href="#1-2-选择发布包" aria-label="复制本节链接">#</a></h2>
+<div class="table-wrap"><table><thead><tr><th>发布包</th><th>适用场景</th><th>使用方式</th></tr></thead><tbody><tr><td><code>LeElectriX_FlashTool-x64-&lt;软件版本&gt;.exe</code></td><td>推荐，大多数客户电脑</td><td>运行安装程序并按向导完成安装</td></tr><tr><td><code>LeElectriX_FlashTool_V&lt;软件版本&gt;.zip</code></td><td>便携使用或无法执行安装向导</td><td>完整解压后运行主程序，不要只复制单个 EXE</td></tr></tbody></table></div>
+<p><strong>说明：</strong> 实际文件名以最新版发布页为准。</p>
+<p><strong>预期结果：</strong> 下载的安装包来自最新版发布页，文件名中的软件版本号与发布页标签一致。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>浏览器阻止下载时，请确认下载来源确实是上述发布仓库。</li>
+<li>企业电脑无法运行安装包时，请联系本单位 IT 管理员。</li>
+<li>不要从无法确认来源的网盘、邮件附件或第三方站点获取程序。</li>
+</ul>
+<h1 id="2-环境依赖">2. 环境依赖<a class="heading-link" href="#2-环境依赖" aria-label="复制本节链接">#</a></h1>
+<h2 id="2-1-系统要求">2.1 系统要求<a class="heading-link" href="#2-1-系统要求" aria-label="复制本节链接">#</a></h2>
+<div class="table-wrap"><table><thead><tr><th>项目</th><th>要求</th></tr></thead><tbody><tr><td>操作系统</td><td>Windows 10 或 Windows 11</td></tr><tr><td>系统架构</td><td>x64</td></tr><tr><td>.NET 环境</td><td>为简化部署和排障，统一推荐安装 .NET 8 SDK x64</td></tr><tr><td>CAN 驱动</td><td>与实际 CAN 适配器型号匹配的厂商驱动</td></tr><tr><td>VC++ 运行库</td><td>部分 CAN 驱动需要；ZLG 驱动库无法加载时必须检查</td></tr><tr><td>硬件接口</td><td>可用 USB 接口；CAN 总线接线、终端电阻和供电符合设备要求</td></tr></tbody></table></div>
+<p>推荐下载链接：</p>
+<ul>
+<li>.NET 8 SDK x64：  </li>
+</ul>
+<p><a class="download-link" href="https://aka.ms/dotnet/8.0/dotnet-sdk-win-x64.exe" target="_blank" rel="noopener">https://aka.ms/dotnet/8.0/dotnet-sdk-win-x64.exe</a></p>
+<ul>
+<li>.NET 8 全部版本下载页：  </li>
+</ul>
+<p><a href="https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0" target="_blank" rel="noopener">https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0</a></p>
+<aside class="callout note"><strong>说明：</strong> .NET 8 SDK 已包含程序需要的 .NET Runtime、Windows Desktop Runtime 和 ASP.NET Core Runtime。为减少客户安装步骤，本手册统一采用 SDK 安装方案，无需再分别安装两个运行时。</aside>
+<h2 id="2-2-安装-NET-8-SDK">2.2 安装 .NET 8 SDK<a class="heading-link" href="#2-2-安装-NET-8-SDK" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> 使用有权安装软件的 Windows 账户。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>使用上方直达链接下载 <strong>.NET 8 SDK x64</strong> 安装包。</li>
+<li>运行安装包。</li>
+<li>在安装界面中单击 <strong>安装</strong>，等待安装完成。</li>
+<li>如果安装程序要求重新启动 Windows，请先保存工作，再重新启动。</li>
+</ol>
+<p><strong>预期结果：</strong> SDK 安装程序提示安装成功，启动 LeElectriX FlashTool 时不再出现缺少 .NET、Windows Desktop Runtime 或 ASP.NET Core Runtime 的提示。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>按本手册统一安装 <strong>.NET 8 SDK x64</strong>；仅安装其他主版本或 x86/Arm64 版本可能仍无法启动程序。</li>
+<li>安装失败时，重新启动 Windows 后再次运行安装包。</li>
+<li>安装被组织策略阻止时，请联系 IT 管理员。</li>
+<li>不建议通过非官方的 SDK 或运行时整合包安装依赖。</li>
+</ul>
+<h2 id="2-3-安装-CAN-适配器驱动">2.3 安装 CAN 适配器驱动<a class="heading-link" href="#2-3-安装-CAN-适配器驱动" aria-label="复制本节链接">#</a></h2>
+<p>常用厂商驱动或资料下载入口：</p>
+<div class="table-wrap"><table><thead><tr><th>厂商/设备</th><th>下载入口</th></tr></thead><tbody><tr><td>ZLG/致远电子 USBCAN、USBCANFD</td><td><a href="https://manual.zlg.cn/web/#/146" target="_blank" rel="noopener">ZLG 在线资料：CAN 接口卡</a></td></tr><tr><td>PEAK-System PCAN</td><td><a href="https://www.peak-system.com/support/downloads/drivers/" target="_blank" rel="noopener">PEAK-System Windows 驱动</a></td></tr><tr><td>Vector VN 系列</td><td><a href="https://www.vector.com/latest_drivers" target="_blank" rel="noopener">Vector 最新驱动入口</a></td></tr><tr><td>广成科技 GCAN</td><td><a href="https://www.gcan.com.cn/3d05/222b/8f07/8d5f" target="_blank" rel="noopener">广成科技 USBCAN 驱动</a></td></tr><tr><td>珠海创芯 CANalyst-II/USBCAN</td><td><a href="https://www.cxcan.com/ZLXZ.html" target="_blank" rel="noopener">珠海创芯资料下载</a></td></tr></tbody></table></div>
+<aside class="callout note"><strong>注意：</strong> 驱动必须与 CAN 适配器厂家、具体型号和 Windows 架构匹配。不要为同一设备混装不同厂商或不兼容版本的驱动。</aside>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>确认实际使用的 CAN 适配器厂家和型号。</li>
+<li>从上表中的厂商入口、设备随附介质或厂家官方网站下载对应驱动。</li>
+<li>安装驱动后连接 CAN 适配器。</li>
+<li>如驱动安装程序要求重新插拔设备，请按提示操作。</li>
+<li>关闭可能独占 CAN 设备的其他上位机软件。</li>
+</ol>
+<p><strong>预期结果：</strong> Windows 能正常识别 CAN 适配器，且设备没有驱动异常提示。</p>
+<p><strong>异常处理：</strong> 如果 LeElectriX FlashTool 扫描不到设备，优先检查驱动版本、USB 连接、设备供电以及设备是否被其他程序占用。</p>
+<h2 id="2-4-ZLG-驱动库无法加载时安装-VC-环境">2.4 ZLG 驱动库无法加载时安装 VC++ 环境<a class="heading-link" href="#2-4-ZLG-驱动库无法加载时安装-VC-环境" aria-label="复制本节链接">#</a></h2>
+<p>部分 Windows 电脑缺少 ZLG 驱动库所需的 VC++ 运行环境。此时即使设备驱动已经安装，LeElectriX FlashTool 仍可能扫描不到设备，或在加载 ZLG 驱动库时出现异常。</p>
+<ul>
+<li>ZLG 问题说明：  </li>
+</ul>
+<p><a href="https://manual.zlg.cn/web/#/152?page_id=5332" target="_blank" rel="noopener">https://manual.zlg.cn/web/#/152?page_id=5332</a></p>
+<ul>
+<li>ZLG 提供的 VC++ 环境安装包：  </li>
+</ul>
+<p><a class="download-link" href="https://manual.zlg.cn/Public/Uploads/2020-06-05/5ed995c271414.zip" target="_blank" rel="noopener">https://manual.zlg.cn/Public/Uploads/2020-06-05/5ed995c271414.zip</a></p>
+<p><strong>前置条件：</strong> 使用有管理员权限的 Windows 账户，并关闭 LeElectriX FlashTool 和其他使用 CAN 适配器的程序。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>下载上述 VC++ 环境压缩包。</li>
+<li>解压到临时目录。</li>
+<li>右键单击 <code>MSVBCRT.AIO.2019.10.19.X86 X64.exe</code>，选择 <strong>以管理员身份运行</strong>。</li>
+<li>按安装程序提示安装 Microsoft Visual C++ 2015–2019 x86/x64 运行环境。</li>
+<li>安装完成后重新启动 Windows。</li>
+<li>重新连接 ZLG 适配器并在 LeElectriX FlashTool 中扫描设备。</li>
+</ol>
+<p><strong>预期结果：</strong> ZLG 驱动库能够正常加载，程序可以扫描到已正确连接的适配器。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>仍无法扫描时，在 Windows 设备管理器中确认设备没有黄色警告标志。</li>
+<li>重新安装与设备型号匹配的 ZLG 驱动，并再次安装 VC++ 环境。</li>
+<li>不要从第三方下载站获取来源不明的 DLL 文件并手工复制到系统目录。</li>
+</ul>
+<h1 id="3-安装和启动程序">3. 安装和启动程序<a class="heading-link" href="#3-安装和启动程序" aria-label="复制本节链接">#</a></h1>
+<h2 id="3-1-使用安装包">3.1 使用安装包<a class="heading-link" href="#3-1-使用安装包" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> 已安装第 2 章所述运行环境。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>双击从最新版发布页下载的 <code>.exe</code> 安装包。</li>
+<li>阅读安装向导，确认产品名称和版本。</li>
+<li>根据需要选择安装位置。</li>
+<li>如需桌面入口，勾选创建桌面快捷方式。</li>
+<li>单击 <strong>安装</strong>，等待文件复制完成。</li>
+<li>安装完成后，从桌面快捷方式或 Windows 应用列表启动程序。</li>
+</ol>
+<p><strong>预期结果：</strong> 程序正常启动；若窗口标题显示软件版本号，应与所下载发布包的版本一致。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>程序无响应时，先关闭程序并重新启动。</li>
+<li>启动时提示缺少 .NET 环境，请返回第 2.2 节安装或修复 .NET 8 SDK x64。</li>
+<li>升级时如果提示程序正在运行，请关闭所有 LeElectriX FlashTool 窗口后重试。</li>
+</ul>
+<h2 id="3-2-使用-ZIP-便携包">3.2 使用 ZIP 便携包<a class="heading-link" href="#3-2-使用-ZIP-便携包" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> 已安装第 2 章所述运行环境和 CAN 适配器驱动，并准备一个具有读写权限的解压目录。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>将 ZIP 文件完整解压到一个可写目录。</li>
+<li>保留压缩包中的目录结构，不要只复制主程序。</li>
+<li>从解压后的目录运行 LeElectriX FlashTool。</li>
+</ol>
+<p><strong>预期结果：</strong> 程序正常启动；若窗口标题显示软件版本号，应与所下载发布包的版本一致。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>不能直接从压缩包预览窗口运行程序；必须先完整解压。</li>
+<li>提示缺少 DLL 或配置文件时，重新完整解压，不要只复制单个 EXE。</li>
+<li>提示缺少 .NET 环境时，返回第 2.2 节安装或修复 .NET 8 SDK x64。</li>
+</ul>
+<h1 id="4-加载-License-许可证">4. 加载 License（许可证）<a class="heading-link" href="#4-加载-License-许可证" aria-label="复制本节链接">#</a></h1>
+<p><strong>前置条件：</strong> 已从软件提供方获得有效的 <code>.lic</code> 文件。</p>
+<figure><a href="materials/screenshots/02_License加载入口.png" target="_blank"><img src="materials/screenshots/02_License加载入口.png" alt="License 加载入口" loading="lazy"></a><figcaption>图 1　License 加载入口</figcaption></figure>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>启动程序。</li>
+<li>单击左下角的 <strong>设置</strong> 图标。</li>
+<li>在 <strong>许可证信息</strong> 区域单击 <strong>更新许可证</strong> 右侧的导入按钮。</li>
+<li>在文件选择窗口中选择 <code>.lic</code> 文件并确认。</li>
+<li>等待程序加载 License 并刷新可用模块。</li>
+</ol>
+<p><strong>预期结果：</strong> 程序出现加载成功提示，License 状态更新，已授权模块可以打开。只有出现成功提示且授权模块刷新，才表示加载成功。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>确认选择的是 <code>.lic</code> 文件，而不是压缩包或其他配置文件。</li>
+<li>确认文件没有被重命名、截断或损坏。</li>
+<li>未出现成功提示、状态没有变化或授权模块没有刷新时，也按加载失败处理。</li>
+<li>如果提示 License 无效或已过期，请联系软件提供方重新获取。</li>
+<li>不要通过截图、即时消息或公开文档传播 License 内容。</li>
+</ul>
+<h1 id="5-扫描并连接-CAN-通道">5. 扫描并连接 CAN 通道<a class="heading-link" href="#5-扫描并连接-CAN-通道" aria-label="复制本节链接">#</a></h1>
+<figure><a href="materials/screenshots/03_CAN设备扫描与连接.png" target="_blank"><img src="materials/screenshots/03_CAN设备扫描与连接.png" alt="CAN 设备扫描与连接" loading="lazy"></a><figcaption>图 2　CAN 设备、通道和波特率选择区域</figcaption></figure>
+<h2 id="5-1-连接前检查">5.1 连接前检查<a class="heading-link" href="#5-1-连接前检查" aria-label="复制本节链接">#</a></h2>
+<ul>
+<li>CAN 适配器驱动已经安装。</li>
+<li>CAN 适配器已连接电脑和目标设备。</li>
+<li>CAN_H、CAN_L、地线及终端电阻符合系统要求。</li>
+<li>目标控制器供电正常。</li>
+<li>没有其他程序独占 CAN 适配器。</li>
+</ul>
+<h2 id="5-2-扫描设备并连接">5.2 扫描设备并连接<a class="heading-link" href="#5-2-扫描设备并连接" aria-label="复制本节链接">#</a></h2>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>打开 <strong>状态</strong> 页面。</li>
+<li>单击中间的 <strong>重新扫描 CAN 设备</strong> 按钮。</li>
+<li>在第一个下拉框中选择 CAN 设备。</li>
+<li>在第二个下拉框中选择物理通道，例如 <code>Channel_1</code>。</li>
+<li>在第三个下拉框中选择目标系统使用的波特率。</li>
+<li>单击左侧的 <strong>连接/断开</strong> 按钮建立连接。</li>
+<li>观察右上角 CAN 状态指示。</li>
+</ol>
+<p><strong>预期结果：</strong></p>
+<ul>
+<li>页面显示设备名称、厂家和版本信息。</li>
+<li>CAN 状态指示由断开状态变为连接状态。</li>
+<li>后续模块能够正常发送和接收报文。</li>
+</ul>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>下拉框中没有设备：重新插拔适配器，检查驱动，并关闭可能占用设备的软件。</li>
+<li>有设备但没有通道：确认选择了正确型号，必要时重新扫描。</li>
+<li>连接失败：检查通道是否已被占用、波特率是否正确、目标设备是否供电。</li>
+<li>更换 CAN 设备或通道前，先断开当前连接。</li>
+</ul>
+<h2 id="5-3-自动扫描波特率">5.3 自动扫描波特率<a class="heading-link" href="#5-3-自动扫描波特率" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> CAN 适配器和目标控制器已正确连接，目标总线持续存在周期报文。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>确保目标总线持续存在报文。</li>
+<li>单击右侧的 <strong>自动扫描波特率</strong> 按钮。</li>
+<li>等待程序依次检测支持的波特率。</li>
+<li>扫描成功后确认显示的波特率，再建立连接。</li>
+</ol>
+<p><strong>预期结果：</strong> 波特率下拉框显示检测到的波特率，使用该波特率能够建立 CAN 连接并接收报文。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>总线上没有报文时，程序无法判断正确波特率；请从设备资料中确认并手动选择。</li>
+<li>扫描始终失败时，检查控制器供电、CAN_H/CAN_L 接线、终端电阻和适配器通道。</li>
+</ul>
+<aside class="callout note"><strong>注意：</strong> 总线上没有报文时，自动扫描无法判断正确波特率。此时请从设备资料中确认波特率并手动选择。</aside>
+<h1 id="6-使用刷写模块">6. 使用刷写模块<a class="heading-link" href="#6-使用刷写模块" aria-label="复制本节链接">#</a></h1>
+<figure><a href="materials/screenshots/04_刷写模块.png" target="_blank"><img src="materials/screenshots/04_刷写模块.png" alt="刷写模块" loading="lazy"></a><figcaption>图 3　刷写模块</figcaption></figure>
+<h2 id="6-1-刷写前检查">6.1 刷写前检查<a class="heading-link" href="#6-1-刷写前检查" aria-label="复制本节链接">#</a></h2>
+<ul>
+<li>已成功连接正确的 CAN 设备和通道。</li>
+<li>目标控制器型号、固件文件和刷写方案相互匹配。</li>
+<li>供电电压稳定，通信线路可靠。</li>
+<li>已停止可能影响控制器的其他操作。</li>
+<li>已确认断电或刷写失败后的恢复方案。</li>
+</ul>
+<h2 id="6-2-加载-HEX-文件">6.2 加载 HEX 文件<a class="heading-link" href="#6-2-加载-HEX-文件" aria-label="复制本节链接">#</a></h2>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>打开 <strong>刷写</strong> 页面。</li>
+<li>单击文件夹按钮选择 <code>.hex</code> 文件。</li>
+<li>检查页面显示的文件名称和最后修改日期。</li>
+<li>如需重新读取文件，单击 <strong>刷新</strong>。</li>
+<li>如需定位文件，可单击 <strong>打开文件所在位置</strong>。</li>
+</ol>
+<p><strong>预期结果：</strong> 文件信息区域显示有效的固件文件，刷写按钮可用。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>文件无效：确认文件未损坏，且使用了受支持的 HEX 格式。</li>
+<li>文件与控制器不匹配：停止操作并向固件提供方核对。</li>
+<li>不要仅凭文件名判断固件适用性。</li>
+</ul>
+<h2 id="6-3-开始刷写">6.3 开始刷写<a class="heading-link" href="#6-3-开始刷写" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> 第 6.1 节检查已经完成，HEX 文件信息正确，目标控制器尚未开始擦除或传输。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>再次确认目标控制器和固件版本。</li>
+<li>单击 <strong>开始下载/刷写</strong> 按钮。</li>
+<li>阅读确认提示，确认无误后继续。</li>
+<li>观察底部进度条和中部日志列表。</li>
+<li>等待程序明确提示刷写成功。</li>
+</ol>
+<p><strong>预期结果：</strong> 进度到达 100%，日志中出现成功信息，页面显示总耗时。</p>
+<aside class="callout warning"><strong>警告：</strong> 刷写过程中不得关闭程序、断开 CAN、拔出 USB 或切断目标控制器电源。除非程序明确要求，否则不要操作其他模块。</aside>
+<h2 id="6-4-无法进入-Bootloader-会话">6.4 无法进入 Bootloader 会话<a class="heading-link" href="#6-4-无法进入-Bootloader-会话" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> 日志明确显示程序仍在等待进入 Bootloader，尚未开始擦除或数据传输。</p>
+<aside class="callout warning"><strong>警告：</strong> 只有满足上述前置条件时，才允许按本节重新上电。一旦日志显示已经开始擦除或数据传输，严禁切断控制器电源、断开 CAN 或拔出 USB。</aside>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>保持当前刷写请求处于运行状态，不要立即单击停止。</li>
+<li>按目标设备安全规范切断控制器电源。</li>
+<li>等待至少 5 秒。</li>
+<li>重新给控制器上电。</li>
+<li>观察日志是否成功进入刷写会话并开始传输。</li>
+<li>如果仍失败，停止操作并检查 CAN 波特率、Bootloader 配置、供电和固件适配性。</li>
+</ol>
+<p><strong>预期结果：</strong> 目标控制器重新上电后进入 Bootloader，日志开始显示擦除或数据传输进度。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>重新上电后仍持续等待：停止刷写请求，检查波特率、接线、Bootloader 配置和固件适配性。</li>
+<li>已经开始擦除或传输后发生通信异常：不要再次执行本节断电流程，应保留日志并联系技术支持。</li>
+</ul>
+<h1 id="7-使用-MCU-默认参数模块">7. 使用 MCU 默认参数模块<a class="heading-link" href="#7-使用-MCU-默认参数模块" aria-label="复制本节链接">#</a></h1>
+<figure><a href="materials/screenshots/05_MCU默认参数概览.png" target="_blank"><img src="materials/screenshots/05_MCU默认参数概览.png" alt="MCU 默认参数概览" loading="lazy"></a><figcaption>图 4　MCU 默认参数页面</figcaption></figure>
+<p><strong>前置条件：</strong></p>
+<ul>
+<li>CAN 已连接。</li>
+<li>目标控制器与当前程序版本相匹配。</li>
+<li>目标设备处于允许读取或控制的状态。</li>
+</ul>
+<h2 id="7-1-自动握手-读取和刷新参数">7.1 自动握手、读取和刷新参数<a class="heading-link" href="#7-1-自动握手-读取和刷新参数" aria-label="复制本节链接">#</a></h2>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>单击左侧 <strong>MCU</strong> 图标打开 <strong>MCU 默认参数</strong> 页面。</li>
+<li>进入页面后，程序会自动发起 MCU 通信握手，无需手动单击握手按钮。</li>
+<li>观察页面右上角的 MCU 连接状态图标，确认握手成功后再继续操作。</li>
+<li>等待页面自动读取版本、硬件、故障、方向和运行状态等信息。</li>
+<li>需要重新读取时，单击顶部 <strong>更新参数值</strong>。</li>
+</ol>
+<p><strong>预期结果：</strong> MCU 连接状态正常，页面显示参数值，手动刷新后参数更新时间发生变化。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>握手状态持续异常：检查 CAN 连接、波特率和控制器供电；退出本页面后重新进入，以重新发起握手。</li>
+<li>页面一直为空：返回状态页重新连接 CAN，再进入本页面。</li>
+<li>参数含义与设备不符：停止写入并核对控制器型号、固件版本和程序版本。</li>
+</ul>
+<h2 id="7-2-保存参数和代码文件">7.2 保存参数和代码文件<a class="heading-link" href="#7-2-保存参数和代码文件" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> MCU 已握手成功，页面已经读取到当前参数。</p>
+<p>顶部工具栏提供三类文件操作：</p>
+<h3 id="保存参数到电脑">保存参数到电脑<a class="heading-link" href="#保存参数到电脑" aria-label="复制本节链接">#</a></h3>
+<figure><a href="materials/screenshots/05c_MCU默认参数保存入口.png" target="_blank"><img src="materials/screenshots/05c_MCU默认参数保存入口.png" alt="保存参数到电脑和更新参数值入口" loading="lazy"></a><figcaption>图 5　保存参数到电脑和更新参数值入口</figcaption></figure>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>单击 <strong>更新参数值</strong>，确认页面已经取得所需参数。</li>
+<li>单击 <strong>保存参数到电脑</strong>。</li>
+<li>选择保存位置和文件名。</li>
+<li>将文件保存为 TXT 参数文件。</li>
+</ol>
+<p><strong>预期结果：</strong> 目标位置生成可供备份或后续下载使用的 TXT 文件。</p>
+<h3 id="将参数文件转换为代码文件">将参数文件转换为代码文件<a class="heading-link" href="#将参数文件转换为代码文件" aria-label="复制本节链接">#</a></h3>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>单击 <strong>参数文件转化成代码文件</strong>。</li>
+<li>选择此前保存的 TXT 参数文件。</li>
+<li>选择 C 文件保存位置。</li>
+<li>等待程序提示转换成功。</li>
+</ol>
+<p><strong>预期结果：</strong> 目标位置生成 C 代码文件。</p>
+<h3 id="将当前参数保存为代码文件">将当前参数保存为代码文件<a class="heading-link" href="#将当前参数保存为代码文件" aria-label="复制本节链接">#</a></h3>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>单击 <strong>更新参数值</strong>，确认当前页面已读取到所需参数。</li>
+<li>单击 <strong>保存成代码文件</strong>。</li>
+<li>选择 C 文件保存位置。</li>
+<li>等待程序提示保存成功。</li>
+</ol>
+<p><strong>预期结果：</strong> 目标位置生成基于当前参数值的 C 代码文件。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>取消文件选择后不会生成文件，可重新执行相应操作。</li>
+<li>转换或保存失败时，确认源 TXT 文件可正常读取、目标目录可写且目标文件没有被其他程序占用。</li>
+<li>参数读取不完整或来源不明时，不要把生成文件用于正式控制器配置。</li>
+</ul>
+<h2 id="7-3-控制操作">7.3 控制操作<a class="heading-link" href="#7-3-控制操作" aria-label="复制本节链接">#</a></h2>
+<figure><a href="materials/screenshots/05b_MCU默认参数控制区.png" target="_blank"><img src="materials/screenshots/05b_MCU默认参数控制区.png" alt="MCU 默认参数控制区" loading="lazy"></a><figcaption>图 6　自学习、复位、转矩和转速控制区</figcaption></figure>
+<aside class="callout warning"><strong>警告：</strong> 以下操作可能使控制器复位或使电机旋转。执行前必须清空转轴和负载区域，确认机械系统允许运动，并保证急停和断电手段可立即使用。界面中的 <strong>停止</strong> 只发送软件停止命令，不能替代急停装置或物理断电。</aside>
+<p><strong>前置条件：</strong></p>
+<ul>
+<li>MCU 自动握手成功，通信状态正常。</li>
+<li>操作人员已经获得控制权限并了解目标设备的安全规范。</li>
+<li>机械系统允许调试，转轴和负载区域无人，急停装置可用。</li>
+<li>首次运行应从经批准的较小安全设定值开始。</li>
+<li>涉及高压系统时，应先在低压供电状态下完成参数文件加载、CAN 连接和通信检查；确认机械安全条件后，方可按照设备安全规范接通高压。</li>
+<li>操作结束后应先停止控制、将目标值清零并使设备返回安全状态，再按照设备安全规范先断开高压、后断开低压。</li>
+</ul>
+<h3 id="调试使能">调试使能<a class="heading-link" href="#调试使能" aria-label="复制本节链接">#</a></h3>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>确认控制器处于允许调试的状态。</li>
+<li>单击 <strong>调试使能</strong>，程序弹出“确认提示”窗口。</li>
+<li>核对库版本、应用程序版本、额定电压和当前故障信息，确认无误后继续。</li>
+<li>观察控制器状态和故障信息。</li>
+</ol>
+<figure><a href="materials/screenshots/05d_调试使能确认信息.png" target="_blank"><img src="materials/screenshots/05d_调试使能确认信息.png" alt="调试使能确认信息" loading="lazy"></a><figcaption>图 7　调试使能确认信息</figcaption></figure>
+<p><strong>预期结果：</strong> 控制器进入允许调试的状态，页面没有出现新的故障。</p>
+<h3 id="启动位置自学习">启动位置自学习<a class="heading-link" href="#启动位置自学习" aria-label="复制本节链接">#</a></h3>
+<aside class="callout warning"><strong>警告：</strong> 自学习过程中电机可能自动旋转。自学习必须在空载状态下执行，同时确认机械制动系统处于无制动力状态。整车状态下应将驱动轮可靠举升并保持悬空；台架状态下应将电机与机械负载可靠解耦。不满足空载条件时，禁止启动自学习。</aside>
+<p><strong>前置条件：</strong> 电机、编码器和控制器型号匹配；驱动轮或转轴能够自由旋转；旋转区域无人、无工具和松动物体；急停及高压断电手段可立即使用。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>在低压供电状态下完成 CAN 连接和 MCU 自动握手，读取并记录自学习前的方向及初始角度值 <code>a1</code>。</li>
+<li>再次确认电机处于空载状态，驱动轮或转轴可以自由旋转。</li>
+<li>按照设备安全规范接通高压，并确认控制器没有影响自学习的故障。</li>
+<li>单击 <strong>启动位置自学习</strong>，程序弹出“确认自学习”窗口。</li>
+<li>阅读确认提示并确认，等待自学习完整结束；过程中持续观察转速、电流、振动、声音和故障状态。</li>
+<li>单击 <strong>更新参数值</strong>，查看自学习状态和静态自学习结果，并记录学习后的初始角度值 <code>a2</code>。</li>
+<li>保存自学习前后的参数和操作记录。</li>
+<li>自学习完成后下电，等待 10 秒，再次上电；重新完成上述自学习操作，并在更新参数后记录初始角度值 <code>a3</code>。确认 <code>|a2-a3|＜1°</code>，则自学习成功完成。</li>
+</ol>
+<p><strong>预期结果：</strong> 自学习流程正常结束，页面显示有效的自学习结果，且 <code>|a2-a3|＜1°</code>。</p>
+<p><strong>异常处理：</strong> 自学习未结束、结果无效、<code>|a2-a3|≥1°</code>、相关参数未保持、重新上电后初始角度与自学习结束值不一致，或出现异常声音、振动、电流、温度和故障时，立即使用急停或按设备规范断开高压，记录状态和日志并联系技术支持。不得连续重复启动自学习。</p>
+<h3 id="软件复位和参数复位-重置参数">软件复位和参数复位（重置参数）<a class="heading-link" href="#软件复位和参数复位-重置参数" aria-label="复制本节链接">#</a></h3>
+<p><strong>软件复位操作步骤：</strong></p>
+<ol>
+<li>保存必要数据，确认设备允许立即重启。</li>
+<li>单击 <strong>软件复位</strong>。</li>
+<li>阅读确认提示并确认。</li>
+<li>等待控制器重新上线。</li>
+</ol>
+<p><strong>重置参数操作步骤：</strong></p>
+<ol>
+<li>先按第 7.2 节备份当前参数。</li>
+<li>单击 <strong>重置参数</strong>。</li>
+<li>阅读确认提示并确认。</li>
+<li>等待控制器完成参数重置并重新上线。</li>
+</ol>
+<p><strong>预期结果：</strong> 软件复位后控制器恢复通信；重置参数后，参数恢复为目标固件定义的默认状态。</p>
+<p><strong>异常处理：</strong> 控制器未重新上线时，检查供电和 CAN 连接；不要连续重复复位。恢复通信后刷新页面，并核对故障、版本和关键参数。</p>
+<h3 id="转矩控制">转矩控制<a class="heading-link" href="#转矩控制" aria-label="复制本节链接">#</a></h3>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>确认当前使用的是转矩控制区。</li>
+<li>在转矩设定值输入框中填写经批准的较小安全目标值。空载状态下即使较小转矩也可能产生高转速，设定前必须评估目标转矩及超速风险。</li>
+<li>按 <code>Enter</code> 写入目标值。</li>
+<li>核对页面显示的转矩设定值已经更新。若电机此时剧烈振动，立即将目标转矩设为 <code>0</code>，停止测试并检查初始角度是否正确。</li>
+<li>根据需要单击 <strong>正转</strong> 或 <strong>反转</strong>。</li>
+<li>持续观察实际转矩、电流、转速和故障状态。</li>
+<li>结束时单击中间的 <strong>停止</strong>。大转矩下直接停止可能产生冲击，应先逐步减小转矩，再停止。</li>
+<li>单击设定值旁的圆形箭头按钮，并确认页面显示的设定值为 <code>0</code>。</li>
+</ol>
+<p><strong>预期结果：</strong> 设定值写入成功，控制器按所选方向响应；单击 <strong>停止</strong> 后软件控制命令停止。</p>
+<h3 id="验证电机旋转方向">验证电机旋转方向<a class="heading-link" href="#验证电机旋转方向" aria-label="复制本节链接">#</a></h3>
+<aside class="callout warning"><strong>警告：</strong> 旋转方向验证必须在空载或项目规定的安全测试状态下执行。开始速度环标定或其他较高转速测试前，必须确认软件正转命令对应的实际方向与车辆或设备定义的正向一致。</aside>
+<p><strong>前置条件：</strong> 已完成位置自学习；驱动轮可靠悬空或电机已与机械负载解耦；项目规定的转速限制已经正确设置；转矩目标值为 <code>0</code>。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>在转矩设定值输入框中填写经批准的较小正向测试转矩。</li>
+<li>按 <code>Enter</code> 写入目标值，并核对页面显示的目标值和单位。</li>
+<li>单击 <strong>正转</strong>，短时间观察转轴或驱动轮的实际旋转方向。</li>
+<li>实际方向与车辆或设备定义的正向一致时，单击 <strong>停止</strong>，将转矩目标值清零并记录验证结果。</li>
+<li>实际方向不一致时，立即单击 <strong>停止</strong>，将转矩目标值清零并停止后续标定。</li>
+</ol>
+<p><strong>预期结果：</strong> 软件正转命令对应的实际旋转方向与车辆或设备定义的正向一致。</p>
+<p><strong>异常处理：</strong> 方向不一致时，应按照目标项目批准的电机方向修正流程处理。完成方向修正后，必须重新执行完整的位置自学习并再次验证方向；验证通过前不得进行速度环标定或提高测试转速。</p>
+<h3 id="转速控制">转速控制<a class="heading-link" href="#转速控制" aria-label="复制本节链接">#</a></h3>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>确认当前使用的是转速控制区。</li>
+<li>在转速设定值输入框中填写经批准的较小安全目标值。</li>
+<li>按 <code>Enter</code> 写入目标值。</li>
+<li>核对页面显示的转速设定值已经更新。若电机此时剧烈振动，立即将目标转速设为 <code>0</code>，停止测试并检查初始角度是否正确。</li>
+<li>根据需要单击 <strong>正转</strong> 或 <strong>反转</strong>。</li>
+<li>持续观察实际转速、电流、温度和故障状态。</li>
+<li>结束时单击中间的 <strong>停止</strong>。</li>
+<li>单击设定值旁的圆形箭头按钮，并确认页面显示的设定值为 <code>0</code>。</li>
+</ol>
+<p><strong>预期结果：</strong> 设定值写入成功，控制器按所选方向响应；单击 <strong>停止</strong> 后软件控制命令停止。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>按 <code>Enter</code> 后设定值没有更新时，不要启动正转或反转；先检查通信状态和设备工作状态。</li>
+<li>出现异常声音、振动、电流、温度或故障时，立即使用急停或按设备规范断电；不要只依赖界面的 <strong>停止</strong> 按钮。</li>
+<li>输入框不可编辑时，不要尝试绕过限制，请联系技术支持。</li>
+<li>受权限保护的字段不可编辑时，请联系技术支持。</li>
+</ul>
+<h1 id="8-使用-MCU-标定模块">8. 使用 MCU 标定模块<a class="heading-link" href="#8-使用-MCU-标定模块" aria-label="复制本节链接">#</a></h1>
+<p><strong>前置条件：</strong></p>
+<ul>
+<li>已取得与目标控制器、固件和项目相匹配的参数定义文件。</li>
+<li>执行读取或写入前，CAN 已连接且 MCU 自动握手成功。</li>
+<li>控制器供电稳定，并处于允许标定的工作状态。</li>
+<li>操作人员已经获得参数读取或修改权限。</li>
+</ul>
+<aside class="callout warning"><strong>警告：</strong> 涉及电机旋转的标定必须在符合项目安全规范的台架或整车测试条件下执行。开始速度环标定前，必须先完成位置自学习和旋转方向验证。测试期间应确保急停及高压断电手段可立即使用。</aside>
+<h2 id="8-1-导入参数定义文件">8.1 导入参数定义文件<a class="heading-link" href="#8-1-导入参数定义文件" aria-label="复制本节链接">#</a></h2>
+<figure><a href="materials/screenshots/06_MCU参数文件导入.png" target="_blank"><img src="materials/screenshots/06_MCU参数文件导入.png" alt="MCU 参数文件导入" loading="lazy"></a><figcaption>图 8　MCU 参数定义文件导入入口</figcaption></figure>
+<p><strong>示例文件：</strong> <code>F28384_params_MC366WV_General_Pump_FuSa_V0.17.xls</code></p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>打开 <strong>设置</strong> 页面。</li>
+<li>找到 <strong>MCU 参数</strong>。</li>
+<li>单击 <strong>导入一个参数文件</strong> 右侧的导入按钮。</li>
+<li>选择与目标控制器匹配的 <code>.xls</code> 或 <code>.xlsx</code> 文件。</li>
+<li>确认页面只显示正确的文件名。</li>
+<li>返回主界面。</li>
+</ol>
+<p><strong>预期结果：</strong> 设置页显示参数定义文件名，MCU 标定页面能够初始化参数列表。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>提示文件不存在：重新选择文件，不要在导入后移动或删除原文件。</li>
+<li>参数列表为空：确认表格格式和版本与当前程序兼容。</li>
+<li>参数含义不匹配：不要执行写入，向参数文件提供方核对版本。</li>
+</ul>
+<h2 id="8-2-打开标定页面">8.2 打开标定页面<a class="heading-link" href="#8-2-打开标定页面" aria-label="复制本节链接">#</a></h2>
+<figure><a href="materials/screenshots/07_MCU标定模块_脱敏.png" target="_blank"><img src="materials/screenshots/07_MCU标定模块_脱敏.png" alt="MCU 标定模块" loading="lazy"></a><figcaption>图 9　MCU 标定工具栏和表格列</figcaption></figure>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>单击左侧 <strong>MCU扩展</strong> 图标。</li>
+<li>确认页面标题为 <strong>MCU标定</strong>。</li>
+<li>等待参数定义文件加载。</li>
+<li>连接控制器后，单击 <strong>更新参数值</strong>。</li>
+</ol>
+<p>页面左侧为标定参数，通常包含 <strong>名称、描述、实际值、目标值</strong>；右侧为过程变量，显示只读实际值。</p>
+<p><strong>预期结果：</strong> 参数列表正常显示，刷新后能够读取实际值和过程变量。</p>
+<p><strong>异常处理：</strong> 页面为空或刷新失败时，检查参数定义文件、CAN 连接、MCU 握手状态和控制器供电。</p>
+<h2 id="8-3-搜索和刷新">8.3 搜索和刷新<a class="heading-link" href="#8-3-搜索和刷新" aria-label="复制本节链接">#</a></h2>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>在顶部搜索框输入参数名称或描述关键字，以缩小参数列表。</li>
+<li>单击 <strong>更新参数值</strong>，重新读取当前筛选结果中的实际值和过程变量。</li>
+<li>需要恢复完整列表时，清空搜索框，并重新选择需要显示的参数分组。</li>
+</ol>
+<p><strong>预期结果：</strong> 列表只显示符合条件的参数；清空筛选后恢复所选分组中的参数。</p>
+<p><strong>异常处理：</strong> 搜索不到参数时，清空搜索框并检查参数分组；仍不存在时，核对参数定义文件版本。</p>
+<h2 id="8-4-写入单个参数">8.4 写入单个参数<a class="heading-link" href="#8-4-写入单个参数" aria-label="复制本节链接">#</a></h2>
+<aside class="callout note"><strong>注意：</strong> 当前版本不能保证对所有参数自动执行上下限校验。写入前必须依据已批准的参数定义核对单位、允许范围和目标值。</aside>
+<aside class="callout note"><strong>重要：</strong> 本标定流程中的在线参数修改不写入软件固化区，控制器断电后不保留。完成标定后，应在断电前导出最终 TXT 参数文件。详情参考“<a href="#7-2-保存参数和代码文件">7.2 保存参数和代码文件</a>”小节的“保存参数到电脑”内容。需要永久生效时，应将最终参数和测试记录提交给技术支持，由技术支持生成并刷写包含最终参数的软件。</aside>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>搜索并确认目标参数，核对名称和描述。</li>
+<li>依据已批准的参数定义核对单位、允许范围和当前实际值。</li>
+<li>在 <strong>目标值</strong> 单元格中输入新值。</li>
+<li>按 <code>Enter</code> 提交写入。</li>
+<li>单击 <strong>更新参数值</strong>，检查实际值是否与目标值一致。</li>
+</ol>
+<p><strong>预期结果：</strong> 写入过程没有通信错误，刷新后的实际值与目标值一致。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>负数、特殊格式或数值范围不确定时，不要尝试写入，请联系技术支持确认格式和范围。</li>
+<li>写入超时：检查 CAN 连接、MCU 握手和控制器状态。</li>
+<li>实际值没有变化：不要连续重复写入；先查看日志并确认该参数是否支持在线修改。</li>
+</ul>
+<h2 id="8-5-保存当前参数">8.5 保存当前参数<a class="heading-link" href="#8-5-保存当前参数" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> 已经读取到需要备份的参数。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>清空搜索框，并选择所有参数分组。</li>
+<li>单击 <strong>更新参数值</strong>，将右侧滚动条滑块拖到窗口底部，确认全部参数已经读取到当前值。</li>
+<li>单击顶部 <strong>保存参数到电脑</strong>。</li>
+<li>选择保存位置和文件名，将文件保存为 TXT 参数值文件。</li>
+</ol>
+<figure><a href="materials/screenshots/07b_参数列表滚动到底部.png" target="_blank"><img src="materials/screenshots/07b_参数列表滚动到底部.png" alt="参数列表滚动到底部" loading="lazy"></a><figcaption>图 10　将参数列表滚动到底部</figcaption></figure>
+<p><strong>预期结果：</strong> 目标位置生成 TXT 参数值文件，其中包含参数定义文件中的全部标定参数，并按参数编号排序。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>任一参数尚未读取到当前值时，程序会拒绝保存；清空搜索条件、选择所有参数分组，完成更新并将滚动条拖到窗口底部后重新保存。未拖到底部时，下方参数可能尚未完成更新。</li>
+<li>保存失败时，确认目标目录可写且目标文件没有被其他程序占用。</li>
+</ul>
+<p>建议在批量修改前保存一份参数备份，并在文件名中注明设备、日期和用途。</p>
+<h2 id="8-6-批量下载参数到-MCU">8.6 批量下载参数到 MCU<a class="heading-link" href="#8-6-批量下载参数到-MCU" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong></p>
+<ul>
+<li>已准备与当前参数定义匹配的 TXT 参数值文件。</li>
+<li>如需完整下载，已经清空搜索框并选择所有需要下载的参数分组。</li>
+<li>目标控制器正确、供电稳定、CAN 已连接且 MCU 握手成功。</li>
+<li>已按第 8.5 节备份当前参数，并获得批量修改权限。</li>
+</ul>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>再次确认目标控制器和 TXT 文件版本。</li>
+<li>单击顶部 <strong>下载参数到 MCU</strong>。</li>
+<li>选择 TXT 参数值文件并确认。</li>
+<li>文件选择完成后，程序会立即开始写入匹配的参数；无需再寻找“开始”按钮。</li>
+<li>等待程序显示成功或失败结果。</li>
+<li>下载功能仅下载当前上位机已加载的<a href="#8-1-导入参数定义文件">参数表</a>中，与 TXT 文件参数编号匹配的参数。</li>
+<li>单击 <strong>更新参数值</strong>，核对所有目标参数和关键参数，而不是只抽查少量项目。</li>
+</ol>
+<aside class="callout warning"><strong>警告：</strong> 批量下载会连续修改控制器参数。下载期间不得断电、断开 CAN 或切换到其他控制任务。请与软件工程师确认本项目软件是否使用 EEPROM 软件固化区参数；若非固化参数，下电重启后下载的参数值将恢复默认值。</aside>
+<p><strong>预期结果：</strong> 程序显示写入成功，刷新后的所有目标参数与经批准的 TXT 文件一致。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>TXT 中不存在于当前参数定义、筛选结果或所选分组的项目可能被跳过，且不一定出现单独提示；必须通过刷新和逐项核对确认实际写入范围。</li>
+<li>部分参数失败：保存提示信息和日志，不要盲目重复下载。</li>
+<li>通信中断：恢复连接后先读取当前值，确认设备状态和已写入范围，再决定是否重新下载。</li>
+<li>没有出现明确的成功或失败结果时，不要假定写入已经完成，应刷新核对并查看日志。</li>
+</ul>
+<h2 id="8-7-电机参数标定流程">8.7 电机参数标定流程<a class="heading-link" href="#8-7-电机参数标定流程" aria-label="复制本节链接">#</a></h2>
+<p>本节说明使用 MCU 标定模块执行电机参数调整时的通用流程。具体测试转速、参数范围和合格标准以目标项目批准的标定规范为准。</p>
+<p><strong>前置条件：</strong></p>
+<ul>
+<li>已完成位置自学习和旋转方向验证。</li>
+<li>已保存标定前的参数备份，并准备 TRACE 报文记录；记录方法详见“<a href="#9-TRACE-报文查看与导出">9. TRACE 报文查看与导出</a>”。</li>
+<li>电机处于项目规定的安全负载状态，冷却、供电、急停和高压断电条件正常。</li>
+<li>若为车辆测试，测试前应检查机械制动系统，确认制动力达到设计范围且制动助力系统工作正常。</li>
+<li>已明确本轮测试的目标转速、观察信号、允许范围和停止条件。</li>
+</ul>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>从项目规定的低速范围开始测试；初次验证可在批准的 200～500 RPM 范围内选择测试点。</li>
+<li>通过 TRACE 窗口记录目标转速、实际转速、电流、故障状态及项目要求的其他信号。</li>
+<li>检查目标值与实际值的跟随情况，确认没有持续振荡、明显超调、响应过慢、异常电流、异常噪声或异常温升。</li>
+<li>低速验证通过后，按照项目规定逐级提高测试转速，禁止直接跳转到高速测试。</li>
+<li>根据报文记录分析响应，每轮优先修改影响最大的参数，并将修改数量控制在 1～2 个。</li>
+<li>写入参数后单击 <strong>更新参数值</strong>，确认实际值与目标值一致，再重复相同测试工况。</li>
+<li>对比修改前后的跟随误差、超调、振荡和响应时间，并记录参数变化及测试结果。</li>
+<li>重复分析、调整和验证，直至所有规定工况满足项目验收标准。</li>
+<li>完成标定后，清空搜索条件并选择需要交付的参数分组，更新参数值并将最终参数保存为 TXT 文件。</li>
+<li>停止控制、将转矩和转速目标值清零，按照设备安全规范先断开高压、后断开低压。</li>
+</ol>
+<p><strong>预期结果：</strong> 各规定工况满足项目验收标准，最终参数、TRACE 报文和修改记录完整保存。</p>
+<p><strong>异常处理：</strong> 出现持续振荡、明显超调、失控趋势、异常声音、振动、电流、温度或故障时，立即使用急停或按设备规范断开高压。恢复测试前应分析 TRACE 和日志、核对参数及测试条件，不得在原因不明时继续提高转速或连续修改参数。</p>
+<p><strong>标定归档：</strong></p>
+<ul>
+<li>最终 TXT 参数文件。</li>
+<li>参数修改记录、修改原因及修改前后数值。</li>
+<li>修改前后的 TRACE 报文记录。</li>
+<li>测试条件，包括软件版本、供电、负载和测试转速。</li>
+<li>异常现象及处理记录。</li>
+<li>需要永久集成的最终参数及对应的软件生成或刷写记录。</li>
+</ul>
+<h1 id="9-TRACE-报文查看与导出">9. TRACE 报文查看与导出<a class="heading-link" href="#9-TRACE-报文查看与导出" aria-label="复制本节链接">#</a></h1>
+<figure><a href="materials/screenshots/08_TRACE窗口.png" target="_blank"><img src="materials/screenshots/08_TRACE窗口.png" alt="TRACE 窗口" loading="lazy"></a><figcaption>图 11　TRACE 工具栏和空报文列表</figcaption></figure>
+<h2 id="9-1-打开-TRACE">9.1 打开 TRACE<a class="heading-link" href="#9-1-打开-TRACE" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> 已根据需要连接 CAN 通道。</p>
+<p><strong>操作步骤：</strong> 在状态、刷写或 MCU 相关页面，单击右上角的 <strong>TRACE</strong> 按钮打开独立窗口。</p>
+<p>TRACE 列表包含以下常用列：</p>
+<ul>
+<li>报文序号</li>
+<li>时间</li>
+<li>收发方向</li>
+<li>CAN ID</li>
+<li>数据长度</li>
+<li>数据内容</li>
+<li>同一 CAN ID 的累计计数</li>
+<li>使用 DBC 后解析出的信号</li>
+</ul>
+<p><strong>预期结果：</strong> TRACE 窗口打开；CAN 已连接且总线上有报文时，列表开始显示数据。</p>
+<p><strong>异常处理：</strong> 窗口无报文时，检查 CAN 连接、波特率、总线接线和目标设备是否正在发送报文。</p>
+<h2 id="9-2-查看报文">9.2 查看报文<a class="heading-link" href="#9-2-查看报文" aria-label="复制本节链接">#</a></h2>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>建立 CAN 连接并打开 TRACE。</li>
+<li>观察列表是否持续出现报文。</li>
+<li>需要查看固定位置时，单击 <strong>暂停列表滚动</strong>。该按钮只暂停自动滚动，报文接收仍会继续。</li>
+<li>启用 <strong>列表显示</strong> 时查看完整报文历史；关闭后，每个 CAN ID 只保留最新一帧用于实时观察。</li>
+<li>启用 <strong>时间差显示</strong>，查看同一 CAN ID 相邻两次出现之间的时间差。</li>
+<li><strong>计数</strong> 表示同一 CAN ID 的累计出现次数。</li>
+<li>需要重新观察时，先导出仍需保留的记录，再单击 <strong>清空报文缓冲区</strong>。</li>
+</ol>
+<p><strong>预期结果：</strong> TRACE 按所选模式显示 CAN 报文；暂停滚动时新报文仍被接收，计数继续更新。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>暂停滚动后计数仍增加属于正常现象；如需保留当前记录，请先导出。</li>
+<li>清空后数据无法在窗口中恢复；误清空时只能重新采集。</li>
+<li>时间差异常时，先确认当前观察的是同一 CAN ID，并检查总线负载和发送周期。</li>
+</ul>
+<h2 id="9-3-导入-DBC">9.3 导入 DBC<a class="heading-link" href="#9-3-导入-DBC" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> 已准备与当前总线定义一致的 <code>.dbc</code> 或 <code>.xlsx</code> 文件。</p>
+<aside class="callout note"><strong>注意：</strong> XLSX 文件必须采用规定的行列结构，否则可能加载失败。</aside>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>单击 <strong>导入 DBC</strong>。</li>
+<li>选择 <code>.dbc</code> 或 <code>.xlsx</code> 文件。</li>
+<li>如需联合解析，可继续导入其他文件。建议每次最多导入三个文件。</li>
+<li>展开报文行查看解析出的信号。</li>
+<li>需要移除解析定义时，单击 <strong>清除 DBC</strong>。</li>
+</ol>
+<p><strong>预期结果：</strong> 与定义匹配的报文能够展开并显示信号。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>无信号解析结果时，检查报文 ID、扩展帧设置、字节序和信号定义是否与当前总线一致。</li>
+<li>当前会话导入超过三个文件时，程序重新启动后只恢复前三个文件路径；如需稳定复用，请控制在三个以内。</li>
+</ul>
+<h2 id="9-4-导出记录">9.4 导出记录<a class="heading-link" href="#9-4-导出记录" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> TRACE 中已经采集到需要保存的报文。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>单击 <strong>导出 TRACE 文件</strong>。</li>
+<li>选择 Vector 或 PCAN 格式。</li>
+<li>选择保存位置和文件名。</li>
+<li>等待程序提示导出完成。</li>
+</ol>
+<p><strong>预期结果：</strong> 目标位置生成所选格式的记录文件。</p>
+<p><strong>异常处理：</strong> 导出失败时，确认目标目录可写、目标文件未被占用，并检查 TRACE 中是否存在有效报文。</p>
+<p>导出前建议先记录故障发生时间、操作步骤、波特率和控制器状态，便于后续分析。</p>
+<h1 id="10-报文记录格式转换">10. 报文记录格式转换<a class="heading-link" href="#10-报文记录格式转换" aria-label="复制本节链接">#</a></h1>
+<figure><a href="materials/screenshots/09_报文记录与DBC转换工具.png" target="_blank"><img src="materials/screenshots/09_报文记录与DBC转换工具.png" alt="报文记录格式转换和 DBC Converter" loading="lazy"></a><figcaption>图 12　常用工具页面</figcaption></figure>
+<h2 id="10-1-将-PCAN-TRC-转换为-Vector-ASC">10.1 将 PCAN TRC 转换为 Vector ASC<a class="heading-link" href="#10-1-将-PCAN-TRC-转换为-Vector-ASC" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> 已准备内容有效的 PCAN <code>.trc</code> 记录文件。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>打开 <strong>常用工具</strong> 页面。</li>
+<li>在 <strong>报文记录格式转换</strong> 区域单击文件夹按钮。</li>
+<li>选择 <code>.trc</code> 记录文件。</li>
+<li>单击 <strong>转换到 VECTOR 记录</strong>。</li>
+<li>选择输出位置并等待完成提示。</li>
+</ol>
+<p><strong>预期结果：</strong> 目标位置生成可由 Vector 工具读取的 <code>.asc</code> 文件。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>无法识别源文件：确认扩展名为 <code>.trc</code>，文件没有损坏且内容符合 PCAN TRC 格式。</li>
+<li>转换后无报文：使用文本查看器确认源文件包含有效 CAN 报文。</li>
+<li>输出文件被占用：关闭正在打开该文件的其他程序后重试。</li>
+</ul>
+<h2 id="10-2-将-Vector-ASC-转换为-PCAN-TRC">10.2 将 Vector ASC 转换为 PCAN TRC<a class="heading-link" href="#10-2-将-Vector-ASC-转换为-PCAN-TRC" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> 已准备内容有效的 Vector <code>.asc</code> 记录文件。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>在 <strong>报文记录格式转换</strong> 区域选择 <code>.asc</code> 记录文件。</li>
+<li>单击 <strong>转换到 PCAN 记录</strong>。</li>
+<li>选择输出位置并等待完成提示。</li>
+</ol>
+<p><strong>预期结果：</strong> 目标位置生成可由 PCAN 工具读取的 <code>.trc</code> 文件。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>无法识别源文件：确认扩展名为 <code>.asc</code>，文件没有损坏且内容符合 Vector ASC 格式。</li>
+<li>转换后无报文：使用文本查看器确认源文件包含有效 CAN 报文。</li>
+<li>输出文件被占用：关闭正在打开该文件的其他程序后重试。</li>
+</ul>
+<h1 id="11-使用-DBC-Converter">11. 使用 DBC Converter<a class="heading-link" href="#11-使用-DBC-Converter" aria-label="复制本节链接">#</a></h1>
+<p>DBC Converter 用于合并和转换 DBC/Excel 定义。</p>
+<div class="table-wrap"><table><thead><tr><th>项目</th><th>说明</th></tr></thead><tbody><tr><td>支持的输入</td><td><code>.dbc</code>、<code>.xlsx</code></td></tr><tr><td>支持的输出</td><td>DBC、Excel</td></tr><tr><td>最多输入文件数</td><td>3</td></tr><tr><td>Excel 读取规则</td><td>每个 Excel 输入文件只读取第一个工作表</td></tr><tr><td>Excel 格式要求</td><td>必须采用规定的行列结构，否则可能加载或转换失败</td></tr></tbody></table></div>
+<h2 id="11-1-导入和移除源文件">11.1 导入和移除源文件<a class="heading-link" href="#11-1-导入和移除源文件" aria-label="复制本节链接">#</a></h2>
+<p><strong>前置条件：</strong> 已准备最多三个格式受支持的输入文件；合并前已经确认各文件的来源和适用项目。</p>
+<p><strong>Excel 输入规则：</strong></p>
+<ul>
+<li>报文名、信号名只能包含英文字母、数字和下划线。</li>
+<li>报文名、信号名必须以英文字母开头。</li>
+<li>报文收发节点名称遵循相同的字符和首字符规则。</li>
+<li>不允许存在模板定义之外的多余列。</li>
+<li>报文名、信号名和节点名不得重复。</li>
+</ul>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>在 <strong>DBC CONVERTER</strong> 区域单击第一行文件夹按钮。</li>
+<li>选择 <code>.dbc</code> 或 <code>.xlsx</code> 文件。</li>
+<li>如需合并，使用第二行和第三行继续添加文件。</li>
+<li>如需移除某个文件，单击该行对应的删除按钮；其他已选文件不会被移除。</li>
+<li>如需替换某个文件，先移除该行文件，再重新选择。</li>
+</ol>
+<p><strong>预期结果：</strong> 每一行显示对应的输入文件，未使用的输入行保持为空。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>Excel 中目标数据不在第一个工作表时，先在 Excel 中整理为以目标工作表为第一张的文件，再重新导入。</li>
+<li>文件无法加载时，确认扩展名和文件内容匹配，且文件没有被其他程序锁定。</li>
+<li>输入文件超过三个时，先移除不需要的文件。</li>
+</ul>
+<p><strong>模板获取：</strong> 没有 XLSX 模板时，可先导入已有 DBC 文件，再使用 <strong>导出到 EXCEL</strong> 生成模板。</p>
+<h2 id="11-2-导出-Excel">11.2 导出 Excel<a class="heading-link" href="#11-2-导出-Excel" aria-label="复制本节链接">#</a></h2>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>确认输入文件顺序和内容。</li>
+<li>单击 <strong>导出到 EXCEL</strong>。</li>
+<li>选择输出位置和文件名。</li>
+<li>打开导出文件，抽查报文和信号。</li>
+</ol>
+<p><strong>预期结果：</strong> 目标位置生成可打开的 Excel 文件，抽查的报文和信号符合预期。</p>
+<h2 id="11-3-导出-DBC">11.3 导出 DBC<a class="heading-link" href="#11-3-导出-DBC" aria-label="复制本节链接">#</a></h2>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>确认输入文件已经加载。</li>
+<li>单击 <strong>导出到 DBC</strong>。</li>
+<li>选择输出位置和文件名。</li>
+<li>使用目标 CAN 工具打开导出的 DBC，检查解析结果。</li>
+</ol>
+<p><strong>预期结果：</strong> 目标位置生成可被目标 CAN 工具打开的 DBC 文件。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>导出失败时，确认目标目录可写且目标文件没有被占用。</li>
+<li>导出成功但内容不完整时，检查各 Excel 输入文件的第一个工作表以及输入文件顺序。</li>
+<li>目标 CAN 工具提示定义冲突时，先处理重复报文或信号，再重新转换。</li>
+</ul>
+<aside class="callout note"><strong>注意：</strong> 合并前应检查重复报文 ID、重复信号名、节点定义、字节序和缩放系数。存在冲突时，应先明确采用哪一份定义。</aside>
+<h1 id="12-查看运行日志">12. 查看运行日志<a class="heading-link" href="#12-查看运行日志" aria-label="复制本节链接">#</a></h1>
+<h2 id="12-1-打开日志目录">12.1 打开日志目录<a class="heading-link" href="#12-1-打开日志目录" aria-label="复制本节链接">#</a></h2>
+<figure><a href="materials/screenshots/10_日志目录入口.png" target="_blank"><img src="materials/screenshots/10_日志目录入口.png" alt="日志目录入口" loading="lazy"></a><figcaption>图 13　打开日志目录</figcaption></figure>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>打开 <strong>设置</strong> 页面。</li>
+<li>向下滚动到 <strong>其他</strong>。</li>
+<li>单击 <strong>打开日志目录</strong>。</li>
+<li>根据问题类型进入对应子目录。</li>
+</ol>
+<p>如果程序无法启动，可按 <code>Win + R</code>，输入 <code>%LOCALAPPDATA%\Programs\LeElectriX_FlashTool\logs</code> 并确认，直接打开日志目录。</p>
+<div class="table-wrap"><table><thead><tr><th>日志分类</th><th>主要内容</th><th>常见用途</th></tr></thead><tbody><tr><td>App</td><td>程序启动、配置、界面命令和一般异常</td><td>程序无法启动、导入失败、功能异常</td></tr><tr><td>CAN</td><td>CAN 设备、通道、报文收发和驱动相关信息</td><td>设备扫描失败、连接失败、报文异常</td></tr><tr><td>DoCAN</td><td>诊断通信和刷写会话相关信息</td><td>会话进入失败、刷写超时、诊断响应异常</td></tr></tbody></table></div>
+<p>App、CAN 和 DoCAN 三类日志分别按日期和文件大小滚动保存。每类日志的单个文件达到约 10 MB 后会生成新文件，每类历史文件约保留 90 个。</p>
+<p><strong>预期结果：</strong> 日志目录能够打开，并可按问题发生时间找到对应的 App、CAN 或 DoCAN 文件。</p>
+<p><strong>异常处理：</strong></p>
+<ul>
+<li>路径不存在：确认程序至少成功安装或解压过一次，并检查当前 Windows 账户是否为运行程序时使用的账户。</li>
+<li>无对应时间段日志：确认系统时间正确，并检查问题是否发生在另一个 Windows 账户下。</li>
+<li>日志文件无法打开：先将文件复制到可写目录，再使用文本查看器打开副本。</li>
+</ul>
+<h2 id="12-2-提交问题时收集的信息">12.2 提交问题时收集的信息<a class="heading-link" href="#12-2-提交问题时收集的信息" aria-label="复制本节链接">#</a></h2>
+<p>向技术支持提交问题时，建议提供：</p>
+<ul>
+<li>LeElectriX FlashTool 版本</li>
+<li>问题发生的准确时间</li>
+<li>操作步骤和期望结果</li>
+<li>CAN 适配器厂家与型号</li>
+<li>目标控制器和固件版本</li>
+<li>同一时间段的 App、CAN、DoCAN 日志</li>
+<li>已脱敏的错误截图</li>
+<li>如涉及通信问题，提供已脱敏的 TRACE 记录</li>
+</ul>
+<p>提交前请移除本机用户名、客户目录、License、设备序列号以及不应对外公开的报文或参数。</p>
+<h1 id="13-常见问题">13. 常见问题<a class="heading-link" href="#13-常见问题" aria-label="复制本节链接">#</a></h1>
+<h2 id="13-1-程序无法启动">13.1 程序无法启动<a class="heading-link" href="#13-1-程序无法启动" aria-label="复制本节链接">#</a></h2>
+<ol>
+<li>确认系统是 Windows 10/11 x64。</li>
+<li>确认已经安装 .NET 8 SDK x64。</li>
+<li>如果仍提示缺少 .NET、Windows Desktop Runtime 或 ASP.NET Core Runtime，重新运行 SDK 安装包并选择修复或重新安装。</li>
+<li>重新启动 Windows 后再运行程序。</li>
+<li>按 <code>Win + R</code>，输入 <code>%LOCALAPPDATA%\Programs\LeElectriX_FlashTool\logs</code>，收集对应时间的 App 日志。</li>
+<li>仍失败时，将日志交给技术支持。</li>
+</ol>
+<h2 id="13-2-扫描不到-CAN-适配器">13.2 扫描不到 CAN 适配器<a class="heading-link" href="#13-2-扫描不到-CAN-适配器" aria-label="复制本节链接">#</a></h2>
+<ol>
+<li>重新插拔 USB。</li>
+<li>检查适配器指示灯和供电。</li>
+<li>检查厂商驱动是否正确安装。</li>
+<li>关闭其他可能占用 CAN 设备的软件。</li>
+<li>使用 ZLG 适配器时，如果设备管理器能够识别设备但程序仍扫描不到，请按第 2.4 节补装 VC++ 环境。</li>
+<li>重新扫描设备。</li>
+</ol>
+<h2 id="13-3-CAN-无法连接">13.3 CAN 无法连接<a class="heading-link" href="#13-3-CAN-无法连接" aria-label="复制本节链接">#</a></h2>
+<ol>
+<li>核对设备、通道和波特率。</li>
+<li>检查目标控制器供电和 CAN 接线。</li>
+<li>确认总线终端电阻符合系统要求。</li>
+<li>断开后重新连接。</li>
+<li>查看 CAN 日志中的错误信息。</li>
+</ol>
+<h2 id="13-4-波特率扫描失败">13.4 波特率扫描失败<a class="heading-link" href="#13-4-波特率扫描失败" aria-label="复制本节链接">#</a></h2>
+<ul>
+<li>确认总线上确实存在周期报文。</li>
+<li>确认 CAN_H、CAN_L 没有接反。</li>
+<li>从设备资料中查找波特率并手动选择。</li>
+</ul>
+<h2 id="13-5-License-许可证-加载失败">13.5 License（许可证）加载失败<a class="heading-link" href="#13-5-License-许可证-加载失败" aria-label="复制本节链接">#</a></h2>
+<ul>
+<li>只有出现成功提示、License 状态更新且授权模块刷新，才表示加载成功。</li>
+<li>确认文件扩展名为 <code>.lic</code>。</li>
+<li>确认文件来自软件提供方且没有损坏。</li>
+<li>确认 License 与当前软件和授权对象相匹配。</li>
+<li>未出现成功提示或状态没有变化时，也按加载失败处理，并联系软件提供方核对有效性。</li>
+</ul>
+<h2 id="13-6-HEX-文件加载或刷写失败">13.6 HEX 文件加载或刷写失败<a class="heading-link" href="#13-6-HEX-文件加载或刷写失败" aria-label="复制本节链接">#</a></h2>
+<ul>
+<li>核对 HEX 文件完整性和目标控制器型号。</li>
+<li>核对 CAN 连接、波特率和供电。</li>
+<li>只有在日志仍显示等待进入 Bootloader、尚未开始擦除或传输时，才可按第 6.4 节重新上电。</li>
+<li>已经开始擦除或传输后不得断电或断开连接；保留刷写日志和 DoCAN 日志并联系技术支持。</li>
+</ul>
+<h2 id="13-7-参数定义文件没有加载">13.7 参数定义文件没有加载<a class="heading-link" href="#13-7-参数定义文件没有加载" aria-label="复制本节链接">#</a></h2>
+<ul>
+<li>确认文件是 <code>.xls</code> 或 <code>.xlsx</code>。</li>
+<li>确认文件仍位于导入时的位置。</li>
+<li>在设置页重新导入。</li>
+<li>核对参数文件版本和格式。</li>
+</ul>
+<h2 id="13-8-参数读取-写入或下载失败">13.8 参数读取、写入或下载失败<a class="heading-link" href="#13-8-参数读取-写入或下载失败" aria-label="复制本节链接">#</a></h2>
+<ul>
+<li>检查 CAN 通信和 MCU 握手状态。</li>
+<li>确认控制器处于允许标定的工作状态。</li>
+<li>界面不能保证对所有参数自动执行上下限校验；写入前依据已批准的参数定义核对单位和允许范围。</li>
+<li>确认 TXT 参数值文件与当前参数定义一致；如需完整下载，先清空搜索条件并选择全部所需参数分组。</li>
+<li>文件选择后会自动开始批量写入；成功提示仅代表当前列表中匹配的项目完成写入。</li>
+<li>失败后先刷新全部目标参数并查看日志，不要连续重复写入。</li>
+</ul>
+    </main>
+  </div>
+
+  <footer class="page-footer">
+    LeElectriX FlashTool 中文客户使用手册 · 手册版本 v0.2
+  </footer>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const menuButton = document.getElementById('menuButton');
+    const tocSearch = document.getElementById('tocSearch');
+    const tocLinks = [...document.querySelectorAll('.toc-link')];
+
+    menuButton?.addEventListener('click', () => {
+      const open = sidebar.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(open));
+    });
+    tocLinks.forEach(link => link.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      menuButton?.setAttribute('aria-expanded', 'false');
+    }));
+    tocSearch?.addEventListener('input', () => {
+      const query = tocSearch.value.trim().toLowerCase();
+      tocLinks.forEach(link => {
+        link.hidden = Boolean(query) && !link.textContent.toLowerCase().includes(query);
+      });
+    });
+
+    const observedHeadings = [...document.querySelectorAll('main h1[id], main h2[id]')];
+    const linksById = new Map(tocLinks.map(link => [link.hash.slice(1), link]));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        tocLinks.forEach(link => link.classList.remove('active'));
+        linksById.get(entry.target.id)?.classList.add('active');
+      });
+    }, { rootMargin: '-20% 0px -72% 0px' });
+    observedHeadings.forEach(heading => observer.observe(heading));
+  </script>
+</body>
+</html>
