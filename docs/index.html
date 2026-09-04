@@ -51,6 +51,21 @@
     .topbar strong { color: #fff; letter-spacing: .02em; }
     .topbar .version { color: #bfe7ff; font-size: 14px; }
     .topbar .spacer { flex: 1; }
+    .language-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      flex: 0 0 auto;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .language-nav a,
+    .language-nav span[aria-current="page"] {
+      color: #fff;
+    }
+    .language-nav a { text-decoration-color: rgba(255,255,255,.6); }
+    .language-nav span[aria-current="page"] { font-weight: 700; }
+    .language-separator { color: rgba(255,255,255,.58); }
     button {
       border: 0;
       border-radius: 8px;
@@ -208,6 +223,13 @@
     h1:hover .heading-link, h2:hover .heading-link, h3:hover .heading-link {
       opacity: 1;
     }
+    .heading-link:focus,
+    .heading-link:focus-visible {
+      opacity: 1;
+      outline: 3px solid var(--blue-dark);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
     p { margin: 0 0 15px; }
     ul, ol { margin: 8px 0 20px; padding-left: 1.65em; }
     li { margin: 7px 0; padding-left: .25em; }
@@ -311,16 +333,14 @@
     }
     @media (max-width: 960px) {
       .topbar { gap: 9px; padding: 0 12px; }
-      .topbar strong {
-        min-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-size: 14px;
-      }
-      .topbar .version { flex: 0 0 auto; font-size: 12px; }
+      .topbar > strong,
+      .topbar > .version { display: none; }
       .menu-button { display: inline-flex; flex: 0 0 auto; white-space: nowrap; }
-      .print-button { display: none; }
+      .print-button {
+        display: inline-flex;
+        flex: 0 0 auto;
+        white-space: nowrap;
+      }
       .hero { padding-top: 48px; }
       .hero-inner { grid-template-columns: 1fr; }
       .logo-card { display: none; }
@@ -339,6 +359,11 @@
       main { padding: 34px 20px 60px; }
       main h1 { font-size: 26px; }
       main h2 { font-size: 21px; }
+    }
+    @media (max-width: 430px) {
+      .topbar { gap: 6px; padding: 0 8px; }
+      .top-action { padding: 7px 9px; font-size: 13px; }
+      .language-nav { gap: 5px; font-size: 13px; }
     }
     @media print {
       @page { size: A4; margin: 15mm 16mm 17mm; }
@@ -367,6 +392,11 @@
     <strong>LeElectriX FlashTool 使用手册</strong>
     <span class="version">手册 v0.2</span>
     <span class="spacer"></span>
+    <nav class="language-nav" aria-label="语言切换">
+      <span lang="zh-CN" aria-current="page">中文</span>
+      <span class="language-separator" aria-hidden="true">|</span>
+      <a lang="en" href="en.html">English</a>
+    </nav>
     <button class="top-action print-button" type="button"
             onclick="window.print()">打印 / 导出 PDF</button>
   </header>
@@ -1286,15 +1316,49 @@
     const menuButton = document.getElementById('menuButton');
     const tocSearch = document.getElementById('tocSearch');
     const tocLinks = [...document.querySelectorAll('.toc-link')];
+    const mobileSidebarQuery = window.matchMedia('(max-width: 960px)');
+
+    function syncSidebarState() {
+      if (!mobileSidebarQuery.matches) {
+        sidebar.classList.remove('open');
+        sidebar.removeAttribute('inert');
+        sidebar.removeAttribute('aria-hidden');
+        menuButton?.setAttribute('aria-expanded', 'false');
+        return;
+      }
+
+      const open = sidebar.classList.contains('open');
+      if (!open && sidebar.contains(document.activeElement)) {
+        menuButton?.focus();
+      }
+      if (open) {
+        sidebar.removeAttribute('inert');
+        sidebar.removeAttribute('aria-hidden');
+      } else {
+        sidebar.setAttribute('inert', '');
+        sidebar.setAttribute('aria-hidden', 'true');
+      }
+      menuButton?.setAttribute('aria-expanded', String(open));
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      syncSidebarState();
+    }
 
     menuButton?.addEventListener('click', () => {
-      const open = sidebar.classList.toggle('open');
-      menuButton.setAttribute('aria-expanded', String(open));
+      sidebar.classList.toggle('open');
+      syncSidebarState();
     });
-    tocLinks.forEach(link => link.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      menuButton?.setAttribute('aria-expanded', 'false');
-    }));
+    tocLinks.forEach(link => link.addEventListener('click', closeSidebar));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && mobileSidebarQuery.matches && sidebar.classList.contains('open')) {
+        event.preventDefault();
+        closeSidebar();
+      }
+    });
+    mobileSidebarQuery.addEventListener('change', syncSidebarState);
+    syncSidebarState();
     tocSearch?.addEventListener('input', () => {
       const query = tocSearch.value.trim().toLowerCase();
       tocLinks.forEach(link => {

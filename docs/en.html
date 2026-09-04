@@ -1,0 +1,1381 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="LeElectriX FlashTool User Manual v0.2">
+  <title>LeElectriX FlashTool User Manual v0.2</title>
+  <style>
+    :root {
+      --navy: #173247;
+      --blue: #1478b9;
+      --blue-dark: #0f5f94;
+      --blue-soft: #eaf4fb;
+      --ink: #17202a;
+      --muted: #5e6b78;
+      --line: #d8e1e8;
+      --surface: #ffffff;
+      --surface-alt: #f5f8fa;
+      --warning-bg: #fff6d8;
+      --warning-border: #d58b00;
+      --note-bg: #edf7fc;
+      --note-border: #1680bd;
+      --shadow: 0 10px 28px rgba(23, 50, 71, .09);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--surface-alt);
+      font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+      font-size: 16px;
+      line-height: 1.78;
+    }
+    a { color: var(--blue-dark); text-underline-offset: 3px; }
+    a:hover { color: #084a74; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 24px;
+      color: #fff;
+      background: rgba(23, 50, 71, .96);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .16);
+    }
+    .topbar strong { color: #fff; letter-spacing: .02em; }
+    .topbar .version { color: #bfe7ff; font-size: 14px; }
+    .topbar .spacer { flex: 1; }
+    .language-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      flex: 0 0 auto;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .language-nav a,
+    .language-nav span[aria-current="page"] {
+      color: #fff;
+    }
+    .language-nav a { text-decoration-color: rgba(255,255,255,.6); }
+    .language-nav span[aria-current="page"] { font-weight: 700; }
+    .language-separator { color: rgba(255,255,255,.58); }
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font: inherit;
+      cursor: pointer;
+    }
+    .top-action {
+      color: #fff;
+      background: rgba(255,255,255,.12);
+    }
+    .top-action:hover { background: rgba(255,255,255,.2); }
+    .menu-button { display: none; }
+    .hero {
+      padding: 72px 30px 66px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 24%, rgba(72, 182, 241, .34), transparent 28%),
+        linear-gradient(135deg, #102b3d 0%, #175f8d 62%, #1b83bd 100%);
+    }
+    .hero-inner {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: center;
+    }
+    .kicker {
+      margin: 0 0 10px;
+      color: #aee1ff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .14em;
+    }
+    .hero h1 {
+      margin: 0;
+      color: #fff;
+      border: 0;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.16;
+    }
+    .hero .subtitle {
+      margin: 18px 0 30px;
+      max-width: 760px;
+      color: #e2f4ff;
+      font-size: clamp(18px, 2vw, 23px);
+    }
+    .hero strong { color: inherit; }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+      color: #d8f1ff;
+      font-size: 14px;
+    }
+    .logo-card {
+      width: 190px;
+      min-height: 118px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 18px;
+      background: rgba(255,255,255,.94);
+      box-shadow: var(--shadow);
+    }
+    .logo-card img { width: 100%; height: auto; }
+    .manual-shell {
+      width: min(1260px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 284px minmax(0, 1fr);
+      align-items: start;
+    }
+    .sidebar {
+      position: sticky;
+      top: 58px;
+      height: calc(100vh - 58px);
+      padding: 28px 18px 30px;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+      background: #f8fafc;
+    }
+    .sidebar h2 {
+      margin: 0 0 14px;
+      color: var(--navy);
+      font-size: 17px;
+    }
+    .toc-search {
+      width: 100%;
+      margin-bottom: 16px;
+      padding: 9px 11px;
+      border: 1px solid #cbd8e1;
+      border-radius: 8px;
+      background: #fff;
+      font: inherit;
+      font-size: 14px;
+    }
+    .toc-link {
+      display: block;
+      margin: 2px 0;
+      padding: 7px 9px;
+      border-radius: 7px;
+      color: #334454;
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .toc-link[hidden] {
+      display: none;
+    }
+    .toc-link.level-1 { margin-top: 7px; font-weight: 700; }
+    .toc-link.level-2 { padding-left: 18px; color: #596a78; }
+    .toc-link:hover, .toc-link.active {
+      color: var(--blue-dark);
+      background: #e3f1fa;
+    }
+    main {
+      min-width: 0;
+      padding: 44px clamp(24px, 5vw, 72px) 80px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    main > :first-child { margin-top: 0; }
+    main h1, main h2, main h3 {
+      position: relative;
+      scroll-margin-top: 78px;
+      color: var(--navy);
+      line-height: 1.35;
+    }
+    main h1 {
+      margin: 60px 0 24px;
+      padding-bottom: 11px;
+      border-bottom: 2px solid #cfe1ed;
+      font-size: 30px;
+    }
+    main h2 {
+      margin: 38px 0 16px;
+      font-size: 23px;
+    }
+    main h3 {
+      margin: 28px 0 12px;
+      color: var(--blue-dark);
+      font-size: 19px;
+    }
+    .heading-link {
+      margin-left: 8px;
+      opacity: 0;
+      color: #8ab6d0;
+      text-decoration: none;
+      font-size: .75em;
+      font-weight: 400;
+    }
+    h1:hover .heading-link, h2:hover .heading-link, h3:hover .heading-link {
+      opacity: 1;
+    }
+    .heading-link:focus,
+    .heading-link:focus-visible {
+      opacity: 1;
+      outline: 3px solid var(--blue-dark);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+    p { margin: 0 0 15px; }
+    ul, ol { margin: 8px 0 20px; padding-left: 1.65em; }
+    li { margin: 7px 0; padding-left: .25em; }
+    strong { color: #102f44; }
+    code {
+      padding: .13em .38em;
+      border: 1px solid #d9e2e8;
+      border-radius: 5px;
+      color: #194d70;
+      background: #f3f6f8;
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: .92em;
+      overflow-wrap: anywhere;
+    }
+    hr {
+      height: 1px;
+      margin: 42px 0;
+      border: 0;
+      background: var(--line);
+    }
+    .callout {
+      margin: 20px 0;
+      padding: 16px 18px;
+      border-left: 5px solid var(--note-border);
+      border-radius: 6px;
+      background: var(--note-bg);
+    }
+    .callout.warning {
+      border-left-color: var(--warning-border);
+      background: var(--warning-bg);
+    }
+    .table-wrap {
+      margin: 18px 0 26px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(23, 50, 71, .05);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    th, td {
+      padding: 11px 13px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: #173b55;
+      background: #e7f1f7;
+      font-weight: 700;
+    }
+    tr:last-child td { border-bottom: 0; }
+    th:last-child, td:last-child { border-right: 0; }
+    tbody tr:nth-child(even) { background: #fafcfd; }
+    figure {
+      margin: 24px auto 30px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 7px 22px rgba(23, 50, 71, .08);
+      text-align: center;
+    }
+    figure a { display: block; }
+    figure img {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      max-height: 720px;
+      margin: auto;
+      object-fit: contain;
+    }
+    figcaption {
+      padding: 10px 6px 2px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      margin: 3px 0;
+      padding: 7px 11px;
+      border-radius: 7px;
+      color: #fff;
+      background: var(--blue);
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+    .download-link:hover { color: #fff; background: var(--blue-dark); }
+    .page-footer {
+      padding: 28px;
+      color: #d7e6ee;
+      background: var(--navy);
+      text-align: center;
+      font-size: 13px;
+    }
+    @media (max-width: 960px) {
+      .topbar { gap: 9px; padding: 0 12px; }
+      .topbar > strong,
+      .topbar > .version { display: none; }
+      .menu-button { display: inline-flex; flex: 0 0 auto; white-space: nowrap; }
+      .print-button {
+        display: inline-flex;
+        flex: 0 0 auto;
+        white-space: nowrap;
+      }
+      .hero { padding-top: 48px; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .logo-card { display: none; }
+      .manual-shell { display: block; }
+      .sidebar {
+        position: fixed;
+        z-index: 25;
+        top: 58px;
+        left: 0;
+        width: min(330px, 88vw);
+        transform: translateX(-105%);
+        transition: transform .2s ease;
+        box-shadow: 12px 0 24px rgba(0,0,0,.16);
+      }
+      .sidebar.open { transform: translateX(0); }
+      main { padding: 34px 20px 60px; }
+      main h1 { font-size: 26px; }
+      main h2 { font-size: 21px; }
+    }
+    @media (max-width: 430px) {
+      .topbar { gap: 6px; padding: 0 8px; }
+      .top-action { padding: 7px 9px; font-size: 13px; }
+      .language-nav { gap: 5px; font-size: 13px; }
+    }
+    @media print {
+      @page { size: A4; margin: 15mm 16mm 17mm; }
+      body { background: #fff; font-size: 10.5pt; line-height: 1.55; }
+      .topbar, .sidebar, .page-footer { display: none !important; }
+      .hero { padding: 24mm 0 18mm; color: #000; background: #fff; }
+      .hero-inner { display: block; }
+      .hero h1 { color: #173247; font-size: 30pt; }
+      .hero .subtitle, .meta, .kicker { color: #3c5668; }
+      .logo-card { margin-top: 20mm; box-shadow: none; }
+      .manual-shell { display: block; width: auto; }
+      main { padding: 0; box-shadow: none; }
+      main h1 { break-before: page; margin-top: 0; font-size: 20pt; }
+      main h2 { break-after: avoid; font-size: 15pt; }
+      main h3 { break-after: avoid; font-size: 12pt; }
+      figure, .table-wrap, .callout { break-inside: avoid; box-shadow: none; }
+      a { color: inherit; text-decoration: none; }
+      .heading-link { display: none; }
+    }
+  </style>
+</head>
+<body id="top">
+  <header class="topbar">
+    <button class="top-action menu-button" id="menuButton" type="button"
+            aria-controls="sidebar" aria-expanded="false">Contents</button>
+    <strong>LeElectriX FlashTool User Manual</strong>
+    <span class="version">Manual v0.2</span>
+    <span class="spacer"></span>
+    <nav class="language-nav" aria-label="Language selection">
+      <a lang="zh-CN" href="index.html">中文</a>
+      <span class="language-separator" aria-hidden="true">|</span>
+      <span lang="en" aria-current="page">English</span>
+    </nav>
+    <button class="top-action print-button" type="button"
+            onclick="window.print()">Print / Export PDF</button>
+  </header>
+
+  <section class="hero" aria-labelledby="manual-title">
+    <div class="hero-inner">
+      <div>
+        <p class="kicker">Customer Operation Guide</p>
+        <h1 id="manual-title">LeElectriX FlashTool</h1>
+        <p class="subtitle">Installation, Connection, Flashing, Parameters, and Frame Tools</p>
+        <div class="meta">
+          <span><strong>Manual Version:</strong> v0.2</span>
+          <span><strong>Intended Audience:</strong> Customer installation, commissioning, and after-sales personnel</span>
+          <span><strong>Revision Date:</strong> 2026-08-27</span>
+          <span><strong>Language:</strong> English</span>
+        </div>
+      </div>
+      <div class="logo-card">
+        <img src="materials/references/LEE_Logo_001_CN.png"
+             alt="LeElectriX product logo">
+      </div>
+    </div>
+  </section>
+
+  <div class="manual-shell">
+    <nav class="sidebar" id="sidebar" aria-label="Manual contents">
+      <h2>Contents</h2>
+      <input class="toc-search" id="tocSearch" type="search"
+             placeholder="Search sections" aria-label="Search sections">
+      <div id="tocLinks">
+        <a class="toc-link level-2" href="#important-safety-information">Important Safety Information</a>
+<a class="toc-link level-2" href="#quick-start-workflow">Quick-Start Workflow</a>
+<a class="toc-link level-1" href="#1-get-the-application">1. Get the Application</a>
+<a class="toc-link level-2" href="#1-1-download">1.1 Download</a>
+<a class="toc-link level-2" href="#1-2-choose-a-release-package">1.2 Choose a Release Package</a>
+<a class="toc-link level-1" href="#2-environment-and-dependencies">2. Environment and Dependencies</a>
+<a class="toc-link level-2" href="#2-1-system-requirements">2.1 System Requirements</a>
+<a class="toc-link level-2" href="#2-2-install-net-8-sdk">2.2 Install .NET 8 SDK</a>
+<a class="toc-link level-2" href="#2-3-install-the-can-adapter-driver">2.3 Install the CAN Adapter Driver</a>
+<a class="toc-link level-2" href="#2-4-install-the-vc-runtime-if-the-zlg-driver-library-cannot-load">2.4 Install the VC++ Runtime if the ZLG Driver Library Cannot Load</a>
+<a class="toc-link level-1" href="#3-install-and-start-the-application">3. Install and Start the Application</a>
+<a class="toc-link level-2" href="#3-1-use-the-installer">3.1 Use the Installer</a>
+<a class="toc-link level-2" href="#3-2-use-the-portable-zip-package">3.2 Use the Portable ZIP Package</a>
+<a class="toc-link level-1" href="#4-load-a-license">4. Load a License</a>
+<a class="toc-link level-1" href="#5-scan-and-connect-a-can-channel">5. Scan and Connect a CAN Channel</a>
+<a class="toc-link level-2" href="#5-1-pre-connection-checks">5.1 Pre-connection Checks</a>
+<a class="toc-link level-2" href="#5-2-scan-for-a-device-and-connect">5.2 Scan for a Device and Connect</a>
+<a class="toc-link level-2" href="#5-3-scan-the-bit-rate-automatically">5.3 Scan the Bit Rate Automatically</a>
+<a class="toc-link level-1" href="#6-use-the-flashing-module">6. Use the Flashing Module</a>
+<a class="toc-link level-2" href="#6-1-pre-flashing-checks">6.1 Pre-flashing Checks</a>
+<a class="toc-link level-2" href="#6-2-load-a-hex-file">6.2 Load a HEX File</a>
+<a class="toc-link level-2" href="#6-3-start-flashing">6.3 Start Flashing</a>
+<a class="toc-link level-2" href="#6-4-unable-to-enter-the-bootloader-session">6.4 Unable to Enter the Bootloader Session</a>
+<a class="toc-link level-1" href="#7-use-the-mcu-default-parameters-module">7. Use the MCU Default Parameters Module</a>
+<a class="toc-link level-2" href="#7-1-automatic-handshake-read-and-refresh-parameters">7.1 Automatic Handshake, Parameter Reading, and Parameter Refresh</a>
+<a class="toc-link level-2" href="#7-2-save-parameter-and-code-files">7.2 Save Parameter and Code Files</a>
+<a class="toc-link level-2" href="#7-3-control-operations">7.3 Control Operations</a>
+<a class="toc-link level-1" href="#8-use-the-mcu-calibration-module">8. Use the MCU Calibration Module</a>
+<a class="toc-link level-2" href="#8-1-import-a-parameter-definition-file">8.1 Import a Parameter Definition File</a>
+<a class="toc-link level-2" href="#8-2-open-the-calibration-page">8.2 Open the Calibration Page</a>
+<a class="toc-link level-2" href="#8-3-search-and-refresh">8.3 Search and Refresh</a>
+<a class="toc-link level-2" href="#8-4-write-a-single-parameter">8.4 Write a Single Parameter</a>
+<a class="toc-link level-2" href="#8-5-save-current-parameters">8.5 Save Current Parameters</a>
+<a class="toc-link level-2" href="#8-6-download-parameters-to-the-mcu-in-batches">8.6 Download Parameters to the MCU in Batches</a>
+<a class="toc-link level-2" href="#8-7-motor-parameter-calibration-process">8.7 Motor Parameter Calibration Process</a>
+<a class="toc-link level-1" href="#9-view-and-export-trace-frames">9. View and Export TRACE Frames</a>
+<a class="toc-link level-2" href="#9-1-open-trace">9.1 Open TRACE</a>
+<a class="toc-link level-2" href="#9-2-view-frames">9.2 View Frames</a>
+<a class="toc-link level-2" href="#9-3-import-a-dbc">9.3 Import a DBC</a>
+<a class="toc-link level-2" href="#9-4-export-a-recording">9.4 Export a Recording</a>
+<a class="toc-link level-1" href="#10-convert-frame-recording-formats">10. Convert Frame Recording Formats</a>
+<a class="toc-link level-2" href="#10-1-convert-pcan-trc-to-vector-asc">10.1 Convert PCAN TRC to Vector ASC</a>
+<a class="toc-link level-2" href="#10-2-convert-vector-asc-to-pcan-trc">10.2 Convert Vector ASC to PCAN TRC</a>
+<a class="toc-link level-1" href="#11-use-dbc-converter">11. Use DBC Converter</a>
+<a class="toc-link level-2" href="#11-1-import-and-remove-source-files">11.1 Import and Remove Source Files</a>
+<a class="toc-link level-2" href="#11-2-export-to-excel">11.2 Export to Excel</a>
+<a class="toc-link level-2" href="#11-3-export-to-dbc">11.3 Export to DBC</a>
+<a class="toc-link level-1" href="#12-view-runtime-logs">12. View Runtime Logs</a>
+<a class="toc-link level-2" href="#12-1-open-the-log-directory">12.1 Open the Log Directory</a>
+<a class="toc-link level-2" href="#12-2-information-to-collect-when-reporting-a-problem">12.2 Information to Collect When Reporting a Problem</a>
+<a class="toc-link level-1" href="#13-troubleshooting">13. Troubleshooting</a>
+<a class="toc-link level-2" href="#13-1-the-application-does-not-start">13.1 The Application Does Not Start</a>
+<a class="toc-link level-2" href="#13-2-the-can-adapter-is-not-detected">13.2 The CAN Adapter Is Not Detected</a>
+<a class="toc-link level-2" href="#13-3-can-does-not-connect">13.3 CAN Does Not Connect</a>
+<a class="toc-link level-2" href="#13-4-bit-rate-scan-fails">13.4 Bit-rate Scan Fails</a>
+<a class="toc-link level-2" href="#13-5-license-loading-fails">13.5 License Loading Fails</a>
+<a class="toc-link level-2" href="#13-6-hex-loading-or-flashing-fails">13.6 HEX Loading or Flashing Fails</a>
+<a class="toc-link level-2" href="#13-7-the-parameter-definition-file-does-not-load">13.7 The Parameter Definition File Does Not Load</a>
+<a class="toc-link level-2" href="#13-8-parameter-read-write-or-download-fails">13.8 Parameter Read, Write, or Download Fails</a>
+      </div>
+    </nav>
+    <main>
+      <h2 id="important-safety-information">Important Safety Information<a class="heading-link" href="#important-safety-information" aria-label="Copy link to this section">#</a></h2>
+<aside class="callout warning"><strong>Warning:</strong> Firmware flashing, controller resets, self-learning, and motor torque/speed control may cause the equipment to stop, restart, or move mechanically. Before operation, you must confirm that the controller is in a safe bench environment, no one is in the shaft or load area, the emergency stop is available, and the power supply and CAN connection are stable. Only personnel who are authorized and familiar with the equipment safety standards may perform these operations.</aside>
+<aside class="callout note"><strong>Note:</strong> The interface screenshots in this manual show an unconnected device or an empty-data state. They illustrate button locations and do not indicate that writing, flashing, or motion control has been performed on customer equipment.</aside>
+<h2 id="quick-start-workflow">Quick-Start Workflow<a class="heading-link" href="#quick-start-workflow" aria-label="Copy link to this section">#</a></h2>
+<ol>
+<li>Download and install .NET 8 SDK x64 and the CAN adapter driver.</li>
+<li>Install and start LeElectriX FlashTool.</li>
+<li>Load a valid license.</li>
+<li>Scan for CAN devices, select the channel and bit rate, and connect.</li>
+<li>Open the Flashing, MCU Default Parameters, MCU Calibration, TRACE, or Tools page as appropriate for the operation.</li>
+<li>If a problem occurs, record the time and collect the logs by opening the log directory from the Settings page.</li>
+</ol>
+<hr>
+<h1 id="1-get-the-application">1. Get the Application<a class="heading-link" href="#1-get-the-application" aria-label="Copy link to this section">#</a></h1>
+<h2 id="1-1-download">1.1 Download<a class="heading-link" href="#1-1-download" aria-label="Copy link to this section">#</a></h2>
+<p>Get the latest version from the following location:</p>
+<p><a href="https://github.com/Le-ElectriX/LeElectriX_FlashTool-Release/releases/latest" target="_blank" rel="noopener">LeElectriX FlashTool latest release page</a></p>
+<h2 id="1-2-choose-a-release-package">1.2 Choose a Release Package<a class="heading-link" href="#1-2-choose-a-release-package" aria-label="Copy link to this section">#</a></h2>
+<div class="table-wrap"><table><thead><tr><th>Release package</th><th>Use case</th><th>How to use</th></tr></thead><tbody><tr><td><code>LeElectriX_FlashTool-x64-&lt;software-version&gt;.exe</code></td><td>Recommended for most customer computers</td><td>Run the installer and complete the installation wizard</td></tr><tr><td><code>LeElectriX_FlashTool_V&lt;software-version&gt;.zip</code></td><td>Portable use or when the installation wizard cannot be run</td><td>Extract the package completely and then run the main application; do not copy only the EXE</td></tr></tbody></table></div>
+<p><strong>Note:</strong> The actual file name is shown on the latest release page.</p>
+<p><strong>Expected result:</strong> The downloaded package comes from the latest release page, and the software version in its file name matches the release-page tag.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>If the browser blocks the download, confirm that the source is the release repository above.</li>
+<li>If the package cannot run on a corporate computer, contact your organization's IT administrator.</li>
+<li>Do not obtain the application from a cloud drive, email attachment, or third-party site whose source cannot be verified.</li>
+</ul>
+<h1 id="2-environment-and-dependencies">2. Environment and Dependencies<a class="heading-link" href="#2-environment-and-dependencies" aria-label="Copy link to this section">#</a></h1>
+<h2 id="2-1-system-requirements">2.1 System Requirements<a class="heading-link" href="#2-1-system-requirements" aria-label="Copy link to this section">#</a></h2>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Requirement</th></tr></thead><tbody><tr><td>Operating system</td><td>Windows 10/11</td></tr><tr><td>System architecture</td><td>x64</td></tr><tr><td>.NET environment</td><td>To simplify deployment and troubleshooting, installation of .NET 8 SDK x64 is uniformly recommended</td></tr><tr><td>CAN driver</td><td>A manufacturer's driver matching the actual CAN adapter model</td></tr><tr><td>VC++ runtime</td><td>Required by some CAN drivers; it must be checked if the ZLG driver library cannot load</td></tr><tr><td>Hardware interfaces</td><td>An available USB port; CAN bus wiring, termination resistance, and power supply that meet equipment requirements</td></tr></tbody></table></div>
+<p>Recommended download links:</p>
+<ul>
+<li>.NET 8 SDK x64:  </li>
+</ul>
+<p><a class="download-link" href="https://aka.ms/dotnet/8.0/dotnet-sdk-win-x64.exe" target="_blank" rel="noopener">https://aka.ms/dotnet/8.0/dotnet-sdk-win-x64.exe</a></p>
+<ul>
+<li>.NET 8 download page for all versions:  </li>
+</ul>
+<p><a href="https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0" target="_blank" rel="noopener">https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0</a></p>
+<aside class="callout note"><strong>Note:</strong> .NET 8 SDK includes the .NET Runtime, Windows Desktop Runtime, and ASP.NET Core Runtime required by the application. To reduce customer installation steps, this manual consistently uses the SDK installation method; the two runtimes do not need to be installed separately.</aside>
+<h2 id="2-2-install-net-8-sdk">2.2 Install .NET 8 SDK<a class="heading-link" href="#2-2-install-net-8-sdk" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> Use a Windows account authorized to install software.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Use the direct link above to download the <strong>.NET 8 SDK x64</strong> installer.</li>
+<li>Run the installer.</li>
+<li>Click <strong>Install</strong> in the installer and wait for the installation to finish.</li>
+<li>If the installer requires Windows to restart, save your work before restarting.</li>
+</ol>
+<p><strong>Expected result:</strong> The SDK installer reports a successful installation, and starting LeElectriX FlashTool no longer produces a message that .NET, Windows Desktop Runtime, or ASP.NET Core Runtime is missing.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>Install <strong>.NET 8 SDK x64</strong> as specified throughout this manual; installing only another major version or an x86/Arm64 version may still prevent the application from starting.</li>
+<li>If installation fails, restart Windows and run the installer again.</li>
+<li>If installation is blocked by organizational policy, contact the IT administrator.</li>
+<li>Installing dependencies through an unofficial SDK or runtime bundle is not recommended.</li>
+</ul>
+<h2 id="2-3-install-the-can-adapter-driver">2.3 Install the CAN Adapter Driver<a class="heading-link" href="#2-3-install-the-can-adapter-driver" aria-label="Copy link to this section">#</a></h2>
+<p>Common manufacturer driver or documentation download locations:</p>
+<div class="table-wrap"><table><thead><tr><th>Manufacturer/device</th><th>Download location</th></tr></thead><tbody><tr><td>ZLG USBCAN, USBCANFD</td><td><a href="https://manual.zlg.cn/web/#/146" target="_blank" rel="noopener">ZLG online documentation: CAN interface adapters</a></td></tr><tr><td>PEAK-System PCAN</td><td><a href="https://www.peak-system.com/support/downloads/drivers/" target="_blank" rel="noopener">PEAK-System Windows drivers</a></td></tr><tr><td>Vector VN series</td><td><a href="https://www.vector.com/latest_drivers" target="_blank" rel="noopener">Vector latest driver page</a></td></tr><tr><td>GCAN</td><td><a href="https://www.gcan.com.cn/3d05/222b/8f07/8d5f" target="_blank" rel="noopener">GCAN USBCAN drivers</a></td></tr><tr><td>Zhuhai Chuangxin CANalyst-II/USBCAN</td><td><a href="https://www.cxcan.com/ZLXZ.html" target="_blank" rel="noopener">Zhuhai Chuangxin downloads</a></td></tr></tbody></table></div>
+<aside class="callout note"><strong>Note:</strong> The driver must match the CAN adapter manufacturer, specific model, and Windows architecture. Do not install drivers from different manufacturers or incompatible driver versions for the same device.</aside>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Confirm the manufacturer and model of the CAN adapter in use.</li>
+<li>Download the corresponding driver from the manufacturer's location in the table above, the media supplied with the device, or the manufacturer's official website.</li>
+<li>Connect the CAN adapter after installing the driver.</li>
+<li>If the driver installer asks you to unplug and reconnect the device, follow the prompt.</li>
+<li>Close any other host application that may have exclusive control of the CAN device.</li>
+</ol>
+<p><strong>Expected result:</strong> Windows recognizes the CAN adapter normally, with no driver error shown for the device.</p>
+<p><strong>Troubleshooting:</strong> If LeElectriX FlashTool cannot detect the device, first check the driver version, USB connection, device power supply, and whether another application is using the device.</p>
+<h2 id="2-4-install-the-vc-runtime-if-the-zlg-driver-library-cannot-load">2.4 Install the VC++ Runtime if the ZLG Driver Library Cannot Load<a class="heading-link" href="#2-4-install-the-vc-runtime-if-the-zlg-driver-library-cannot-load" aria-label="Copy link to this section">#</a></h2>
+<p>Some Windows computers lack the VC++ runtime required by the ZLG driver library. In this case, LeElectriX FlashTool may still fail to detect the device even after its driver has been installed, or an error may occur when the ZLG driver library is loaded.</p>
+<ul>
+<li>ZLG issue description:  </li>
+</ul>
+<p><a href="https://manual.zlg.cn/web/#/152?page_id=5332" target="_blank" rel="noopener">https://manual.zlg.cn/web/#/152?page_id=5332</a></p>
+<ul>
+<li>VC++ runtime package provided by ZLG:  </li>
+</ul>
+<p><a class="download-link" href="https://manual.zlg.cn/Public/Uploads/2020-06-05/5ed995c271414.zip" target="_blank" rel="noopener">https://manual.zlg.cn/Public/Uploads/2020-06-05/5ed995c271414.zip</a></p>
+<p><strong>Prerequisite:</strong> Use a Windows account with administrator privileges, and close LeElectriX FlashTool and any other application using the CAN adapter.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Download the VC++ runtime archive above.</li>
+<li>Extract it to a temporary directory.</li>
+<li>Right-click <code>MSVBCRT.AIO.2019.10.19.X86 X64.exe</code> and select <strong>Run as administrator</strong>.</li>
+<li>Follow the installer prompts to install the Microsoft Visual C++ 2015–2019 x86/x64 runtime.</li>
+<li>Restart Windows after installation.</li>
+<li>Reconnect the ZLG adapter and scan for devices in LeElectriX FlashTool.</li>
+</ol>
+<p><strong>Expected result:</strong> The ZLG driver library loads normally and the application detects the correctly connected adapter.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>If the adapter still cannot be detected, confirm in Windows Device Manager that it has no yellow warning symbol.</li>
+<li>Reinstall the ZLG driver matching the device model, and install the VC++ runtime again.</li>
+<li>Do not obtain DLL files of unknown origin from third-party download sites and manually copy them to a system directory.</li>
+</ul>
+<h1 id="3-install-and-start-the-application">3. Install and Start the Application<a class="heading-link" href="#3-install-and-start-the-application" aria-label="Copy link to this section">#</a></h1>
+<h2 id="3-1-use-the-installer">3.1 Use the Installer<a class="heading-link" href="#3-1-use-the-installer" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> The runtime environment described in Section 2 has been installed.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Double-click the <code>.exe</code> installer downloaded from the latest release page.</li>
+<li>Read the installation wizard and confirm the product name and version.</li>
+<li>Select the installation location as needed.</li>
+<li>If a desktop entry is needed, select the option to create a desktop shortcut.</li>
+<li>Click <strong>Install</strong> and wait for the files to be copied.</li>
+<li>After installation, start the application from the desktop shortcut or the Windows application list.</li>
+</ol>
+<p><strong>Expected result:</strong> The application starts normally. If its window title shows a software version, it should match the version of the downloaded release package.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>If the application is unresponsive, close and restart it.</li>
+<li>If a missing .NET environment is reported at startup, return to Section 2.2 to install or repair .NET 8 SDK x64.</li>
+<li>If an upgrade reports that the application is running, close all LeElectriX FlashTool windows and try again.</li>
+</ul>
+<h2 id="3-2-use-the-portable-zip-package">3.2 Use the Portable ZIP Package<a class="heading-link" href="#3-2-use-the-portable-zip-package" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> The runtime environment and CAN adapter driver described in Section 2 have been installed, and an extraction directory with read and write permissions is available.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Extract the complete ZIP file to a writable directory.</li>
+<li>Preserve the directory structure in the archive; do not copy only the main application.</li>
+<li>Run LeElectriX FlashTool from the extracted directory.</li>
+</ol>
+<p><strong>Expected result:</strong> The application starts normally. If its window title shows a software version, it should match the version of the downloaded release package.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>The application must not be run directly from the archive preview window; the archive must first be extracted completely.</li>
+<li>If a DLL or configuration file is reported missing, extract the complete archive again; do not copy only the EXE.</li>
+<li>If a missing .NET environment is reported, return to Section 2.2 to install or repair .NET 8 SDK x64.</li>
+</ul>
+<h1 id="4-load-a-license">4. Load a License<a class="heading-link" href="#4-load-a-license" aria-label="Copy link to this section">#</a></h1>
+<p><strong>Prerequisite:</strong> A valid <code>.lic</code> file has been obtained from the software provider.</p>
+<figure><a href="materials/screenshots/02_License加载入口.png" target="_blank"><img src="materials/screenshots/02_License加载入口.png" alt="License loading location" loading="lazy"></a><figcaption>Figure 1: License loading location</figcaption></figure>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Start the application.</li>
+<li>Click the <strong>Settings</strong> icon in the lower-left corner.</li>
+<li>In the <strong>License Information</strong> area, click the import button to the right of <strong>Update License</strong>.</li>
+<li>Select the <code>.lic</code> file in the file selection window and confirm.</li>
+<li>Wait for the application to load the license and refresh the available modules.</li>
+</ol>
+<p><strong>Expected result:</strong> The application shows a successful-loading prompt, the license status is updated, and the authorized modules can be opened. Loading is successful only when the success prompt appears and the authorized modules refresh.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>Confirm that the selected file is a <code>.lic</code> file, not an archive or another configuration file.</li>
+<li>Confirm that the file has not been renamed, truncated, or damaged.</li>
+<li>Treat the operation as a loading failure if no success prompt appears, the status does not change, or the authorized modules do not refresh.</li>
+<li>If the license is reported as invalid or expired, contact the software provider to obtain a new one.</li>
+<li>Do not distribute license contents through screenshots, instant messages, or public documents.</li>
+</ul>
+<h1 id="5-scan-and-connect-a-can-channel">5. Scan and Connect a CAN Channel<a class="heading-link" href="#5-scan-and-connect-a-can-channel" aria-label="Copy link to this section">#</a></h1>
+<figure><a href="materials/screenshots/03_CAN设备扫描与连接.png" target="_blank"><img src="materials/screenshots/03_CAN设备扫描与连接.png" alt="CAN device scanning and connection" loading="lazy"></a><figcaption>Figure 2: CAN device, channel, and bit-rate selection area</figcaption></figure>
+<h2 id="5-1-pre-connection-checks">5.1 Pre-connection Checks<a class="heading-link" href="#5-1-pre-connection-checks" aria-label="Copy link to this section">#</a></h2>
+<ul>
+<li>The CAN adapter driver is installed.</li>
+<li>The CAN adapter is connected to the computer and target device.</li>
+<li>CAN_H, CAN_L, ground, and termination resistance meet the system requirements.</li>
+<li>The target controller is powered normally.</li>
+<li>No other application has exclusive control of the CAN adapter.</li>
+</ul>
+<h2 id="5-2-scan-for-a-device-and-connect">5.2 Scan for a Device and Connect<a class="heading-link" href="#5-2-scan-for-a-device-and-connect" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Open the <strong>Status</strong> page.</li>
+<li>Click <strong>Rescan the CAN device</strong> in the center.</li>
+<li>Select the CAN device in the first drop-down list.</li>
+<li>Select the physical channel in the second drop-down list, such as <code>Channel_1</code>.</li>
+<li>Select the bit rate used by the target system in the third drop-down list.</li>
+<li>Click <strong>Connect/Disconnect</strong> on the left to establish the connection.</li>
+<li>Observe the CAN status indicator in the upper-right corner.</li>
+</ol>
+<p><strong>Expected result:</strong></p>
+<ul>
+<li>The page displays the device name, manufacturer, and version information.</li>
+<li>The CAN status indicator changes from disconnected to connected.</li>
+<li>Subsequent modules can transmit and receive frames normally.</li>
+</ul>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>No device in the drop-down list: reconnect the adapter, check the driver, and close any software that may be using the device.</li>
+<li>A device is present but no channel is available: confirm that the correct model is selected and rescan if necessary.</li>
+<li>Connection failure: check whether the channel is already in use, the bit rate is correct, and the target device is powered.</li>
+<li>Disconnect the current connection before changing the CAN device or channel.</li>
+</ul>
+<h2 id="5-3-scan-the-bit-rate-automatically">5.3 Scan the Bit Rate Automatically<a class="heading-link" href="#5-3-scan-the-bit-rate-automatically" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> The CAN adapter and target controller are connected correctly, and periodic frames are continuously present on the target bus.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Ensure that frames are continuously present on the target bus.</li>
+<li>Click <strong>Auto scan the bit rate</strong> on the right.</li>
+<li>Wait for the application to test the supported bit rates in sequence.</li>
+<li>After a successful scan, confirm the displayed bit rate before establishing the connection.</li>
+</ol>
+<p><strong>Expected result:</strong> The bit-rate drop-down list displays the detected bit rate, and that bit rate can be used to establish a CAN connection and receive frames.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>If no frames are present on the bus, the application cannot determine the correct bit rate; confirm it from the device documentation and select it manually.</li>
+<li>If scanning always fails, check the controller power supply, CAN_H/CAN_L wiring, termination resistance, and adapter channel.</li>
+</ul>
+<aside class="callout note"><strong>Note:</strong> Automatic scanning cannot determine the correct bit rate when no frames are present on the bus. In this case, confirm the bit rate from the device documentation and select it manually.</aside>
+<h1 id="6-use-the-flashing-module">6. Use the Flashing Module<a class="heading-link" href="#6-use-the-flashing-module" aria-label="Copy link to this section">#</a></h1>
+<figure><a href="materials/screenshots/04_刷写模块.png" target="_blank"><img src="materials/screenshots/04_刷写模块.png" alt="Flashing module" loading="lazy"></a><figcaption>Figure 3: Flashing module</figcaption></figure>
+<h2 id="6-1-pre-flashing-checks">6.1 Pre-flashing Checks<a class="heading-link" href="#6-1-pre-flashing-checks" aria-label="Copy link to this section">#</a></h2>
+<ul>
+<li>The correct CAN device and channel have been connected successfully.</li>
+<li>The target controller model, firmware file, and flashing procedure match one another.</li>
+<li>The supply voltage is stable and the communication lines are reliable.</li>
+<li>Other operations that may affect the controller have been stopped.</li>
+<li>A recovery procedure for a power loss or flashing failure has been confirmed.</li>
+</ul>
+<h2 id="6-2-load-a-hex-file">6.2 Load a HEX File<a class="heading-link" href="#6-2-load-a-hex-file" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Open the <strong>Flashing</strong> page.</li>
+<li>Click the folder button to select a <code>.hex</code> file.</li>
+<li>Check the file name and last-modified date displayed on the page.</li>
+<li>To read the file again, click <strong>Refresh</strong>.</li>
+<li>To locate the file, click <strong>Open File Location</strong>.</li>
+</ol>
+<p><strong>Expected result:</strong> The file information area displays a valid firmware file and the flashing button is available.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>Invalid file: confirm that the file is not damaged and uses a supported HEX format.</li>
+<li>File does not match the controller: stop the operation and check with the firmware provider.</li>
+<li>Do not determine firmware applicability from the file name alone.</li>
+</ul>
+<h2 id="6-3-start-flashing">6.3 Start Flashing<a class="heading-link" href="#6-3-start-flashing" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> The checks in Section 6.1 are complete, the HEX file information is correct, and the target controller has not started erasing or transferring data.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Confirm the target controller and firmware version again.</li>
+<li>Click <strong>Start downloading/flashing</strong>.</li>
+<li>Read the confirmation prompt and continue after confirming that the information is correct.</li>
+<li>Observe the progress bar at the bottom and the log list in the center.</li>
+<li>Wait until the application explicitly reports that flashing succeeded.</li>
+</ol>
+<p><strong>Expected result:</strong> Progress reaches 100%, a success message appears in the log, and the page displays the total elapsed time.</p>
+<aside class="callout warning"><strong>Warning:</strong> During flashing, you must not close the application, disconnect CAN, unplug USB, or cut power to the target controller. Do not operate other modules unless the application explicitly instructs you to do so.</aside>
+<h2 id="6-4-unable-to-enter-the-bootloader-session">6.4 Unable to Enter the Bootloader Session<a class="heading-link" href="#6-4-unable-to-enter-the-bootloader-session" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> The log explicitly shows that the application is still waiting to enter the Bootloader and has not started erasing or transferring data.</p>
+<aside class="callout warning"><strong>Warning:</strong> Power may be cycled as described in this section only when the prerequisite above is met. Once the log shows that erasing or data transfer has started, cutting controller power, disconnecting CAN, or unplugging USB is strictly prohibited.</aside>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Keep the current flashing request running; do not click Stop immediately.</li>
+<li>Cut controller power in accordance with the target-device safety standards.</li>
+<li>Wait at least 5 seconds.</li>
+<li>Power the controller on again.</li>
+<li>Observe the log to determine whether the flashing session is entered successfully and transfer begins.</li>
+<li>If it still fails, stop the operation and check the CAN bit rate, Bootloader configuration, power supply, and firmware compatibility.</li>
+</ol>
+<p><strong>Expected result:</strong> After being powered on again, the target controller enters the Bootloader and the log starts showing erasing or data-transfer progress.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>Still waiting after power is restored: stop the flashing request and check the bit rate, wiring, Bootloader configuration, and firmware compatibility.</li>
+<li>Communication error after erasing or transfer has started: do not perform the power-cycle procedure in this section again; retain the logs and contact technical support.</li>
+</ul>
+<h1 id="7-use-the-mcu-default-parameters-module">7. Use the MCU Default Parameters Module<a class="heading-link" href="#7-use-the-mcu-default-parameters-module" aria-label="Copy link to this section">#</a></h1>
+<figure><a href="materials/screenshots/05_MCU默认参数概览.png" target="_blank"><img src="materials/screenshots/05_MCU默认参数概览.png" alt="MCU Default Parameters overview" loading="lazy"></a><figcaption>Figure 4: MCU Default Parameters page</figcaption></figure>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>CAN is connected.</li>
+<li>The target controller matches the current application version.</li>
+<li>The target device is in a state that permits reading or control.</li>
+</ul>
+<h2 id="7-1-automatic-handshake-read-and-refresh-parameters">7.1 Automatic Handshake, Parameter Reading, and Parameter Refresh<a class="heading-link" href="#7-1-automatic-handshake-read-and-refresh-parameters" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Click the <strong>MCU</strong> icon on the left to open the <strong>MCU Default Parameters</strong> page.</li>
+<li>After the page opens, the application automatically initiates the MCU communication handshake; there is no need to click a handshake button manually.</li>
+<li>Observe the MCU connection-status icon in the upper-right corner and continue only after confirming that the handshake succeeded.</li>
+<li>Wait for the page to read information such as version, hardware, faults, direction, and operating status automatically.</li>
+<li>To read the values again, click <strong>Update parameter values</strong> at the top.</li>
+</ol>
+<p><strong>Expected result:</strong> The MCU connection status is normal, parameter values are displayed, and the parameter update time changes after a manual refresh.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>Handshake status remains abnormal: check the CAN connection, bit rate, and controller power supply; leave this page and open it again to reinitiate the handshake.</li>
+<li>Page remains empty: return to the Status page, reconnect CAN, and then open this page again.</li>
+<li>Parameter meaning does not match the device: stop writing and verify the controller model, firmware version, and application version.</li>
+</ul>
+<h2 id="7-2-save-parameter-and-code-files">7.2 Save Parameter and Code Files<a class="heading-link" href="#7-2-save-parameter-and-code-files" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> The MCU handshake has succeeded and the page has read the current parameters.</p>
+<p>The top toolbar provides three types of file operations:</p>
+<h3 id="save-parameters-to-the-computer">Save Parameters to Your Computer<a class="heading-link" href="#save-parameters-to-the-computer" aria-label="Copy link to this section">#</a></h3>
+<figure><a href="materials/screenshots/05c_MCU默认参数保存入口.png" target="_blank"><img src="materials/screenshots/05c_MCU默认参数保存入口.png" alt="Save Parameters to Your Computer and Update Parameter Values controls" loading="lazy"></a><figcaption>Figure 5: Save Parameters to Your Computer and Update Parameter Values controls</figcaption></figure>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Click <strong>Update parameter values</strong> and confirm that the page has obtained the required parameters.</li>
+<li>Click <strong>Save parameters to your computer</strong>.</li>
+<li>Select the save location and file name.</li>
+<li>Save the file as a TXT parameter file.</li>
+</ol>
+<p><strong>Expected result:</strong> A TXT file that can be used for backup or subsequent downloading is created at the target location.</p>
+<h3 id="convert-a-parameter-file-to-a-code-file">Convert a Parameter File to a Code File<a class="heading-link" href="#convert-a-parameter-file-to-a-code-file" aria-label="Copy link to this section">#</a></h3>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Click <strong>Convert a Parameter File to a Code File</strong>.</li>
+<li>Select the previously saved TXT parameter file.</li>
+<li>Select the location for saving the C file.</li>
+<li>Wait for the application to report a successful conversion.</li>
+</ol>
+<p><strong>Expected result:</strong> A C code file is created at the target location.</p>
+<h3 id="save-current-parameters-as-a-code-file">Save Current Parameters as a Code File<a class="heading-link" href="#save-current-parameters-as-a-code-file" aria-label="Copy link to this section">#</a></h3>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Click <strong>Update parameter values</strong> and confirm that the current page has read the required parameters.</li>
+<li>Click <strong>Save to code file</strong>.</li>
+<li>Select the location for saving the C file.</li>
+<li>Wait for the application to report a successful save.</li>
+</ol>
+<p><strong>Expected result:</strong> A C code file based on the current parameter values is created at the target location.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>No file is created after file selection is canceled; the corresponding operation can be performed again.</li>
+<li>If conversion or saving fails, confirm that the source TXT file can be read, the target directory is writable, and the target file is not in use by another application.</li>
+<li>If the parameters are incomplete or their source is unknown, do not use the generated file for an official controller configuration.</li>
+</ul>
+<h2 id="7-3-control-operations">7.3 Control Operations<a class="heading-link" href="#7-3-control-operations" aria-label="Copy link to this section">#</a></h2>
+<figure><a href="materials/screenshots/05b_MCU默认参数控制区.png" target="_blank"><img src="materials/screenshots/05b_MCU默认参数控制区.png" alt="MCU Default Parameters control area" loading="lazy"></a><figcaption>Figure 6: Self-learning, reset, torque, and speed control area</figcaption></figure>
+<aside class="callout warning"><strong>Warning:</strong> The following operations may reset the controller or rotate the motor. Before performing them, you must clear the shaft and load area, confirm that the mechanical system permits motion, and ensure that emergency-stop and power-disconnection means are immediately available. The <strong>Stop</strong> control sends only a software stop command and cannot replace an emergency-stop device or physical power disconnection.</aside>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>The automatic MCU handshake has succeeded and communication status is normal.</li>
+<li>The operator has obtained control authorization and understands the target-device safety standards.</li>
+<li>The mechanical system permits commissioning, no one is in the shaft or load area, and the emergency-stop device is available.</li>
+<li>The first run should begin with a small, approved safe setpoint.</li>
+<li>For a high-voltage system, parameter-file loading, CAN connection, and communication checks should first be completed with low-voltage power. High voltage may be connected in accordance with the equipment safety standards only after the mechanical safety conditions are confirmed.</li>
+<li>After the operation, control should first be stopped, the target values set to zero, and the equipment returned to a safe state. Then disconnect high voltage before low voltage in accordance with the equipment safety standards.</li>
+</ul>
+<h3 id="debugging-enable">Debugging Enable<a class="heading-link" href="#debugging-enable" aria-label="Copy link to this section">#</a></h3>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Confirm that the controller is in a state that permits commissioning.</li>
+<li>Click <strong>Debugging enable</strong>; the application opens a confirmation dialog.</li>
+<li>Check the library version, application version, rated voltage, and current fault information; continue after confirming that they are correct.</li>
+<li>Observe the controller status and fault information.</li>
+</ol>
+<figure><a href="materials/screenshots/05d_调试使能确认信息.png" target="_blank"><img src="materials/screenshots/05d_调试使能确认信息.png" alt="Debugging Enable confirmation information" loading="lazy"></a><figcaption>Figure 7: Debugging Enable confirmation information</figcaption></figure>
+<p><strong>Expected result:</strong> The controller enters a state that permits commissioning and no new fault appears on the page.</p>
+<h3 id="start-position-self-learning">Start Position Self-Learning<a class="heading-link" href="#start-position-self-learning" aria-label="Copy link to this section">#</a></h3>
+<aside class="callout warning"><strong>Warning:</strong> The motor may rotate automatically during self-learning. Self-learning must be performed under no-load conditions, with confirmation that the mechanical braking system is applying no braking force. For a complete vehicle, the drive wheels should be raised securely and kept suspended. On a test bench, the motor should be reliably decoupled from the mechanical load. Starting self-learning is prohibited if the no-load conditions are not met.</aside>
+<p><strong>Prerequisite:</strong> The motor, encoder, and controller models match; the drive wheels or shaft can rotate freely; no person, tool, or loose object is in the rotation area; and the emergency stop and high-voltage power-disconnection means are immediately available.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>With low-voltage power connected, complete the CAN connection and automatic MCU handshake; read and record the direction and initial-angle value <code>a1</code> before self-learning.</li>
+<li>Confirm again that the motor is under no load and the drive wheels or shaft can rotate freely.</li>
+<li>Connect high voltage in accordance with the equipment safety standards, and confirm that the controller has no fault that affects self-learning.</li>
+<li>Click <strong>Start position self-learning</strong>; the application opens the Confirm Self-Learning dialog.</li>
+<li>Read and confirm the prompt, then wait for self-learning to finish completely. Continuously observe speed, current, vibration, sound, and fault status during the process.</li>
+<li>Click <strong>Update parameter values</strong>, view the self-learning status and static self-learning results, and record the post-learning initial-angle value <code>a2</code>.</li>
+<li>Save the parameters and operation records from before and after self-learning.</li>
+<li>After self-learning is complete, power down, wait 10 seconds, and power on again. Repeat the self-learning operation above and, after updating the parameters, record the initial-angle value <code>a3</code>. Self-learning is completed successfully if <code>|a2-a3| &lt; 1°</code>.</li>
+</ol>
+<p><strong>Expected result:</strong> The self-learning process finishes normally, the page displays a valid self-learning result, and <code>|a2-a3| &lt; 1°</code>.</p>
+<p><strong>Troubleshooting:</strong> If self-learning does not finish, the result is invalid, <code>|a2-a3| ≥ 1°</code>, related parameters are not retained, the initial angle after power-up differs from the value at the end of self-learning, or abnormal sound, vibration, current, temperature, or a fault occurs, immediately use the emergency stop or disconnect high voltage in accordance with the equipment standards. Record the status and logs and contact technical support. You must not start self-learning repeatedly in succession.</p>
+<h3 id="software-reset-and-parameter-reset">Software Reset and Reset Parameters<a class="heading-link" href="#software-reset-and-parameter-reset" aria-label="Copy link to this section">#</a></h3>
+<p><strong>Software Reset procedure:</strong></p>
+<ol>
+<li>Save necessary data and confirm that the device may restart immediately.</li>
+<li>Click <strong>Software Reset</strong>.</li>
+<li>Read the confirmation prompt and confirm.</li>
+<li>Wait for the controller to come online again.</li>
+</ol>
+<p><strong>Reset Parameters procedure:</strong></p>
+<ol>
+<li>First back up the current parameters as described in Section 7.2.</li>
+<li>Click <strong>Reset Parameters</strong>.</li>
+<li>Read the confirmation prompt and confirm.</li>
+<li>Wait for the controller to reset the parameters and come online again.</li>
+</ol>
+<p><strong>Expected result:</strong> Communication resumes after Software Reset; after Reset Parameters, the parameters return to the default state defined by the target firmware.</p>
+<p><strong>Troubleshooting:</strong> If the controller does not come online again, check the power supply and CAN connection; do not perform resets repeatedly in succession. After communication resumes, refresh the page and check the faults, version, and key parameters.</p>
+<h3 id="torque-control">Torque Control<a class="heading-link" href="#torque-control" aria-label="Copy link to this section">#</a></h3>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Confirm that the torque-control area is currently in use.</li>
+<li>Enter a small, approved safe torque target in the Torque Setpoint input field. Under no-load conditions, even low torque may produce high speed; you must assess the target torque and overspeed risk before setting it.</li>
+<li>Press <code>Enter</code> to write the target value.</li>
+<li>Confirm that the Torque Setpoint displayed on the page has been updated. If the motor vibrates severely at this point, immediately set the target torque to <code>0</code>, stop the test, and check whether the initial angle is correct.</li>
+<li>Click <strong>Forward Rotation</strong> or <strong>Reverse Rotation</strong> as needed.</li>
+<li>Continuously observe actual torque, current, speed, and fault status.</li>
+<li>At the end, click <strong>Stop</strong> in the center. Stopping directly at high torque may cause an impact; gradually reduce the torque before stopping.</li>
+<li>Click the circular-arrow button beside the setpoint and confirm that the setpoint displayed on the page is <code>0</code>.</li>
+</ol>
+<p><strong>Expected result:</strong> The setpoint is written successfully and the controller responds in the selected direction; after <strong>Stop</strong> is clicked, the software control command stops.</p>
+<h3 id="verify-motor-rotation-direction">Verify Motor Rotation Direction<a class="heading-link" href="#verify-motor-rotation-direction" aria-label="Copy link to this section">#</a></h3>
+<aside class="callout warning"><strong>Warning:</strong> Rotation-direction verification must be performed under no-load conditions or in the safe test state specified by the project. Before starting speed-loop calibration or another higher-speed test, you must confirm that the actual direction corresponding to the software Forward Rotation command matches the forward direction defined for the vehicle or equipment.</aside>
+<p><strong>Prerequisite:</strong> Position self-learning has been completed; the drive wheels are reliably suspended or the motor is decoupled from the mechanical load; the speed limit specified by the project is set correctly; and the target torque is <code>0</code>.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Enter a small, approved positive test torque in the Torque Setpoint input field.</li>
+<li>Press <code>Enter</code> to write the target value, and check the target value and unit displayed on the page.</li>
+<li>Click <strong>Forward Rotation</strong> and briefly observe the actual rotation direction of the shaft or drive wheels.</li>
+<li>If the actual direction matches the forward direction defined for the vehicle or equipment, click <strong>Stop</strong>, set the target torque to zero, and record the verification result.</li>
+<li>If the actual direction does not match, immediately click <strong>Stop</strong>, set the target torque to zero, and stop subsequent calibration.</li>
+</ol>
+<p><strong>Expected result:</strong> The actual rotation direction corresponding to the software Forward Rotation command matches the forward direction defined for the vehicle or equipment.</p>
+<p><strong>Troubleshooting:</strong> If the direction does not match, use the motor-direction correction process approved for the target project. After correcting the direction, you must repeat the complete position self-learning process and verify the direction again. You must not perform speed-loop calibration or increase the test speed before verification passes.</p>
+<h3 id="speed-control">Speed Control<a class="heading-link" href="#speed-control" aria-label="Copy link to this section">#</a></h3>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Confirm that the speed-control area is currently in use.</li>
+<li>Enter a small, approved safe speed target in the Speed Setpoint input field.</li>
+<li>Press <code>Enter</code> to write the target value.</li>
+<li>Confirm that the Speed Setpoint displayed on the page has been updated. If the motor vibrates severely at this point, immediately set the target speed to <code>0</code>, stop the test, and check whether the initial angle is correct.</li>
+<li>Click <strong>Forward Rotation</strong> or <strong>Reverse Rotation</strong> as needed.</li>
+<li>Continuously observe actual speed, current, temperature, and fault status.</li>
+<li>At the end, click <strong>Stop</strong> in the center.</li>
+<li>Click the circular-arrow button beside the setpoint and confirm that the setpoint displayed on the page is <code>0</code>.</li>
+</ol>
+<p><strong>Expected result:</strong> The setpoint is written successfully and the controller responds in the selected direction; after <strong>Stop</strong> is clicked, the software control command stops.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>If the setpoint does not update after you press <code>Enter</code>, do not start Forward Rotation or Reverse Rotation; first check communication status and the device operating state.</li>
+<li>If abnormal sound, vibration, current, temperature, or a fault occurs, immediately use the emergency stop or disconnect power in accordance with the equipment standards; do not rely only on <strong>Stop</strong> in the interface.</li>
+<li>If an input field cannot be edited, do not attempt to bypass the restriction; contact technical support.</li>
+<li>If a permission-protected field cannot be edited, contact technical support.</li>
+</ul>
+<h1 id="8-use-the-mcu-calibration-module">8. Use the MCU Calibration Module<a class="heading-link" href="#8-use-the-mcu-calibration-module" aria-label="Copy link to this section">#</a></h1>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>A parameter definition file matching the target controller, firmware, and project has been obtained.</li>
+<li>Before reading or writing, CAN is connected and the automatic MCU handshake has succeeded.</li>
+<li>Controller power is stable and the controller is in an operating state that permits calibration.</li>
+<li>The operator has obtained permission to read or modify parameters.</li>
+</ul>
+<aside class="callout warning"><strong>Warning:</strong> Calibration involving motor rotation must be performed on a test bench or under complete-vehicle test conditions that comply with the project safety standards. Position self-learning and rotation-direction verification must be completed before speed-loop calibration begins. During the test, ensure that the emergency stop and high-voltage power-disconnection means are immediately available.</aside>
+<h2 id="8-1-import-a-parameter-definition-file">8.1 Import a Parameter Definition File<a class="heading-link" href="#8-1-import-a-parameter-definition-file" aria-label="Copy link to this section">#</a></h2>
+<figure><a href="materials/screenshots/06_MCU参数文件导入.png" target="_blank"><img src="materials/screenshots/06_MCU参数文件导入.png" alt="MCU parameter-file import" loading="lazy"></a><figcaption>Figure 8: MCU parameter definition file import control</figcaption></figure>
+<p><strong>Example file:</strong> <code>F28384_params_MC366WV_General_Pump_FuSa_V0.17.xls</code></p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Open the <strong>Settings</strong> page.</li>
+<li>Locate <strong>MCU Parameters</strong>.</li>
+<li>Click the import button to the right of <strong>Import a parameter file</strong>.</li>
+<li>Select an <code>.xls</code> or <code>.xlsx</code> file matching the target controller.</li>
+<li>Confirm that the page displays only the correct file name.</li>
+<li>Return to the main interface.</li>
+</ol>
+<p><strong>Expected result:</strong> The Settings page displays the parameter definition file name, and the MCU Calibration page can initialize the parameter list.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>File-not-found prompt: select the file again, and do not move or delete the original file after importing it.</li>
+<li>Empty parameter list: confirm that the spreadsheet format and version are compatible with the current application.</li>
+<li>Parameter meaning does not match: do not perform a write; verify the version with the parameter-file provider.</li>
+</ul>
+<h2 id="8-2-open-the-calibration-page">8.2 Open the Calibration Page<a class="heading-link" href="#8-2-open-the-calibration-page" aria-label="Copy link to this section">#</a></h2>
+<figure><a href="materials/screenshots/07_MCU标定模块_脱敏.png" target="_blank"><img src="materials/screenshots/07_MCU标定模块_脱敏.png" alt="MCU Calibration module" loading="lazy"></a><figcaption>Figure 9: MCU Calibration toolbar and table columns</figcaption></figure>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Click the <strong>MCU Extension</strong> icon on the left.</li>
+<li>Confirm that the page title is <strong>MCU Calibration</strong>.</li>
+<li>Wait for the parameter definition file to load.</li>
+<li>After connecting the controller, click <strong>Update parameter values</strong>.</li>
+</ol>
+<p>Calibration parameters are on the left and usually include <strong>Name, Description, Actual Value, and Target Value</strong>. Process variables are on the right and display read-only actual values.</p>
+<p><strong>Expected result:</strong> The parameter list is displayed normally, and actual values and process variables can be read after refreshing.</p>
+<p><strong>Troubleshooting:</strong> If the page is empty or refreshing fails, check the parameter definition file, CAN connection, MCU handshake status, and controller power supply.</p>
+<h2 id="8-3-search-and-refresh">8.3 Search and Refresh<a class="heading-link" href="#8-3-search-and-refresh" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Enter a parameter name or a description keyword in the search box at the top to narrow the parameter list.</li>
+<li>Click <strong>Update parameter values</strong> to read the actual values and process variables in the current filtered results again.</li>
+<li>To restore the full list, clear the search box and reselect the parameter groups to display.</li>
+</ol>
+<p><strong>Expected result:</strong> The list displays only parameters that meet the filter conditions; clearing the filter restores the parameters in the selected groups.</p>
+<p><strong>Troubleshooting:</strong> If a parameter cannot be found, clear the search box and check the parameter groups. If it is still absent, verify the parameter definition file version.</p>
+<h2 id="8-4-write-a-single-parameter">8.4 Write a Single Parameter<a class="heading-link" href="#8-4-write-a-single-parameter" aria-label="Copy link to this section">#</a></h2>
+<aside class="callout note"><strong>Note:</strong> The current version cannot guarantee automatic upper- and lower-limit validation for every parameter. Before writing, you must check the unit, permitted range, and target value against the approved parameter definition.</aside>
+<aside class="callout note"><strong>Important:</strong> Online parameter modifications in this calibration process are not written to the persistent software area and are not retained after controller power-off. After calibration is complete, the final TXT parameter file should be exported before power-off. For details, refer to “Save parameters to your computer” in <a href="#7-2-save-parameter-and-code-files">Section 7.2, Save Parameter and Code Files</a>. If the parameters must take effect permanently, submit the final parameters and test records to technical support, who will generate and flash software that includes the final parameters.</aside>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Search for and confirm the target parameter, checking its name and description.</li>
+<li>Check the unit, permitted range, and current actual value against the approved parameter definition.</li>
+<li>Enter the new value in the <strong>Target Value</strong> cell.</li>
+<li>Press <code>Enter</code> to submit the write.</li>
+<li>Click <strong>Update parameter values</strong> and check whether the actual value matches the target value.</li>
+</ol>
+<p><strong>Expected result:</strong> No communication error occurs during writing, and the refreshed actual value matches the target value.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>If a negative value, special format, or numeric range is uncertain, do not attempt to write it; contact technical support to confirm the format and range.</li>
+<li>Write timeout: check the CAN connection, MCU handshake, and controller status.</li>
+<li>Actual value does not change: do not write repeatedly in succession; first review the logs and confirm whether the parameter supports online modification.</li>
+</ul>
+<h2 id="8-5-save-current-parameters">8.5 Save Current Parameters<a class="heading-link" href="#8-5-save-current-parameters" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> The parameters to be backed up have been read.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Clear the search box and select all parameter groups.</li>
+<li>Click <strong>Update parameter values</strong>, drag the right-hand scroll-bar thumb to the bottom of the window, and confirm that the current values of all parameters have been read.</li>
+<li>Click <strong>Save parameters to your computer</strong> at the top.</li>
+<li>Select the save location and file name, and save the file as a TXT parameter-value file.</li>
+</ol>
+<figure><a href="materials/screenshots/07b_参数列表滚动到底部.png" target="_blank"><img src="materials/screenshots/07b_参数列表滚动到底部.png" alt="Parameter list scrolled to the bottom" loading="lazy"></a><figcaption>Figure 10: Scroll the parameter list to the bottom</figcaption></figure>
+<p><strong>Expected result:</strong> A TXT parameter-value file is created at the target location. It contains all calibration parameters from the parameter definition file, sorted by parameter number.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>If the current value of any parameter has not been read, the application refuses to save. Clear the search criteria, select all parameter groups, complete the update, drag the scroll bar to the bottom of the window, and then save again. If the scroll bar has not reached the bottom, parameters below may not yet have been updated.</li>
+<li>If saving fails, confirm that the target directory is writable and the target file is not in use by another application.</li>
+</ul>
+<p>Saving a parameter backup before making batch modifications is recommended; include the device, date, and purpose in the file name.</p>
+<h2 id="8-6-download-parameters-to-the-mcu-in-batches">8.6 Download Parameters to the MCU in Batches<a class="heading-link" href="#8-6-download-parameters-to-the-mcu-in-batches" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>A TXT parameter-value file matching the current parameter definition is ready.</li>
+<li>For a complete download, the search box has been cleared and all parameter groups to be downloaded have been selected.</li>
+<li>The target controller is correct, its power supply is stable, CAN is connected, and the MCU handshake has succeeded.</li>
+<li>The current parameters have been backed up as described in Section 8.5, and authorization for batch modification has been obtained.</li>
+</ul>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Confirm the target controller and TXT file version again.</li>
+<li>Click <strong>Download Parameters to MCU</strong> at the top.</li>
+<li>Select the TXT parameter-value file and confirm.</li>
+<li>After file selection is complete, the application immediately starts writing matching parameters; there is no additional Start button to find.</li>
+<li>Wait for the application to display a success or failure result.</li>
+<li>The download function downloads only parameters whose parameter numbers match between the <a href="#8-1-import-a-parameter-definition-file">currently loaded parameter table</a> and the TXT file.</li>
+<li>Click <strong>Update parameter values</strong> and check all target and key parameters, rather than spot-checking only a small number of items.</li>
+</ol>
+<aside class="callout warning"><strong>Warning:</strong> Batch downloading modifies controller parameters continuously. During downloading, you must not cut power, disconnect CAN, or switch to another control operation. Confirm with the software engineer whether the software for this project uses parameters in an EEPROM-backed persistent software area. If the parameters are not persistent, downloaded parameter values return to their default values after a power-off restart.</aside>
+<p><strong>Expected result:</strong> The application reports a successful write, and all refreshed target parameters match the approved TXT file.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>Items in the TXT file that are absent from the current parameter definition, filtered results, or selected groups may be skipped without a separate prompt. You must confirm the actual write scope by refreshing and checking each item.</li>
+<li>Some parameters fail: save the prompt information and logs; do not blindly repeat the download.</li>
+<li>Communication is interrupted: after restoring the connection, first read the current values and confirm the device status and written scope before deciding whether to download again.</li>
+<li>If no explicit success or failure result appears, do not assume that writing is complete; refresh and verify the values, and review the logs.</li>
+</ul>
+<h2 id="8-7-motor-parameter-calibration-process">8.7 Motor Parameter Calibration Process<a class="heading-link" href="#8-7-motor-parameter-calibration-process" aria-label="Copy link to this section">#</a></h2>
+<p>This section describes the general process for adjusting motor parameters with the MCU Calibration module. The specific test speeds, parameter ranges, and acceptance criteria are governed by the calibration specification approved for the target project.</p>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>Position self-learning and rotation-direction verification have been completed.</li>
+<li>A pre-calibration parameter backup has been saved and TRACE frame recording is ready. For the recording method, see <a href="#9-view-and-export-trace-frames">Section 9, View and Export TRACE Frames</a>.</li>
+<li>The motor is in the safe load state specified by the project, and the cooling, power supply, emergency-stop, and high-voltage power-disconnection conditions are normal.</li>
+<li>For a vehicle test, the mechanical braking system should be checked before testing to confirm that braking force reaches the design range and the brake-assist system operates normally.</li>
+<li>The target speed, signals to observe, permitted range, and stop conditions for this test have been defined.</li>
+</ul>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Begin testing in the low-speed range specified by the project. For initial verification, a test point may be selected within the approved 200–500 RPM range.</li>
+<li>Use the TRACE window to record target speed, actual speed, current, fault status, and other signals required by the project.</li>
+<li>Check how the actual value follows the target value, and confirm that there is no sustained oscillation, significant overshoot, excessively slow response, abnormal current, abnormal noise, or abnormal temperature rise.</li>
+<li>After low-speed verification passes, increase the test speed step by step as specified by the project; you must not jump directly to high-speed testing.</li>
+<li>Analyze the response using the frame recording. In each round, prioritize the parameters with the greatest effect and limit the number of modified parameters to 1–2.</li>
+<li>After writing parameters, click <strong>Update parameter values</strong>, confirm that the actual values match the target values, and then repeat the same test condition.</li>
+<li>Compare tracking error, overshoot, oscillation, and response time before and after modification, and record the parameter changes and test results.</li>
+<li>Repeat the analysis, adjustment, and verification until every specified operating condition meets the project acceptance criteria.</li>
+<li>After completing calibration, clear the search criteria, select the parameter groups to deliver, update the parameter values, and save the final parameters as a TXT file.</li>
+<li>Stop control, set the torque and speed target values to zero, and disconnect high voltage before low voltage in accordance with the equipment safety standards.</li>
+</ol>
+<p><strong>Expected result:</strong> Each specified operating condition meets the project acceptance criteria, and the final parameters, TRACE frames, and modification records are saved completely.</p>
+<p><strong>Troubleshooting:</strong> If sustained oscillation, significant overshoot, a loss-of-control tendency, abnormal sound, vibration, current, temperature, or a fault occurs, immediately use the emergency stop or disconnect high voltage in accordance with the equipment standards. Before resuming the test, analyze the TRACE data and logs and check the parameters and test conditions. You must not continue increasing speed or modifying parameters repeatedly while the cause is unknown.</p>
+<p><strong>Calibration records:</strong></p>
+<ul>
+<li>Final TXT parameter file.</li>
+<li>Parameter modification records, reasons for modification, and values before and after modification.</li>
+<li>TRACE frame recordings from before and after modification.</li>
+<li>Test conditions, including software version, power supply, load, and test speed.</li>
+<li>Records of abnormal phenomena and their handling.</li>
+<li>Final parameters requiring permanent integration and the corresponding software-generation or flashing records.</li>
+</ul>
+<h1 id="9-view-and-export-trace-frames">9. View and Export TRACE Frames<a class="heading-link" href="#9-view-and-export-trace-frames" aria-label="Copy link to this section">#</a></h1>
+<figure><a href="materials/screenshots/08_TRACE窗口.png" target="_blank"><img src="materials/screenshots/08_TRACE窗口.png" alt="TRACE window" loading="lazy"></a><figcaption>Figure 11: TRACE toolbar and empty frame list</figcaption></figure>
+<h2 id="9-1-open-trace">9.1 Open TRACE<a class="heading-link" href="#9-1-open-trace" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> The CAN channel has been connected as needed.</p>
+<p><strong>Procedure:</strong> On the Status, Flashing, or an MCU-related page, click the <strong>TRACE</strong> button in the upper-right corner to open a separate window.</p>
+<p>The TRACE list contains these commonly used columns:</p>
+<ul>
+<li>Frame number</li>
+<li>Time</li>
+<li>Transmit/receive direction</li>
+<li>CAN ID</li>
+<li>Data length</li>
+<li>Data content</li>
+<li>Cumulative count for the same CAN ID</li>
+<li>Signals decoded after a DBC is applied</li>
+</ul>
+<p><strong>Expected result:</strong> The TRACE window opens. When CAN is connected and frames are present on the bus, the list starts displaying data.</p>
+<p><strong>Troubleshooting:</strong> If no frame appears in the window, check the CAN connection, bit rate, bus wiring, and whether the target device is transmitting frames.</p>
+<h2 id="9-2-view-frames">9.2 View Frames<a class="heading-link" href="#9-2-view-frames" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Establish a CAN connection and open TRACE.</li>
+<li>Observe whether frames continue to appear in the list.</li>
+<li>To view a fixed position, click <strong>Pause List Scrolling</strong>. This button pauses only automatic scrolling; frame reception continues.</li>
+<li>Enable <strong>List Display</strong> to view the complete frame history. When it is disabled, only the latest frame for each CAN ID is retained for real-time observation.</li>
+<li>Enable <strong>Time Difference Display</strong> to view the time difference between two adjacent occurrences of the same CAN ID.</li>
+<li><strong>Count</strong> indicates the cumulative number of occurrences for the same CAN ID.</li>
+<li>To begin observing again, first export any records that must be retained, and then click <strong>Clear the message buffer</strong>.</li>
+</ol>
+<p><strong>Expected result:</strong> TRACE displays CAN frames in the selected mode. New frames continue to be received and the count continues to update while scrolling is paused.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>It is normal for the count to keep increasing after scrolling is paused. Export the current record first if it must be retained.</li>
+<li>Data cannot be recovered in the window after it is cleared. If it is cleared by mistake, it can only be collected again.</li>
+<li>If the time difference is abnormal, first confirm that the same CAN ID is being observed, and check the bus load and transmission period.</li>
+</ul>
+<h2 id="9-3-import-a-dbc">9.3 Import a DBC<a class="heading-link" href="#9-3-import-a-dbc" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> A <code>.dbc</code> or <code>.xlsx</code> file consistent with the current bus definition is ready.</p>
+<aside class="callout note"><strong>Note:</strong> The XLSX file must use the specified row-and-column structure; otherwise, it may fail to load.</aside>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Click <strong>Import DBC</strong>.</li>
+<li>Select a <code>.dbc</code> or <code>.xlsx</code> file.</li>
+<li>For combined decoding, additional files can be imported. Importing a maximum of three files at a time is recommended.</li>
+<li>Expand a frame row to view the decoded signals.</li>
+<li>To remove the decoding definitions, click <strong>Clear DBC</strong>.</li>
+</ol>
+<p><strong>Expected result:</strong> A frame matching the definition can be expanded to display its signals.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>If no decoded signal result is available, check whether the frame ID, extended-frame setting, byte order, and signal definition match the current bus.</li>
+<li>If more than three files are imported in the current session, only the first three file paths are restored after the application restarts. For reliable reuse, keep the number at three or fewer.</li>
+</ul>
+<h2 id="9-4-export-a-recording">9.4 Export a Recording<a class="heading-link" href="#9-4-export-a-recording" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> The frames to be saved have been collected in TRACE.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Click <strong>Export the TRACE file</strong>.</li>
+<li>Select Vector or PCAN format.</li>
+<li>Select the save location and file name.</li>
+<li>Wait for the application to report that export is complete.</li>
+</ol>
+<p><strong>Expected result:</strong> A recording file in the selected format is created at the target location.</p>
+<p><strong>Troubleshooting:</strong> If export fails, confirm that the target directory is writable, the target file is not in use, and TRACE contains valid frames.</p>
+<p>Before exporting, it is recommended to record the time of the fault, operation steps, bit rate, and controller status for subsequent analysis.</p>
+<h1 id="10-convert-frame-recording-formats">10. Convert Frame Recording Formats<a class="heading-link" href="#10-convert-frame-recording-formats" aria-label="Copy link to this section">#</a></h1>
+<figure><a href="materials/screenshots/09_报文记录与DBC转换工具.png" target="_blank"><img src="materials/screenshots/09_报文记录与DBC转换工具.png" alt="Trace Converter and DBC Converter tools" loading="lazy"></a><figcaption>Figure 12: Common Tools page</figcaption></figure>
+<h2 id="10-1-convert-pcan-trc-to-vector-asc">10.1 Convert PCAN TRC to Vector ASC<a class="heading-link" href="#10-1-convert-pcan-trc-to-vector-asc" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> A PCAN <code>.trc</code> recording file with valid content is ready.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Open the <strong>Common Tools</strong> page.</li>
+<li>Click the folder button in the <strong>Trace Converter</strong> area.</li>
+<li>Select the <code>.trc</code> recording file.</li>
+<li>Click <strong>Convert to Vector Trace</strong>.</li>
+<li>Select the output location and wait for the completion prompt.</li>
+</ol>
+<p><strong>Expected result:</strong> An <code>.asc</code> file that can be read by Vector tools is created at the target location.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>Source file is not recognized: confirm that the extension is <code>.trc</code>, the file is not damaged, and its content follows PCAN TRC format.</li>
+<li>No frames after conversion: use a text viewer to confirm that the source file contains valid CAN frames.</li>
+<li>Output file is in use: close other applications that have the file open and try again.</li>
+</ul>
+<h2 id="10-2-convert-vector-asc-to-pcan-trc">10.2 Convert Vector ASC to PCAN TRC<a class="heading-link" href="#10-2-convert-vector-asc-to-pcan-trc" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> A Vector <code>.asc</code> recording file with valid content is ready.</p>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Select the <code>.asc</code> recording file in the <strong>Trace Converter</strong> area.</li>
+<li>Click <strong>Convert to PCAN Trace</strong>.</li>
+<li>Select the output location and wait for the completion prompt.</li>
+</ol>
+<p><strong>Expected result:</strong> A <code>.trc</code> file that can be read by PCAN tools is created at the target location.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>Source file is not recognized: confirm that the extension is <code>.asc</code>, the file is not damaged, and its content follows Vector ASC format.</li>
+<li>No frames after conversion: use a text viewer to confirm that the source file contains valid CAN frames.</li>
+<li>Output file is in use: close other applications that have the file open and try again.</li>
+</ul>
+<h1 id="11-use-dbc-converter">11. Use DBC Converter<a class="heading-link" href="#11-use-dbc-converter" aria-label="Copy link to this section">#</a></h1>
+<p>DBC Converter is used to merge and convert DBC/Excel definitions.</p>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Description</th></tr></thead><tbody><tr><td>Supported inputs</td><td><code>.dbc</code>, <code>.xlsx</code></td></tr><tr><td>Supported outputs</td><td>DBC, Excel</td></tr><tr><td>Maximum number of input files</td><td>a maximum of 3 files</td></tr><tr><td>Excel reading rule</td><td>Only the first worksheet in each Excel input file is read</td></tr><tr><td>Excel format requirement</td><td>The specified row-and-column structure must be used; otherwise, loading or conversion may fail</td></tr></tbody></table></div>
+<h2 id="11-1-import-and-remove-source-files">11.1 Import and Remove Source Files<a class="heading-link" href="#11-1-import-and-remove-source-files" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Prerequisite:</strong> A maximum of three input files in supported formats are ready, and the source and applicable project of each file have been confirmed before merging.</p>
+<p><strong>Excel input rules:</strong></p>
+<ul>
+<li>Frame and signal names may contain only English letters, numbers, and underscores.</li>
+<li>Frame and signal names must begin with an English letter.</li>
+<li>Frame transmitter and receiver node names follow the same character and initial-character rules.</li>
+<li>Extra columns not defined by the template are not permitted.</li>
+<li>Frame names, signal names, and node names must not be duplicated.</li>
+</ul>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Click the folder button in the first row of the <strong>DBC Converter</strong> area.</li>
+<li>Select a <code>.dbc</code> or <code>.xlsx</code> file.</li>
+<li>To merge files, continue adding them in the second and third rows.</li>
+<li>To remove a file, click the delete button in its row; the other selected files are not removed.</li>
+<li>To replace a file, first remove the file in that row, and then select another one.</li>
+</ol>
+<p><strong>Expected result:</strong> Each row displays its corresponding input file, and unused input rows remain empty.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>If the target data is not in the first worksheet, first organize the Excel file so that the target worksheet is first, and then import it again.</li>
+<li>If a file cannot be loaded, confirm that its extension matches its content and that it is not locked by another application.</li>
+<li>If there are more than three input files, remove the files that are not needed first.</li>
+</ul>
+<p><strong>Obtain a template:</strong> If no XLSX template is available, import an existing DBC file and use <strong>Export To Excel</strong> to generate a template.</p>
+<h2 id="11-2-export-to-excel">11.2 Export to Excel<a class="heading-link" href="#11-2-export-to-excel" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Confirm the input-file order and content.</li>
+<li>Click <strong>Export To Excel</strong>.</li>
+<li>Select the output location and file name.</li>
+<li>Open the exported file and spot-check the frames and signals.</li>
+</ol>
+<p><strong>Expected result:</strong> A readable Excel file is created at the target location, and the spot-checked frames and signals meet expectations.</p>
+<h2 id="11-3-export-to-dbc">11.3 Export to DBC<a class="heading-link" href="#11-3-export-to-dbc" aria-label="Copy link to this section">#</a></h2>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Confirm that the input files have been loaded.</li>
+<li>Click <strong>Export to DBC</strong>.</li>
+<li>Select the output location and file name.</li>
+<li>Open the exported DBC with the target CAN tool and check the decoding results.</li>
+</ol>
+<p><strong>Expected result:</strong> A DBC file that can be opened by the target CAN tool is created at the target location.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>If export fails, confirm that the target directory is writable and the target file is not in use.</li>
+<li>If export succeeds but the content is incomplete, check the first worksheet in each Excel input file and the input-file order.</li>
+<li>If the target CAN tool reports a definition conflict, resolve duplicated frames or signals before converting again.</li>
+</ul>
+<aside class="callout note"><strong>Note:</strong> Before merging, check for duplicate frame IDs, duplicate signal names, node definitions, byte order, and scaling factors. If conflicts exist, first determine which definition to use.</aside>
+<h1 id="12-view-runtime-logs">12. View Runtime Logs<a class="heading-link" href="#12-view-runtime-logs" aria-label="Copy link to this section">#</a></h1>
+<h2 id="12-1-open-the-log-directory">12.1 Open the Log Directory<a class="heading-link" href="#12-1-open-the-log-directory" aria-label="Copy link to this section">#</a></h2>
+<figure><a href="materials/screenshots/10_日志目录入口.png" target="_blank"><img src="materials/screenshots/10_日志目录入口.png" alt="Log directory control" loading="lazy"></a><figcaption>Figure 13: Open the log directory</figcaption></figure>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Open the <strong>Settings</strong> page.</li>
+<li>Scroll down to <strong>Other</strong>.</li>
+<li>Click <strong>Open Log Directory</strong>.</li>
+<li>Open the subdirectory corresponding to the problem type.</li>
+</ol>
+<p>If the application cannot start, press <code>Win + R</code>, enter <code>%LOCALAPPDATA%\Programs\LeElectriX_FlashTool\logs</code>, and confirm to open the log directory directly.</p>
+<div class="table-wrap"><table><thead><tr><th>Log category</th><th>Main content</th><th>Common use</th></tr></thead><tbody><tr><td>App</td><td>Application startup, configuration, interface commands, and general errors</td><td>Application startup failure, import failure, or functional error</td></tr><tr><td>CAN</td><td>CAN devices, channels, frame transmission and reception, and driver-related information</td><td>Device scan failure, connection failure, or frame error</td></tr><tr><td>DoCAN</td><td>Diagnostic communication and flashing-session information</td><td>Session-entry failure, flashing timeout, or abnormal diagnostic response</td></tr></tbody></table></div>
+<p>App, CAN, and DoCAN logs are each rotated by date and file size. A new file is created when an individual file in a category reaches approximately 10 MB, and approximately 90 historical files are retained for each category.</p>
+<p><strong>Expected result:</strong> The log directory opens, and the relevant App, CAN, or DoCAN file can be found by the time the problem occurred.</p>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>Path does not exist: confirm that the application has been successfully installed or extracted at least once, and check whether the current Windows account is the account used to run it.</li>
+<li>No log for the corresponding time period: confirm that the system time is correct and check whether the problem occurred under another Windows account.</li>
+<li>Log file cannot be opened: first copy the file to a writable directory, and then open the copy with a text viewer.</li>
+</ul>
+<h2 id="12-2-information-to-collect-when-reporting-a-problem">12.2 Information to Collect When Reporting a Problem<a class="heading-link" href="#12-2-information-to-collect-when-reporting-a-problem" aria-label="Copy link to this section">#</a></h2>
+<p>When reporting a problem to technical support, it is recommended to provide:</p>
+<ul>
+<li>LeElectriX FlashTool version</li>
+<li>The exact time the problem occurred</li>
+<li>Operation steps and expected result</li>
+<li>CAN adapter manufacturer and model</li>
+<li>Target controller and firmware version</li>
+<li>App, CAN, and DoCAN logs from the same time period</li>
+<li>A sanitized screenshot of the error</li>
+<li>For a communication problem, a sanitized TRACE recording</li>
+</ul>
+<p>Before submission, remove the local user name, customer directory, license, device serial number, and any frames or parameters that should not be disclosed externally.</p>
+<h1 id="13-troubleshooting">13. Troubleshooting<a class="heading-link" href="#13-troubleshooting" aria-label="Copy link to this section">#</a></h1>
+<h2 id="13-1-the-application-does-not-start">13.1 The Application Does Not Start<a class="heading-link" href="#13-1-the-application-does-not-start" aria-label="Copy link to this section">#</a></h2>
+<ol>
+<li>Confirm that the system is Windows 10/11 x64.</li>
+<li>Confirm that .NET 8 SDK x64 is installed.</li>
+<li>If .NET, Windows Desktop Runtime, or ASP.NET Core Runtime is still reported missing, run the SDK installer again and select repair or reinstallation.</li>
+<li>Restart Windows before running the application again.</li>
+<li>Press <code>Win + R</code>, enter <code>%LOCALAPPDATA%\Programs\LeElectriX_FlashTool\logs</code>, and collect the App logs from the corresponding time.</li>
+<li>If it still fails, provide the logs to technical support.</li>
+</ol>
+<h2 id="13-2-the-can-adapter-is-not-detected">13.2 The CAN Adapter Is Not Detected<a class="heading-link" href="#13-2-the-can-adapter-is-not-detected" aria-label="Copy link to this section">#</a></h2>
+<ol>
+<li>Unplug and reconnect USB.</li>
+<li>Check the adapter indicators and power supply.</li>
+<li>Check whether the manufacturer's driver is installed correctly.</li>
+<li>Close other software that may be using the CAN device.</li>
+<li>When using a ZLG adapter, if Device Manager recognizes the device but the application still cannot detect it, install the VC++ runtime as described in Section 2.4.</li>
+<li>Scan for devices again.</li>
+</ol>
+<h2 id="13-3-can-does-not-connect">13.3 CAN Does Not Connect<a class="heading-link" href="#13-3-can-does-not-connect" aria-label="Copy link to this section">#</a></h2>
+<ol>
+<li>Check the device, channel, and bit rate.</li>
+<li>Check the target-controller power supply and CAN wiring.</li>
+<li>Confirm that the bus termination resistance meets the system requirements.</li>
+<li>Disconnect and then reconnect.</li>
+<li>Review the error information in the CAN logs.</li>
+</ol>
+<h2 id="13-4-bit-rate-scan-fails">13.4 Bit-rate Scan Fails<a class="heading-link" href="#13-4-bit-rate-scan-fails" aria-label="Copy link to this section">#</a></h2>
+<ul>
+<li>Confirm that periodic frames are actually present on the bus.</li>
+<li>Confirm that CAN_H and CAN_L are not reversed.</li>
+<li>Find the bit rate in the device documentation and select it manually.</li>
+</ul>
+<h2 id="13-5-license-loading-fails">13.5 License Loading Fails<a class="heading-link" href="#13-5-license-loading-fails" aria-label="Copy link to this section">#</a></h2>
+<ul>
+<li>Loading is successful only when the success prompt appears, the license status is updated, and the authorized modules refresh.</li>
+<li>Confirm that the file extension is <code>.lic</code>.</li>
+<li>Confirm that the file came from the software provider and is not damaged.</li>
+<li>Confirm that the license matches the current software and licensed target.</li>
+<li>If no success prompt appears or the status does not change, also treat the operation as a loading failure and contact the software provider to verify validity.</li>
+</ul>
+<h2 id="13-6-hex-loading-or-flashing-fails">13.6 HEX Loading or Flashing Fails<a class="heading-link" href="#13-6-hex-loading-or-flashing-fails" aria-label="Copy link to this section">#</a></h2>
+<ul>
+<li>Check the integrity of the HEX file and the target controller model.</li>
+<li>Check the CAN connection, bit rate, and power supply.</li>
+<li>Power may be cycled as described in Section 6.4 only if the log is still waiting to enter the Bootloader and erasing or transfer has not started.</li>
+<li>After erasing or transfer has started, you must not cut power or disconnect the connection; retain the flashing and DoCAN logs and contact technical support.</li>
+</ul>
+<h2 id="13-7-the-parameter-definition-file-does-not-load">13.7 The Parameter Definition File Does Not Load<a class="heading-link" href="#13-7-the-parameter-definition-file-does-not-load" aria-label="Copy link to this section">#</a></h2>
+<ul>
+<li>Confirm that the file is an <code>.xls</code> or <code>.xlsx</code> file.</li>
+<li>Confirm that the file remains at the location from which it was imported.</li>
+<li>Import it again from the Settings page.</li>
+<li>Check the parameter-file version and format.</li>
+</ul>
+<h2 id="13-8-parameter-read-write-or-download-fails">13.8 Parameter Read, Write, or Download Fails<a class="heading-link" href="#13-8-parameter-read-write-or-download-fails" aria-label="Copy link to this section">#</a></h2>
+<ul>
+<li>Check CAN communication and MCU handshake status.</li>
+<li>Confirm that the controller is in an operating state that permits calibration.</li>
+<li>The interface cannot guarantee automatic upper- and lower-limit validation for every parameter; before writing, check the unit and permitted range against the approved parameter definition.</li>
+<li>Confirm that the TXT parameter-value file is consistent with the current parameter definition. For a complete download, first clear the search criteria and select all required parameter groups.</li>
+<li>Batch writing starts automatically after file selection. A success prompt indicates only that the matching items in the current list have been written.</li>
+<li>After a failure, first refresh all target parameters and review the logs; do not write repeatedly in succession.</li>
+</ul>
+    </main>
+  </div>
+
+  <footer class="page-footer">
+    LeElectriX FlashTool User Manual · Manual Version v0.2
+  </footer>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const menuButton = document.getElementById('menuButton');
+    const tocSearch = document.getElementById('tocSearch');
+    const tocLinks = [...document.querySelectorAll('.toc-link')];
+    const mobileSidebarQuery = window.matchMedia('(max-width: 960px)');
+
+    function syncSidebarState() {
+      if (!mobileSidebarQuery.matches) {
+        sidebar.classList.remove('open');
+        sidebar.removeAttribute('inert');
+        sidebar.removeAttribute('aria-hidden');
+        menuButton?.setAttribute('aria-expanded', 'false');
+        return;
+      }
+
+      const open = sidebar.classList.contains('open');
+      if (!open && sidebar.contains(document.activeElement)) {
+        menuButton?.focus();
+      }
+      if (open) {
+        sidebar.removeAttribute('inert');
+        sidebar.removeAttribute('aria-hidden');
+      } else {
+        sidebar.setAttribute('inert', '');
+        sidebar.setAttribute('aria-hidden', 'true');
+      }
+      menuButton?.setAttribute('aria-expanded', String(open));
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      syncSidebarState();
+    }
+
+    menuButton?.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      syncSidebarState();
+    });
+    tocLinks.forEach(link => link.addEventListener('click', closeSidebar));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && mobileSidebarQuery.matches && sidebar.classList.contains('open')) {
+        event.preventDefault();
+        closeSidebar();
+      }
+    });
+    mobileSidebarQuery.addEventListener('change', syncSidebarState);
+    syncSidebarState();
+    tocSearch?.addEventListener('input', () => {
+      const query = tocSearch.value.trim().toLowerCase();
+      tocLinks.forEach(link => {
+        link.hidden = Boolean(query) && !link.textContent.toLowerCase().includes(query);
+      });
+    });
+
+    const observedHeadings = [...document.querySelectorAll('main h1[id], main h2[id]')];
+    const linksById = new Map(tocLinks.map(link => [link.hash.slice(1), link]));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        tocLinks.forEach(link => link.classList.remove('active'));
+        linksById.get(entry.target.id)?.classList.add('active');
+      });
+    }, { rootMargin: '-20% 0px -72% 0px' });
+    observedHeadings.forEach(heading => observer.observe(heading));
+  </script>
+</body>
+</html>
