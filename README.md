@@ -8,6 +8,8 @@
 
 ### 软件设置
 
+设置页支持简体中文、英文、德文和韩文；“其他”分组、标定写指令间隔、高级功能解锁和日志目录标签随语言切换，解锁弹窗及结果提示使用当前语言。
+
 #### 1. 使用本软件之前，请确保已经有以下设备的任意一种
 <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
   <div style="text-align: center; margin: 10px;">
