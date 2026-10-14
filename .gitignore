@@ -7,3 +7,6 @@
 !/innoSetup x64 - Release.iss
 !/docs
 !/docs/**
+
+/docs/english-screenshot-preparation/
+/docs/**/.DS_Store

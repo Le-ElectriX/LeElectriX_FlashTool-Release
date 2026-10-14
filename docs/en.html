@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="LeElectriX FlashTool User Manual v0.2">
-  <title>LeElectriX FlashTool User Manual v0.2</title>
+  <meta name="description" content="LeElectriX FlashTool User Manual v0.2.1">
+  <title>LeElectriX FlashTool User Manual v0.2.1</title>
   <style>
     :root {
       --navy: #173247;
@@ -390,7 +390,7 @@
     <button class="top-action menu-button" id="menuButton" type="button"
             aria-controls="sidebar" aria-expanded="false">Contents</button>
     <strong>LeElectriX FlashTool User Manual</strong>
-    <span class="version">Manual v0.2</span>
+    <span class="version">Manual v0.2.1</span>
     <span class="spacer"></span>
     <nav class="language-nav" aria-label="Language selection">
       <a lang="zh-CN" href="index.html">中文</a>
@@ -408,9 +408,9 @@
         <h1 id="manual-title">LeElectriX FlashTool</h1>
         <p class="subtitle">Installation, Connection, Flashing, Parameters, and Frame Tools</p>
         <div class="meta">
-          <span><strong>Manual Version:</strong> v0.2</span>
+          <span><strong>Manual Version:</strong> v0.2.1</span>
           <span><strong>Intended Audience:</strong> Customer installation, commissioning, and after-sales personnel</span>
-          <span><strong>Revision Date:</strong> 2026-08-27</span>
+          <span><strong>Revision Date:</strong> 2026-10-14</span>
           <span><strong>Language:</strong> English</span>
         </div>
       </div>
@@ -623,7 +623,7 @@
 </ul>
 <h1 id="4-load-a-license">4. Load a License<a class="heading-link" href="#4-load-a-license" aria-label="Copy link to this section">#</a></h1>
 <p><strong>Prerequisite:</strong> A valid <code>.lic</code> file has been obtained from the software provider.</p>
-<figure><a href="materials/screenshots/02_License加载入口.png" target="_blank"><img src="materials/screenshots/02_License加载入口.png" alt="License loading location" loading="lazy"></a><figcaption>Figure 1: License loading location</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/02-license-import.png" target="_blank"><img src="materials/screenshots/en-US/02-license-import.png" alt="License loading location" loading="eager"></a><figcaption>Figure 1: License loading location</figcaption></figure>
 <p><strong>Procedure:</strong></p>
 <ol>
 <li>Start the application.</li>
@@ -642,7 +642,7 @@
 <li>Do not distribute license contents through screenshots, instant messages, or public documents.</li>
 </ul>
 <h1 id="5-scan-and-connect-a-can-channel">5. Scan and Connect a CAN Channel<a class="heading-link" href="#5-scan-and-connect-a-can-channel" aria-label="Copy link to this section">#</a></h1>
-<figure><a href="materials/screenshots/03_CAN设备扫描与连接.png" target="_blank"><img src="materials/screenshots/03_CAN设备扫描与连接.png" alt="CAN device scanning and connection" loading="lazy"></a><figcaption>Figure 2: CAN device, channel, and bit-rate selection area</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/03-can-connection.png" target="_blank"><img src="materials/screenshots/en-US/03-can-connection.png" alt="CAN device scanning and connection" loading="eager"></a><figcaption>Figure 2: CAN device, channel, and bit-rate selection area</figcaption></figure>
 <h2 id="5-1-pre-connection-checks">5.1 Pre-connection Checks<a class="heading-link" href="#5-1-pre-connection-checks" aria-label="Copy link to this section">#</a></h2>
 <ul>
 <li>The CAN adapter driver is installed.</li>
@@ -692,7 +692,7 @@
 </ul>
 <aside class="callout note"><strong>Note:</strong> Automatic scanning cannot determine the correct bit rate when no frames are present on the bus. In this case, confirm the bit rate from the device documentation and select it manually.</aside>
 <h1 id="6-use-the-flashing-module">6. Use the Flashing Module<a class="heading-link" href="#6-use-the-flashing-module" aria-label="Copy link to this section">#</a></h1>
-<figure><a href="materials/screenshots/04_刷写模块.png" target="_blank"><img src="materials/screenshots/04_刷写模块.png" alt="Flashing module" loading="lazy"></a><figcaption>Figure 3: Flashing module</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/04-flashing-module.png" target="_blank"><img src="materials/screenshots/en-US/04-flashing-module.png" alt="Flashing module" loading="eager"></a><figcaption>Figure 3: Flashing module</figcaption></figure>
 <h2 id="6-1-pre-flashing-checks">6.1 Pre-flashing Checks<a class="heading-link" href="#6-1-pre-flashing-checks" aria-label="Copy link to this section">#</a></h2>
 <ul>
 <li>The correct CAN device and channel have been connected successfully.</li>
@@ -748,7 +748,7 @@
 <li>Communication error after erasing or transfer has started: do not perform the power-cycle procedure in this section again; retain the logs and contact technical support.</li>
 </ul>
 <h1 id="7-use-the-mcu-default-parameters-module">7. Use the MCU Default Parameters Module<a class="heading-link" href="#7-use-the-mcu-default-parameters-module" aria-label="Copy link to this section">#</a></h1>
-<figure><a href="materials/screenshots/05_MCU默认参数概览.png" target="_blank"><img src="materials/screenshots/05_MCU默认参数概览.png" alt="MCU Default Parameters overview" loading="lazy"></a><figcaption>Figure 4: MCU Default Parameters page</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/05-mcu-default-parameters.png" target="_blank"><img src="materials/screenshots/en-US/05-mcu-default-parameters.png" alt="MCU Default Parameters overview" loading="eager"></a><figcaption>Figure 4: MCU Default Parameters page</figcaption></figure>
 <p><strong>Prerequisites:</strong></p>
 <ul>
 <li>CAN is connected.</li>
@@ -775,7 +775,7 @@
 <p><strong>Prerequisite:</strong> The MCU handshake has succeeded and the page has read the current parameters.</p>
 <p>The top toolbar provides three types of file operations:</p>
 <h3 id="save-parameters-to-the-computer">Save Parameters to Your Computer<a class="heading-link" href="#save-parameters-to-the-computer" aria-label="Copy link to this section">#</a></h3>
-<figure><a href="materials/screenshots/05c_MCU默认参数保存入口.png" target="_blank"><img src="materials/screenshots/05c_MCU默认参数保存入口.png" alt="Save Parameters to Your Computer and Update Parameter Values controls" loading="lazy"></a><figcaption>Figure 5: Save Parameters to Your Computer and Update Parameter Values controls</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/05c-mcu-parameter-save.png" target="_blank"><img src="materials/screenshots/en-US/05c-mcu-parameter-save.png" alt="Save Parameters to Your Computer and Update Parameter Values controls" loading="eager"></a><figcaption>Figure 5: Save Parameters to Your Computer and Update Parameter Values controls</figcaption></figure>
 <p><strong>Procedure:</strong></p>
 <ol>
 <li>Click <strong>Update parameter values</strong> and confirm that the page has obtained the required parameters.</li>
@@ -809,7 +809,7 @@
 <li>If the parameters are incomplete or their source is unknown, do not use the generated file for an official controller configuration.</li>
 </ul>
 <h2 id="7-3-control-operations">7.3 Control Operations<a class="heading-link" href="#7-3-control-operations" aria-label="Copy link to this section">#</a></h2>
-<figure><a href="materials/screenshots/05b_MCU默认参数控制区.png" target="_blank"><img src="materials/screenshots/05b_MCU默认参数控制区.png" alt="MCU Default Parameters control area" loading="lazy"></a><figcaption>Figure 6: Self-learning, reset, torque, and speed control area</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/05b-mcu-control-panel.png" target="_blank"><img src="materials/screenshots/en-US/05b-mcu-control-panel.png" alt="MCU Default Parameters control area" loading="eager"></a><figcaption>Figure 6: Self-learning, reset, torque, and speed control area</figcaption></figure>
 <aside class="callout warning"><strong>Warning:</strong> The following operations may reset the controller or rotate the motor. Before performing them, you must clear the shaft and load area, confirm that the mechanical system permits motion, and ensure that emergency-stop and power-disconnection means are immediately available. The <strong>Stop</strong> control sends only a software stop command and cannot replace an emergency-stop device or physical power disconnection.</aside>
 <p><strong>Prerequisites:</strong></p>
 <ul>
@@ -824,11 +824,11 @@
 <p><strong>Procedure:</strong></p>
 <ol>
 <li>Confirm that the controller is in a state that permits commissioning.</li>
-<li>Click <strong>Debugging enable</strong>; the application opens a confirmation dialog.</li>
-<li>Check the library version, application version, rated voltage, and current fault information; continue after confirming that they are correct.</li>
+<li>On the MCU Default Parameters page, check the library version, application version, rated voltage, and current fault information, and confirm that the commissioning conditions are met.</li>
+<li>Click <strong>Debugging enable</strong> to open the warning confirmation dialog. Review the message, then select <strong>OK</strong> to continue or <strong>Cancel</strong> to cancel.</li>
 <li>Observe the controller status and fault information.</li>
 </ol>
-<figure><a href="materials/screenshots/05d_调试使能确认信息.png" target="_blank"><img src="materials/screenshots/05d_调试使能确认信息.png" alt="Debugging Enable confirmation information" loading="lazy"></a><figcaption>Figure 7: Debugging Enable confirmation information</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/05d-debug-enable-confirmation.png" target="_blank"><img src="materials/screenshots/en-US/05d-debug-enable-confirmation.png" alt="Version, voltage, and fault information to check before commissioning" loading="eager"></a><figcaption>Figure 7: Version, voltage, and fault information to check before commissioning</figcaption></figure>
 <p><strong>Expected result:</strong> The controller enters a state that permits commissioning and no new fault appears on the page.</p>
 <h3 id="start-position-self-learning">Start Position Self-Learning<a class="heading-link" href="#start-position-self-learning" aria-label="Copy link to this section">#</a></h3>
 <aside class="callout warning"><strong>Warning:</strong> The motor may rotate automatically during self-learning. Self-learning must be performed under no-load conditions, with confirmation that the mechanical braking system is applying no braking force. For a complete vehicle, the drive wheels should be raised securely and kept suspended. On a test bench, the motor should be reliably decoupled from the mechanical load. Starting self-learning is prohibited if the no-load conditions are not met.</aside>
@@ -919,7 +919,7 @@
 </ul>
 <aside class="callout warning"><strong>Warning:</strong> Calibration involving motor rotation must be performed on a test bench or under complete-vehicle test conditions that comply with the project safety standards. Position self-learning and rotation-direction verification must be completed before speed-loop calibration begins. During the test, ensure that the emergency stop and high-voltage power-disconnection means are immediately available.</aside>
 <h2 id="8-1-import-a-parameter-definition-file">8.1 Import a Parameter Definition File<a class="heading-link" href="#8-1-import-a-parameter-definition-file" aria-label="Copy link to this section">#</a></h2>
-<figure><a href="materials/screenshots/06_MCU参数文件导入.png" target="_blank"><img src="materials/screenshots/06_MCU参数文件导入.png" alt="MCU parameter-file import" loading="lazy"></a><figcaption>Figure 8: MCU parameter definition file import control</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/06-mcu-parameter-import.png" target="_blank"><img src="materials/screenshots/en-US/06-mcu-parameter-import.png" alt="MCU parameter-file import" loading="eager"></a><figcaption>Figure 8: MCU parameter definition file import control</figcaption></figure>
 <p><strong>Example file:</strong> <code>F28384_params_MC366WV_General_Pump_FuSa_V0.17.xls</code></p>
 <p><strong>Procedure:</strong></p>
 <ol>
@@ -938,7 +938,7 @@
 <li>Parameter meaning does not match: do not perform a write; verify the version with the parameter-file provider.</li>
 </ul>
 <h2 id="8-2-open-the-calibration-page">8.2 Open the Calibration Page<a class="heading-link" href="#8-2-open-the-calibration-page" aria-label="Copy link to this section">#</a></h2>
-<figure><a href="materials/screenshots/07_MCU标定模块_脱敏.png" target="_blank"><img src="materials/screenshots/07_MCU标定模块_脱敏.png" alt="MCU Calibration module" loading="lazy"></a><figcaption>Figure 9: MCU Calibration toolbar and table columns</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/07-mcu-calibration.png" target="_blank"><img src="materials/screenshots/en-US/07-mcu-calibration.png" alt="MCU Calibration module" loading="eager"></a><figcaption>Figure 9: MCU Calibration toolbar and table columns</figcaption></figure>
 <p><strong>Procedure:</strong></p>
 <ol>
 <li>Click the <strong>MCU Extension</strong> icon on the left.</li>
@@ -985,7 +985,7 @@
 <li>Click <strong>Save parameters to your computer</strong> at the top.</li>
 <li>Select the save location and file name, and save the file as a TXT parameter-value file.</li>
 </ol>
-<figure><a href="materials/screenshots/07b_参数列表滚动到底部.png" target="_blank"><img src="materials/screenshots/07b_参数列表滚动到底部.png" alt="Parameter list scrolled to the bottom" loading="lazy"></a><figcaption>Figure 10: Scroll the parameter list to the bottom</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/07b-parameter-list-bottom.png" target="_blank"><img src="materials/screenshots/en-US/07b-parameter-list-bottom.png" alt="Parameter list scrolled to the bottom" loading="eager"></a><figcaption>Figure 10: Scroll the parameter list to the bottom</figcaption></figure>
 <p><strong>Expected result:</strong> A TXT parameter-value file is created at the target location. It contains all calibration parameters from the parameter definition file, sorted by parameter number.</p>
 <p><strong>Troubleshooting:</strong></p>
 <ul>
@@ -1055,7 +1055,7 @@
 <li>Final parameters requiring permanent integration and the corresponding software-generation or flashing records.</li>
 </ul>
 <h1 id="9-view-and-export-trace-frames">9. View and Export TRACE Frames<a class="heading-link" href="#9-view-and-export-trace-frames" aria-label="Copy link to this section">#</a></h1>
-<figure><a href="materials/screenshots/08_TRACE窗口.png" target="_blank"><img src="materials/screenshots/08_TRACE窗口.png" alt="TRACE window" loading="lazy"></a><figcaption>Figure 11: TRACE toolbar and empty frame list</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/08-trace-window.png" target="_blank"><img src="materials/screenshots/en-US/08-trace-window.png" alt="TRACE window" loading="eager"></a><figcaption>Figure 11: TRACE toolbar and empty frame list</figcaption></figure>
 <h2 id="9-1-open-trace">9.1 Open TRACE<a class="heading-link" href="#9-1-open-trace" aria-label="Copy link to this section">#</a></h2>
 <p><strong>Prerequisite:</strong> The CAN channel has been connected as needed.</p>
 <p><strong>Procedure:</strong> On the Status, Flashing, or an MCU-related page, click the <strong>TRACE</strong> button in the upper-right corner to open a separate window.</p>
@@ -1120,7 +1120,7 @@
 <p><strong>Troubleshooting:</strong> If export fails, confirm that the target directory is writable, the target file is not in use, and TRACE contains valid frames.</p>
 <p>Before exporting, it is recommended to record the time of the fault, operation steps, bit rate, and controller status for subsequent analysis.</p>
 <h1 id="10-convert-frame-recording-formats">10. Convert Frame Recording Formats<a class="heading-link" href="#10-convert-frame-recording-formats" aria-label="Copy link to this section">#</a></h1>
-<figure><a href="materials/screenshots/09_报文记录与DBC转换工具.png" target="_blank"><img src="materials/screenshots/09_报文记录与DBC转换工具.png" alt="Trace Converter and DBC Converter tools" loading="lazy"></a><figcaption>Figure 12: Common Tools page</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/09-log-and-dbc-conversion.png" target="_blank"><img src="materials/screenshots/en-US/09-log-and-dbc-conversion.png" alt="Trace Converter and DBC Converter tools" loading="eager"></a><figcaption>Figure 12: Common Tools page</figcaption></figure>
 <h2 id="10-1-convert-pcan-trc-to-vector-asc">10.1 Convert PCAN TRC to Vector ASC<a class="heading-link" href="#10-1-convert-pcan-trc-to-vector-asc" aria-label="Copy link to this section">#</a></h2>
 <p><strong>Prerequisite:</strong> A PCAN <code>.trc</code> recording file with valid content is ready.</p>
 <p><strong>Procedure:</strong></p>
@@ -1209,7 +1209,7 @@
 <aside class="callout note"><strong>Note:</strong> Before merging, check for duplicate frame IDs, duplicate signal names, node definitions, byte order, and scaling factors. If conflicts exist, first determine which definition to use.</aside>
 <h1 id="12-view-runtime-logs">12. View Runtime Logs<a class="heading-link" href="#12-view-runtime-logs" aria-label="Copy link to this section">#</a></h1>
 <h2 id="12-1-open-the-log-directory">12.1 Open the Log Directory<a class="heading-link" href="#12-1-open-the-log-directory" aria-label="Copy link to this section">#</a></h2>
-<figure><a href="materials/screenshots/10_日志目录入口.png" target="_blank"><img src="materials/screenshots/10_日志目录入口.png" alt="Log directory control" loading="lazy"></a><figcaption>Figure 13: Open the log directory</figcaption></figure>
+<figure><a href="materials/screenshots/en-US/10-log-directory.png" target="_blank"><img src="materials/screenshots/en-US/10-log-directory.png" alt="Log directory control" loading="eager"></a><figcaption>Figure 13: Open the log directory</figcaption></figure>
 <p><strong>Procedure:</strong></p>
 <ol>
 <li>Open the <strong>Settings</strong> page.</li>
@@ -1308,7 +1308,7 @@
   </div>
 
   <footer class="page-footer">
-    LeElectriX FlashTool User Manual · Manual Version v0.2
+    LeElectriX FlashTool User Manual · Manual Version v0.2.1
   </footer>
 
   <script>

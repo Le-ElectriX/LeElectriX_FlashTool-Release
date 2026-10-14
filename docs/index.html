@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="LeElectriX FlashTool 中文客户使用手册 v0.2">
-  <title>LeElectriX FlashTool 客户使用手册 v0.2</title>
+  <meta name="description" content="LeElectriX FlashTool 中文客户使用手册 v0.2.1">
+  <title>LeElectriX FlashTool 客户使用手册 v0.2.1</title>
   <style>
     :root {
       --navy: #173247;
@@ -390,7 +390,7 @@
     <button class="top-action menu-button" id="menuButton" type="button"
             aria-controls="sidebar" aria-expanded="false">目录</button>
     <strong>LeElectriX FlashTool 使用手册</strong>
-    <span class="version">手册 v0.2</span>
+    <span class="version">手册 v0.2.1</span>
     <span class="spacer"></span>
     <nav class="language-nav" aria-label="语言切换">
       <span lang="zh-CN" aria-current="page">中文</span>
@@ -408,9 +408,9 @@
         <h1 id="manual-title">LeElectriX FlashTool</h1>
         <p class="subtitle">安装、连接、刷写、参数与报文工具使用手册</p>
         <div class="meta">
-          <span><strong>手册版本：</strong>v0.2</span>
+          <span><strong>手册版本：</strong>v0.2.1</span>
           <span><strong>适用对象：</strong>客户侧安装、调试和售后人员</span>
-          <span><strong>修订日期：</strong>2026-08-27</span>
+          <span><strong>修订日期：</strong>2026-10-14</span>
           <span><strong>语言：</strong>简体中文</span>
         </div>
       </div>
@@ -623,7 +623,7 @@
 </ul>
 <h1 id="4-加载-License-许可证">4. 加载 License（许可证）<a class="heading-link" href="#4-加载-License-许可证" aria-label="复制本节链接">#</a></h1>
 <p><strong>前置条件：</strong> 已从软件提供方获得有效的 <code>.lic</code> 文件。</p>
-<figure><a href="materials/screenshots/02_License加载入口.png" target="_blank"><img src="materials/screenshots/02_License加载入口.png" alt="License 加载入口" loading="lazy"></a><figcaption>图 1　License 加载入口</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/02-license-import.png" target="_blank"><img src="materials/screenshots/zh-CN/02-license-import.png" alt="License 加载入口" loading="eager"></a><figcaption>图 1　License 加载入口</figcaption></figure>
 <p><strong>操作步骤：</strong></p>
 <ol>
 <li>启动程序。</li>
@@ -642,7 +642,7 @@
 <li>不要通过截图、即时消息或公开文档传播 License 内容。</li>
 </ul>
 <h1 id="5-扫描并连接-CAN-通道">5. 扫描并连接 CAN 通道<a class="heading-link" href="#5-扫描并连接-CAN-通道" aria-label="复制本节链接">#</a></h1>
-<figure><a href="materials/screenshots/03_CAN设备扫描与连接.png" target="_blank"><img src="materials/screenshots/03_CAN设备扫描与连接.png" alt="CAN 设备扫描与连接" loading="lazy"></a><figcaption>图 2　CAN 设备、通道和波特率选择区域</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/03-can-connection.png" target="_blank"><img src="materials/screenshots/zh-CN/03-can-connection.png" alt="CAN 设备扫描与连接" loading="eager"></a><figcaption>图 2　CAN 设备、通道和波特率选择区域</figcaption></figure>
 <h2 id="5-1-连接前检查">5.1 连接前检查<a class="heading-link" href="#5-1-连接前检查" aria-label="复制本节链接">#</a></h2>
 <ul>
 <li>CAN 适配器驱动已经安装。</li>
@@ -692,7 +692,7 @@
 </ul>
 <aside class="callout note"><strong>注意：</strong> 总线上没有报文时，自动扫描无法判断正确波特率。此时请从设备资料中确认波特率并手动选择。</aside>
 <h1 id="6-使用刷写模块">6. 使用刷写模块<a class="heading-link" href="#6-使用刷写模块" aria-label="复制本节链接">#</a></h1>
-<figure><a href="materials/screenshots/04_刷写模块.png" target="_blank"><img src="materials/screenshots/04_刷写模块.png" alt="刷写模块" loading="lazy"></a><figcaption>图 3　刷写模块</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/04-flashing-module.png" target="_blank"><img src="materials/screenshots/zh-CN/04-flashing-module.png" alt="刷写模块" loading="eager"></a><figcaption>图 3　刷写模块</figcaption></figure>
 <h2 id="6-1-刷写前检查">6.1 刷写前检查<a class="heading-link" href="#6-1-刷写前检查" aria-label="复制本节链接">#</a></h2>
 <ul>
 <li>已成功连接正确的 CAN 设备和通道。</li>
@@ -748,7 +748,7 @@
 <li>已经开始擦除或传输后发生通信异常：不要再次执行本节断电流程，应保留日志并联系技术支持。</li>
 </ul>
 <h1 id="7-使用-MCU-默认参数模块">7. 使用 MCU 默认参数模块<a class="heading-link" href="#7-使用-MCU-默认参数模块" aria-label="复制本节链接">#</a></h1>
-<figure><a href="materials/screenshots/05_MCU默认参数概览.png" target="_blank"><img src="materials/screenshots/05_MCU默认参数概览.png" alt="MCU 默认参数概览" loading="lazy"></a><figcaption>图 4　MCU 默认参数页面</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/05-mcu-default-parameters.png" target="_blank"><img src="materials/screenshots/zh-CN/05-mcu-default-parameters.png" alt="MCU 默认参数概览" loading="eager"></a><figcaption>图 4　MCU 默认参数页面</figcaption></figure>
 <p><strong>前置条件：</strong></p>
 <ul>
 <li>CAN 已连接。</li>
@@ -775,7 +775,7 @@
 <p><strong>前置条件：</strong> MCU 已握手成功，页面已经读取到当前参数。</p>
 <p>顶部工具栏提供三类文件操作：</p>
 <h3 id="保存参数到电脑">保存参数到电脑<a class="heading-link" href="#保存参数到电脑" aria-label="复制本节链接">#</a></h3>
-<figure><a href="materials/screenshots/05c_MCU默认参数保存入口.png" target="_blank"><img src="materials/screenshots/05c_MCU默认参数保存入口.png" alt="保存参数到电脑和更新参数值入口" loading="lazy"></a><figcaption>图 5　保存参数到电脑和更新参数值入口</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/05c-mcu-parameter-save.png" target="_blank"><img src="materials/screenshots/zh-CN/05c-mcu-parameter-save.png" alt="保存参数到电脑和更新参数值入口" loading="eager"></a><figcaption>图 5　保存参数到电脑和更新参数值入口</figcaption></figure>
 <p><strong>操作步骤：</strong></p>
 <ol>
 <li>单击 <strong>更新参数值</strong>，确认页面已经取得所需参数。</li>
@@ -809,7 +809,7 @@
 <li>参数读取不完整或来源不明时，不要把生成文件用于正式控制器配置。</li>
 </ul>
 <h2 id="7-3-控制操作">7.3 控制操作<a class="heading-link" href="#7-3-控制操作" aria-label="复制本节链接">#</a></h2>
-<figure><a href="materials/screenshots/05b_MCU默认参数控制区.png" target="_blank"><img src="materials/screenshots/05b_MCU默认参数控制区.png" alt="MCU 默认参数控制区" loading="lazy"></a><figcaption>图 6　自学习、复位、转矩和转速控制区</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/05b-mcu-control-panel.png" target="_blank"><img src="materials/screenshots/zh-CN/05b-mcu-control-panel.png" alt="MCU 默认参数控制区" loading="eager"></a><figcaption>图 6　自学习、复位、转矩和转速控制区</figcaption></figure>
 <aside class="callout warning"><strong>警告：</strong> 以下操作可能使控制器复位或使电机旋转。执行前必须清空转轴和负载区域，确认机械系统允许运动，并保证急停和断电手段可立即使用。界面中的 <strong>停止</strong> 只发送软件停止命令，不能替代急停装置或物理断电。</aside>
 <p><strong>前置条件：</strong></p>
 <ul>
@@ -824,11 +824,11 @@
 <p><strong>操作步骤：</strong></p>
 <ol>
 <li>确认控制器处于允许调试的状态。</li>
-<li>单击 <strong>调试使能</strong>，程序弹出“确认提示”窗口。</li>
-<li>核对库版本、应用程序版本、额定电压和当前故障信息，确认无误后继续。</li>
+<li>在 MCU 默认参数页面核对库版本、应用程序版本、额定电压和当前故障信息，确认满足调试条件。</li>
+<li>单击 <strong>调试使能</strong>，程序弹出警告确认窗口；核对提示内容后，选择 <strong>OK</strong> 继续，或选择 <strong>Cancel</strong> 取消。</li>
 <li>观察控制器状态和故障信息。</li>
 </ol>
-<figure><a href="materials/screenshots/05d_调试使能确认信息.png" target="_blank"><img src="materials/screenshots/05d_调试使能确认信息.png" alt="调试使能确认信息" loading="lazy"></a><figcaption>图 7　调试使能确认信息</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/05d-debug-enable-confirmation.png" target="_blank"><img src="materials/screenshots/zh-CN/05d-debug-enable-confirmation.png" alt="调试前需核对的版本、电压和故障信息" loading="eager"></a><figcaption>图 7　调试前需核对的版本、电压和故障信息</figcaption></figure>
 <p><strong>预期结果：</strong> 控制器进入允许调试的状态，页面没有出现新的故障。</p>
 <h3 id="启动位置自学习">启动位置自学习<a class="heading-link" href="#启动位置自学习" aria-label="复制本节链接">#</a></h3>
 <aside class="callout warning"><strong>警告：</strong> 自学习过程中电机可能自动旋转。自学习必须在空载状态下执行，同时确认机械制动系统处于无制动力状态。整车状态下应将驱动轮可靠举升并保持悬空；台架状态下应将电机与机械负载可靠解耦。不满足空载条件时，禁止启动自学习。</aside>
@@ -919,7 +919,7 @@
 </ul>
 <aside class="callout warning"><strong>警告：</strong> 涉及电机旋转的标定必须在符合项目安全规范的台架或整车测试条件下执行。开始速度环标定前，必须先完成位置自学习和旋转方向验证。测试期间应确保急停及高压断电手段可立即使用。</aside>
 <h2 id="8-1-导入参数定义文件">8.1 导入参数定义文件<a class="heading-link" href="#8-1-导入参数定义文件" aria-label="复制本节链接">#</a></h2>
-<figure><a href="materials/screenshots/06_MCU参数文件导入.png" target="_blank"><img src="materials/screenshots/06_MCU参数文件导入.png" alt="MCU 参数文件导入" loading="lazy"></a><figcaption>图 8　MCU 参数定义文件导入入口</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/06-mcu-parameter-import.png" target="_blank"><img src="materials/screenshots/zh-CN/06-mcu-parameter-import.png" alt="MCU 参数文件导入" loading="eager"></a><figcaption>图 8　MCU 参数定义文件导入入口</figcaption></figure>
 <p><strong>示例文件：</strong> <code>F28384_params_MC366WV_General_Pump_FuSa_V0.17.xls</code></p>
 <p><strong>操作步骤：</strong></p>
 <ol>
@@ -938,7 +938,7 @@
 <li>参数含义不匹配：不要执行写入，向参数文件提供方核对版本。</li>
 </ul>
 <h2 id="8-2-打开标定页面">8.2 打开标定页面<a class="heading-link" href="#8-2-打开标定页面" aria-label="复制本节链接">#</a></h2>
-<figure><a href="materials/screenshots/07_MCU标定模块_脱敏.png" target="_blank"><img src="materials/screenshots/07_MCU标定模块_脱敏.png" alt="MCU 标定模块" loading="lazy"></a><figcaption>图 9　MCU 标定工具栏和表格列</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/07-mcu-calibration.png" target="_blank"><img src="materials/screenshots/zh-CN/07-mcu-calibration.png" alt="MCU 标定模块" loading="eager"></a><figcaption>图 9　MCU 标定工具栏和表格列</figcaption></figure>
 <p><strong>操作步骤：</strong></p>
 <ol>
 <li>单击左侧 <strong>MCU扩展</strong> 图标。</li>
@@ -985,7 +985,7 @@
 <li>单击顶部 <strong>保存参数到电脑</strong>。</li>
 <li>选择保存位置和文件名，将文件保存为 TXT 参数值文件。</li>
 </ol>
-<figure><a href="materials/screenshots/07b_参数列表滚动到底部.png" target="_blank"><img src="materials/screenshots/07b_参数列表滚动到底部.png" alt="参数列表滚动到底部" loading="lazy"></a><figcaption>图 10　将参数列表滚动到底部</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/07b-parameter-list-bottom.png" target="_blank"><img src="materials/screenshots/zh-CN/07b-parameter-list-bottom.png" alt="参数列表滚动到底部" loading="eager"></a><figcaption>图 10　将参数列表滚动到底部</figcaption></figure>
 <p><strong>预期结果：</strong> 目标位置生成 TXT 参数值文件，其中包含参数定义文件中的全部标定参数，并按参数编号排序。</p>
 <p><strong>异常处理：</strong></p>
 <ul>
@@ -1055,7 +1055,7 @@
 <li>需要永久集成的最终参数及对应的软件生成或刷写记录。</li>
 </ul>
 <h1 id="9-TRACE-报文查看与导出">9. TRACE 报文查看与导出<a class="heading-link" href="#9-TRACE-报文查看与导出" aria-label="复制本节链接">#</a></h1>
-<figure><a href="materials/screenshots/08_TRACE窗口.png" target="_blank"><img src="materials/screenshots/08_TRACE窗口.png" alt="TRACE 窗口" loading="lazy"></a><figcaption>图 11　TRACE 工具栏和空报文列表</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/08-trace-window.png" target="_blank"><img src="materials/screenshots/zh-CN/08-trace-window.png" alt="TRACE 窗口" loading="eager"></a><figcaption>图 11　TRACE 工具栏和空报文列表</figcaption></figure>
 <h2 id="9-1-打开-TRACE">9.1 打开 TRACE<a class="heading-link" href="#9-1-打开-TRACE" aria-label="复制本节链接">#</a></h2>
 <p><strong>前置条件：</strong> 已根据需要连接 CAN 通道。</p>
 <p><strong>操作步骤：</strong> 在状态、刷写或 MCU 相关页面，单击右上角的 <strong>TRACE</strong> 按钮打开独立窗口。</p>
@@ -1120,7 +1120,7 @@
 <p><strong>异常处理：</strong> 导出失败时，确认目标目录可写、目标文件未被占用，并检查 TRACE 中是否存在有效报文。</p>
 <p>导出前建议先记录故障发生时间、操作步骤、波特率和控制器状态，便于后续分析。</p>
 <h1 id="10-报文记录格式转换">10. 报文记录格式转换<a class="heading-link" href="#10-报文记录格式转换" aria-label="复制本节链接">#</a></h1>
-<figure><a href="materials/screenshots/09_报文记录与DBC转换工具.png" target="_blank"><img src="materials/screenshots/09_报文记录与DBC转换工具.png" alt="报文记录格式转换和 DBC Converter" loading="lazy"></a><figcaption>图 12　常用工具页面</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/09-log-and-dbc-conversion.png" target="_blank"><img src="materials/screenshots/zh-CN/09-log-and-dbc-conversion.png" alt="报文记录格式转换和 DBC Converter" loading="eager"></a><figcaption>图 12　常用工具页面</figcaption></figure>
 <h2 id="10-1-将-PCAN-TRC-转换为-Vector-ASC">10.1 将 PCAN TRC 转换为 Vector ASC<a class="heading-link" href="#10-1-将-PCAN-TRC-转换为-Vector-ASC" aria-label="复制本节链接">#</a></h2>
 <p><strong>前置条件：</strong> 已准备内容有效的 PCAN <code>.trc</code> 记录文件。</p>
 <p><strong>操作步骤：</strong></p>
@@ -1209,7 +1209,7 @@
 <aside class="callout note"><strong>注意：</strong> 合并前应检查重复报文 ID、重复信号名、节点定义、字节序和缩放系数。存在冲突时，应先明确采用哪一份定义。</aside>
 <h1 id="12-查看运行日志">12. 查看运行日志<a class="heading-link" href="#12-查看运行日志" aria-label="复制本节链接">#</a></h1>
 <h2 id="12-1-打开日志目录">12.1 打开日志目录<a class="heading-link" href="#12-1-打开日志目录" aria-label="复制本节链接">#</a></h2>
-<figure><a href="materials/screenshots/10_日志目录入口.png" target="_blank"><img src="materials/screenshots/10_日志目录入口.png" alt="日志目录入口" loading="lazy"></a><figcaption>图 13　打开日志目录</figcaption></figure>
+<figure><a href="materials/screenshots/zh-CN/10-log-directory.png" target="_blank"><img src="materials/screenshots/zh-CN/10-log-directory.png" alt="日志目录入口" loading="eager"></a><figcaption>图 13　打开日志目录</figcaption></figure>
 <p><strong>操作步骤：</strong></p>
 <ol>
 <li>打开 <strong>设置</strong> 页面。</li>
@@ -1308,7 +1308,7 @@
   </div>
 
   <footer class="page-footer">
-    LeElectriX FlashTool 中文客户使用手册 · 手册版本 v0.2
+    LeElectriX FlashTool 中文客户使用手册 · 手册版本 v0.2.1
   </footer>
 
   <script>
